@@ -20,9 +20,21 @@ class _SplashSreenPageState extends State<SplashSreenPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('CAR CONTROL'),
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Image.asset('assets/images/carro.png'),
+            ),
+            const Text(
+              'CarControl',
+              style: TextStyle(fontSize: 26),
+            ),
+          ],
+        ),
       ),
     );
   }
