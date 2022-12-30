@@ -1,3 +1,4 @@
+import 'package:carcontrol/pages/new_driver_analyse/new_driver_analyze_page.dart';
 import 'package:carcontrol/shared/components/custom_button.dart';
 import 'package:carcontrol/shared/components/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +99,7 @@ class NewDriverPage extends StatelessWidget {
               fontSize: 22,
               height: 55,
               alignment: Alignment.center,
-              onClick: () {},
+              onClick: () => Navigator.popAndPushNamed(context, NewDriverAnalyzePage.route),
             ),
           ],
         ),

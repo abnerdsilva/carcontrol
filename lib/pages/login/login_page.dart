@@ -1,5 +1,5 @@
-import 'package:carcontrol/pages/new_driver/new_driver_page.dart';
 import 'package:carcontrol/shared/components/custom_button.dart';
+import 'package:carcontrol/shared/components/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -23,22 +23,46 @@ class LoginPage extends StatelessWidget {
               style: TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 16),
-            CustomButton(
-              height: 65,
-              label: 'Cadastro de novos Motoristas(a)',
-              fontSize: 16,
-              alignment: Alignment.center,
-              onClick: () => Navigator.pushNamed(context, NewDriverPage.route),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * .7,
+              child: const CustomTextFormField(
+                radiusBorder: 10,
+                heightWithLabel: 53,
+                height: 30,
+                label: 'Usuário',
+                obscureText: true,
+              ),
             ),
-            const SizedBox(height: 16),
-            CustomButton(
-              height: 65,
-              label: 'Login',
-              fontSize: 16,
-              alignment: Alignment.center,
-              onClick: () {},
+            const SizedBox(height: 12),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * .7,
+              child: const CustomTextFormField(
+                radiusBorder: 10,
+                heightWithLabel: 53,
+                height: 30,
+                label: 'Senha',
+              ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * .7,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Esqueci minha senha',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  CustomButton(
+                    label: 'Entrar',
+                    alignment: Alignment.center,
+                    width: 80,
+                    fontSize: 16,
+                    onClick: () {},
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
