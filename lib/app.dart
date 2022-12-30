@@ -1,3 +1,4 @@
+import 'package:carcontrol/pages/new_driver/new_driver_page.dart';
 import 'package:flutter/material.dart';
 import 'package:carcontrol/config/theme_config.dart';
 import 'package:carcontrol/pages/login/login_page.dart';
@@ -11,10 +12,12 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'CarControl',
       theme: ThemeConfig.appTheme,
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashSreenPage(),
         LoginPage.route: (context) => const LoginPage(),
+        NewDriverPage.route: (context) => const NewDriverPage(),
       },
     );
   }
