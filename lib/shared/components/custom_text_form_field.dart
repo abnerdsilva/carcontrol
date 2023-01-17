@@ -74,6 +74,7 @@ class CustomTextFormField extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
+                  flex: 1,
                   child: TextFormField(
                     textAlign: textAlign ?? TextAlign.start,
                     textAlignVertical: textAlignVertical ?? TextAlignVertical.center,

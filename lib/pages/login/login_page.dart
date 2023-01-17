@@ -1,3 +1,4 @@
+import 'package:carcontrol/pages/home/home_page.dart';
 import 'package:carcontrol/shared/components/custom_button.dart';
 import 'package:carcontrol/shared/components/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class LoginPage extends StatelessWidget {
                     alignment: Alignment.center,
                     width: 80,
                     fontSize: 16,
-                    onClick: () {},
+                    onClick: () => Navigator.pushNamedAndRemoveUntil(context, HomePage.route, (route) => false),
                   ),
                 ],
               ),
