@@ -16,7 +16,6 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Expanded(flex: 1, child: Container()),
           SizedBox(
             height: 54,
             child: BottomNavigationBar(
