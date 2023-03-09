@@ -39,37 +39,37 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
                   label: 'Home',
                   backgroundColor: ThemeConfig.kPrimaryColor,
                 ),
-                BottomNavigationBarItem(
-                  icon: Container(
-                    margin: const EdgeInsets.only(bottom: 7),
-                    child: const Icon(
-                      Icons.menu,
-                      size: 20.0,
-                    ),
-                  ),
-                  label: 'Pedidos',
-                  backgroundColor: ThemeConfig.kPrimaryColor,
-                ),
-                BottomNavigationBarItem(
-                  icon: Container(
-                    margin: const EdgeInsets.only(bottom: 7),
-                    width: 30,
-                    child: Container(),
-                  ),
-                  label: '',
-                  backgroundColor: ThemeConfig.kPrimaryColor,
-                ),
-                BottomNavigationBarItem(
-                  icon: Container(
-                    margin: const EdgeInsets.only(bottom: 7),
-                    child: const Icon(
-                      Icons.location_city,
-                      size: 20.0,
-                    ),
-                  ),
-                  label: 'Endereços',
-                  backgroundColor: ThemeConfig.kPrimaryColor,
-                ),
+                // BottomNavigationBarItem(
+                //   icon: Container(
+                //     margin: const EdgeInsets.only(bottom: 7),
+                //     child: const Icon(
+                //       Icons.menu,
+                //       size: 20.0,
+                //     ),
+                //   ),
+                //   label: 'Pedidos',
+                //   backgroundColor: ThemeConfig.kPrimaryColor,
+                // ),
+                // BottomNavigationBarItem(
+                //   icon: Container(
+                //     margin: const EdgeInsets.only(bottom: 7),
+                //     width: 30,
+                //     child: Container(),
+                //   ),
+                //   label: '',
+                //   backgroundColor: ThemeConfig.kPrimaryColor,
+                // ),
+                // BottomNavigationBarItem(
+                //   icon: Container(
+                //     margin: const EdgeInsets.only(bottom: 7),
+                //     child: const Icon(
+                //       Icons.location_city,
+                //       size: 20.0,
+                //     ),
+                //   ),
+                //   label: 'Endereços',
+                //   backgroundColor: ThemeConfig.kPrimaryColor,
+                // ),
                 BottomNavigationBarItem(
                   icon: Container(
                     margin: const EdgeInsets.only(bottom: 7),

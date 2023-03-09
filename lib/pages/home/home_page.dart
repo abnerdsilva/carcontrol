@@ -20,9 +20,9 @@ class HomePage extends StatelessWidget {
           children: const [
             DashboardPage(index: 0),
             DashboardPage(index: 1),
-            DashboardPage(index: 2),
-            DashboardPage(index: 3),
-            DashboardPage(index: 4),
+            // DashboardPage(index: 2),
+            // DashboardPage(index: 3),
+            // DashboardPage(index: 4),
           ],
         ),
       ),
