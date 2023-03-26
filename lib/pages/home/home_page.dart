@@ -17,9 +17,22 @@ class HomePage extends StatelessWidget {
       body: Obx(
         () => IndexedStack(
           index: controller.tabIndex.value,
-          children: const [
-            DashboardPage(index: 0),
-            DashboardPage(index: 1),
+          children: [
+            Stack(
+              children: [
+                const DashboardPage(index: 0),
+                Positioned(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FloatingActionButton(
+                      onPressed: () {},
+                      child: const Icon(Icons.add),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            const DashboardPage(index: 1),
             // DashboardPage(index: 2),
             // DashboardPage(index: 3),
             // DashboardPage(index: 4),
