@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
                 )
               ],
             ),
-            const DashboardPage(index: 1),
+            const ConfigPage(),
             // DashboardPage(index: 2),
             // DashboardPage(index: 3),
             // DashboardPage(index: 4),
