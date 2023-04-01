@@ -1,3 +1,4 @@
+import 'package:carcontrol/pages/config/config_page.dart';
 import 'package:carcontrol/pages/dashboard/dashboard_page.dart';
 import 'package:carcontrol/pages/home/components/custom_bottom_navigation_menu.dart';
 import 'package:carcontrol/pages/home/home_controller.dart';
