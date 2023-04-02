@@ -3,6 +3,7 @@ import 'package:carcontrol/pages/config/config_page.dart';
 import 'package:carcontrol/pages/dashboard/dashboard_page.dart';
 import 'package:carcontrol/pages/home/components/custom_bottom_navigation_menu.dart';
 import 'package:carcontrol/pages/home/home_controller.dart';
+import 'package:carcontrol/pages/maintenance/maintenance_page.dart';
 import 'package:carcontrol/pages/supply/supply_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -66,7 +67,10 @@ class HomePage extends StatelessWidget {
                   child: const Text('Abastecimento'),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    Get.back();
+                    await Get.to(const MaintenancePage());
+                  },
                   child: const Text('Manutenção'),
                 ),
                 TextButton(
