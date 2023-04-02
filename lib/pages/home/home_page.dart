@@ -26,7 +26,9 @@ class HomePage extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: FloatingActionButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await bottomSheet();
+                      },
                       child: const Icon(Icons.add),
                     ),
                   ),
@@ -41,6 +43,52 @@ class HomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: CustomBottonNavigationMenu(),
+    );
+  }
+
+  Future<void> bottomSheet() async {
+    await Get.bottomSheet(
+      SizedBox(
+        height: 260,
+        child: Stack(
+          children: [
+            Column(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Abastecimento'),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Manutenção'),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Lucro'),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Percurso'),
+                ),
+                const Divider(),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Relatórios'),
+                ),
+              ],
+            ),
+            IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: const Icon(Icons.close),
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.grey,
     );
   }
 }
