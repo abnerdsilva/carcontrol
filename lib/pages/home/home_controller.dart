@@ -20,6 +20,12 @@ class HomeController extends GetxController {
 
   final markers = <Marker>{};
 
+  final RxBool _statusStartRaces = false.obs;
+
+  get stausStartRaces => _statusStartRaces;
+
+  void setStatusStartRaces(bool value) => _statusStartRaces.value = value;
+
   Future<Position> _posicaoAtual() async {
     LocationPermission permission;
     bool ativado = await Geolocator.isLocationServiceEnabled();

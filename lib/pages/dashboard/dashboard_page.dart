@@ -18,18 +18,27 @@ class DashboardPage extends GetView<HomeController> {
             Container(
               color: ThemeConfig.kPrimaryColor,
               width: double.infinity,
-              height: 120,
-              child: Container(
-                // color: Colors.grey,
-                margin: const EdgeInsets.all(30),
-                width: MediaQuery.of(context).size.width * .7,
-                height: 30,
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                child: const Text('Começar corridas'),
+              child: InkWell(
+                onTap: () => controller.setStatusStartRaces(!controller.stausStartRaces.value),
+                child: Obx(() {
+                  Color colorStatusRaces = Colors.grey;
+                  String messageStatusRaces = 'Começar corridas';
+                  if (controller.stausStartRaces.value) {
+                    colorStatusRaces = Colors.redAccent;
+                    messageStatusRaces = 'Parar corridas';
+                  }
+                  return Container(
+                    margin: const EdgeInsets.all(10),
+                    width: MediaQuery.of(context).size.width * .7,
+                    height: 50,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: colorStatusRaces,
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: Text(messageStatusRaces),
+                  );
+                }),
               ),
             ),
             Expanded(
