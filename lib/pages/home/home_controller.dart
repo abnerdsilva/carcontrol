@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:carcontrol/pages/dashboard/race_model.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,21 @@ class HomeController extends GetxController {
   get stausStartRaces => _statusStartRaces;
 
   void setStatusStartRaces(bool value) => _statusStartRaces.value = value;
+
+  final Rx<RaceModel> _race = RaceModel(id: 0, clientName: '').obs;
+
+  get race => _race;
+
+  void setRace(RaceModel value) => _race.value = value;
+
+  final Rx<RaceModel> _raceAcceted = RaceModel(id: 0, clientName: '').obs;
+
+  get raceAcceted => _raceAcceted;
+
+  void setRaceAcceted(RaceModel value) {
+    _raceAcceted.value = value;
+    _race.value = RaceModel(id: 0, clientName: '');
+  }
 
   Future<Position> _posicaoAtual() async {
     LocationPermission permission;

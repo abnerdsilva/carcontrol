@@ -26,4 +26,8 @@ class ThemeConfig {
       700: Color(0xFF1A2E35),
     },
   );
+
+  static const kTextPrimaryColor = Colors.black;
+  static const kTextSecundaryColor = Colors.grey;
+  static const kTextThirdColor = Colors.white;
 }
