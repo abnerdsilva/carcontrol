@@ -1,5 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.carcontrol.carcontrol">
+        package="br.com.carcontrol.carcontrol">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
    <application
         android:label="carcontrol"
         android:name="${applicationName}"
@@ -30,5 +37,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+       <meta-data
+           android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyA6jjk9dudag94IoR8XaQUsbFQsGFhMTV0"/>
     </application>
 </manifest>
