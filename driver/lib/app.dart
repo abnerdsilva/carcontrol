@@ -1,3 +1,4 @@
+import 'package:carcontrol/pages/home/home_binding.dart';
 import 'package:carcontrol/pages/home/home_page.dart';
 import 'package:carcontrol/pages/maintenance/maintenance_page.dart';
 import 'package:carcontrol/pages/new_driver/new_driver_page.dart';
@@ -18,16 +19,37 @@ class App extends StatelessWidget {
       title: 'CarControl',
       theme: ThemeConfig.appTheme,
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const SplashSreenPage(),
-        LoginPage.route: (context) => const LoginPage(),
-        NewDriverPage.route: (context) => const NewDriverPage(),
-        NewDriverAnalyzePage.route: (context) => const NewDriverAnalyzePage(),
-        HomePage.route: (context) => const HomePage(),
-        SupplyPage.route: (context) => const SupplyPage(),
-        MaintenancePage.route: (context) => const MaintenancePage(),
-      },
+      getPages: [
+        GetPage(
+          name: '/',
+          page: () => const SplashSreenPage(),
+        ),
+        GetPage(
+          name: LoginPage.route,
+          page: () => const LoginPage(),
+        ),
+        GetPage(
+          name: NewDriverPage.route,
+          page: () => const NewDriverPage(),
+        ),
+        GetPage(
+          name: NewDriverAnalyzePage.route,
+          page: () => const NewDriverAnalyzePage(),
+        ),
+        GetPage(
+          name: HomePage.route,
+          page: () => const HomePage(),
+          binding: HomeBinding(),
+        ),
+        GetPage(
+          name: SupplyPage.route,
+          page: () => const SupplyPage(),
+        ),
+        GetPage(
+          name: MaintenancePage.route,
+          page: () => const MaintenancePage(),
+        ),
+      ],
     );
   }
 }
