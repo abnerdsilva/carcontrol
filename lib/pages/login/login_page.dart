@@ -1,12 +1,15 @@
 import 'package:carcontrol/pages/home/home_page.dart';
-import 'package:carcontrol/shared/components/custom_button.dart';
-import 'package:carcontrol/shared/components/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import '../../config/theme_config.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
   static const String route = '/login';
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {
@@ -14,52 +17,52 @@ class LoginPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          //mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+              margin: const EdgeInsets.all(50),
+            ),
             Center(
               child: Image.asset('assets/images/carro.png'),
             ),
-            const Text(
-              'Seja Bem Vindo(a)',
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * .7,
-              child: const CustomTextFormField(
-                radiusBorder: 10,
-                heightWithLabel: 53,
-                height: 30,
-                label: 'Usuário',
-                obscureText: true,
-              ),
-            ),
-            const SizedBox(height: 12),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * .7,
-              child: const CustomTextFormField(
-                radiusBorder: 10,
-                heightWithLabel: 53,
-                height: 30,
-                label: 'Senha',
-              ),
-            ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 5),
             SizedBox(
               width: MediaQuery.of(context).size.width * .7,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Esqueci minha senha',
-                    style: TextStyle(color: Colors.red),
+                  Text(
+                    'Faça seu Login ou Registre-se',
+                    style: TextStyle(
+                        color: ThemeConfig.kPrimaryColor,
+                        fontWeight: FontWeight.w400),
                   ),
-                  CustomButton(
-                    label: 'Entrar',
-                    alignment: Alignment.center,
-                    width: 80,
-                    fontSize: 16,
-                    onClick: () => Navigator.pushNamedAndRemoveUntil(context, HomePage.route, (route) => false),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    child: Container(
+                      margin: const EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width * .7,
+                      height: 50,
+                      child: Text(" "),
+                      decoration: BoxDecoration(
+                        color: ThemeConfig.kPrimaryColor,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30)),
+                        image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/google-colorido.png')),
+                      ),
+                    ),
+                    onTap: () {
+                      Get.off(HomePage());
+                    },
                   ),
                 ],
               ),

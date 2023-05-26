@@ -23,7 +23,7 @@ class ConfigPage extends StatelessWidget {
                 onChanged: controller.setModoPesquisa,
               ),
             ),
-          )
+          ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:carcontrol/config/theme_config.dart';
 import 'package:carcontrol/pages/dashboard/race_model.dart';
 import 'package:carcontrol/pages/home/home_controller.dart';
+import 'package:carcontrol/pages/races/choose_test.dart';
 import 'package:carcontrol/shared/components/race_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,16 @@ class DashboardPage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Para onde vamos hoje ? "),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Get.to(ChooseDriver());
+              },
+              icon: const Icon(Icons.search)),
+        ],
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -22,43 +33,29 @@ class DashboardPage extends GetView<HomeController> {
               width: double.infinity,
               child: InkWell(
                 onTap: () {
-                  controller.setStatusStartRaces(!controller.stausStartRaces.value);
-                  if (controller.stausStartRaces.value) {
-                    Future.delayed(const Duration(seconds: 10), () {
-                      controller.setRace(
-                        RaceModel(
-                          id: 1,
-                          clientName: 'Abner Silva',
-                        ),
-                      );
-                    });
-                  }
+                  controller
+                      .setStatusStartRaces(!controller.stausStartRaces.value);
                 },
                 child: Obx(() {
                   Color colorStatusRaces = Colors.grey;
-                  String messageStatusRaces = 'Começar corridas';
-                  if (controller.stausStartRaces.value) {
-                    colorStatusRaces = Colors.redAccent;
-                    messageStatusRaces = 'Parar corridas';
-                  }
+                  if (controller.stausStartRaces.value) {}
 
-                  if (controller.raceAcceted.value.id != 0 && controller.stausStartRaces.value) {
+                  if (controller.raceAcceted.value.id != 0 &&
+                      controller.stausStartRaces.value) {
                     return RaceCardWidget(
                       function: () {
-                        controller.setRaceAcceted(RaceModel(id: 0, clientName: ''));
+                        controller
+                            .setRaceAcceted(RaceModel(id: 0, clientName: ''));
                       },
                     );
                   }
                   return Container(
-                    margin: const EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width * .7,
-                    height: 50,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: colorStatusRaces,
                       borderRadius: const BorderRadius.all(Radius.circular(20)),
                     ),
-                    child: Text(messageStatusRaces),
+                    //child: Text(messageStatusRaces),
                   );
                 }),
               ),
@@ -79,17 +76,6 @@ class DashboardPage extends GetView<HomeController> {
                       onMapCreated: controller.onMapCreated,
                       myLocationEnabled: true,
                       markers: controller.markers,
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: const Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        'R\$ 10,00',
-                        style: TextStyle(fontSize: 42),
-                        textAlign: TextAlign.center,
-                      ),
                     ),
                   ),
                 ],

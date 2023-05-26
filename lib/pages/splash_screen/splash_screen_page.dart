@@ -1,5 +1,5 @@
-import 'package:carcontrol/pages/splash_driver/splash_driver_page.dart';
 import 'package:flutter/material.dart';
+import '../login/login_page.dart';
 
 class SplashSreenPage extends StatefulWidget {
   const SplashSreenPage({Key? key}) : super(key: key);
@@ -14,7 +14,8 @@ class _SplashSreenPageState extends State<SplashSreenPage> {
     super.initState();
 
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushNamedAndRemoveUntil(context, SplashDriverPage.route, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          context, LoginPage.route, (route) => false);
     });
   }
 
@@ -27,11 +28,7 @@ class _SplashSreenPageState extends State<SplashSreenPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
-              child: Image.asset('assets/images/carro.png'),
-            ),
-            const Text(
-              'CarControl',
-              style: TextStyle(fontSize: 26),
+              child: Image.asset('assets/images/carro-com-letreiro.png'),
             ),
           ],
         ),

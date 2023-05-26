@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:carcontrol/pages/dashboard/race_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
 
 class HomeController extends GetxController {
   var tabIndex = 0.obs;
@@ -18,6 +21,7 @@ class HomeController extends GetxController {
   get mapsController => _mapsController;
 
   get position => _position;
+  late Position posi;
 
   final markers = <Marker>{};
 
@@ -77,6 +81,7 @@ class HomeController extends GetxController {
       final posicao = await _posicaoAtual();
       latitude.value = posicao.latitude;
       longitude.value = posicao.longitude;
+      posi = posicao;
 
       _position = LatLng(latitude.value, longitude.value);
       await _mapsController.animateCamera(
@@ -95,16 +100,16 @@ class HomeController extends GetxController {
   onMapCreated(GoogleMapController gmc) async {
     _mapsController = gmc;
     await getPosicao();
-    await addMarker();
+    //await addMarker(position, placeId, description);
   }
 
-  addMarker() async {
+  addMarker(LatLng position, String placeId, String description) async {
     markers.add(
       Marker(
-        markerId: const MarkerId('Csa'),
+        markerId: MarkerId(placeId),
         // position: const LatLng(-23.092602, -47.213982),
-        position: _position,
-        infoWindow: const InfoWindow(title: 'title nome'),
+        position: position,
+        infoWindow: InfoWindow(title: description),
         // icon: await BitmapDescriptor.fromAssetImage(
         //   const ImageConfiguration(),
         //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPuUqQBRXvc3VAWSqTybUFQzY0UggnoTc7O-Bnk-W-tA&s',
@@ -124,5 +129,68 @@ class HomeController extends GetxController {
   void onClose() {
     positionStream.cancel();
     super.onClose();
+  }
+
+  Rx<Mode> mode = Mode.overlay.obs;
+  final homeScaffoldKey = GlobalKey<ScaffoldState>();
+
+  Future<void> handlePressButton(BuildContext context) async {
+    try {
+      Prediction? p = await PlacesAutocomplete.show(
+        context: context,
+        apiKey: 'AIzaSyA6jjk9dudag94IoR8XaQUsbFQsGFhMTV0',
+        onError: onError,
+        mode: mode.value,
+        language: "pt",
+        types: List.of(['geocode']),
+        strictbounds: false,
+        decoration: InputDecoration(
+          hintText: 'Buscar',
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(
+              color: Colors.white,
+            ),
+          ),
+        ),
+        components: [
+          Component(Component.country, "br"),
+        ],
+      );
+
+      if (p != null) {
+        displayPrediction(p, homeScaffoldKey.currentState!);
+      }
+    } catch (e) {
+      SnackBar(
+        content: Text(e.toString()),
+      );
+    }
+  }
+
+  void onError(PlacesAutocompleteResponse response) {
+    print('error---------------------');
+    SnackBar(content: Text(response.errorMessage!));
+  }
+
+  Future<void> displayPrediction(Prediction p, ScaffoldState scaffold) async {
+    print('pressed----------2');
+    GoogleMapsPlaces _places = GoogleMapsPlaces(
+      apiKey: 'AIzaSyA6jjk9dudag94IoR8XaQUsbFQsGFhMTV0',
+      apiHeaders: await const GoogleApiHeaders().getHeaders(),
+    );
+
+    PlacesDetailsResponse detail =
+        await _places.getDetailsByPlaceId(p.placeId!);
+    final lat = detail.result.geometry!.location.lat;
+    final lng = detail.result.geometry!.location.lng;
+
+    print("${p.description} - $lat/$lng");
+
+    await _mapsController.animateCamera(
+      CameraUpdate.newLatLng(LatLng(lat, lng)),
+    );
+    update();
+    await addMarker(_position, p.placeId!, p.description!);
   }
 }
