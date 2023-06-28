@@ -23,7 +23,7 @@ class HomeController extends GetxController {
 
   final latitude = 0.0.obs;
   final longitude = 0.0.obs;
-  late StreamSubscription<Position> positionStream;
+  // late StreamSubscription<Position> positionStream;
   LatLng _currentPosition = const LatLng(-23.092602, -47.213902);
   late GoogleMapController _mapsController;
 
@@ -258,7 +258,7 @@ class HomeController extends GetxController {
 
   @override
   void onClose() {
-    positionStream.cancel();
+    // positionStream.cancel();
     super.onClose();
   }
 }

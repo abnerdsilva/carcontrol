@@ -1,3 +1,5 @@
+import 'package:carcontrol/pages/splash_screen/splash_screen_page.dart';
+import 'package:carcontrol/shared/repositories/shared_prefs_repository.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,5 +29,12 @@ class ConfigController extends GetxController {
 
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('MODO_PESQUISA', modo);
+  }
+
+  Future<void> setLogout() async {
+    final prefs = await SharedPrefsRepository.instance;
+    prefs.logout();
+
+    Get.offAll(() => const SplashSreenPage());
   }
 }

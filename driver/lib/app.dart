@@ -1,5 +1,6 @@
 import 'package:carcontrol/pages/home/home_binding.dart';
 import 'package:carcontrol/pages/home/home_page.dart';
+import 'package:carcontrol/pages/login/login_binding.dart';
 import 'package:carcontrol/pages/maintenance/maintenance_page.dart';
 import 'package:carcontrol/pages/new_driver/new_driver_page.dart';
 import 'package:carcontrol/pages/new_driver_analyse/new_driver_analyze_page.dart';
@@ -21,12 +22,13 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       getPages: [
         GetPage(
-          name: '/',
+          name: SplashSreenPage.route,
           page: () => const SplashSreenPage(),
         ),
         GetPage(
           name: LoginPage.route,
-          page: () => const LoginPage(),
+          page: () => LoginPage(),
+          binding: LoginBinding(),
         ),
         GetPage(
           name: NewDriverPage.route,

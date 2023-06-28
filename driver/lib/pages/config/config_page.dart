@@ -12,6 +12,12 @@ class ConfigPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Config'),
+        actions: [
+          ElevatedButton(
+            onPressed: () => controller.setLogout(),
+            child: const Icon(Icons.logout),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -23,7 +29,7 @@ class ConfigPage extends StatelessWidget {
                 onChanged: controller.setModoPesquisa,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
