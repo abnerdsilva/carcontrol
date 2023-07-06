@@ -25,9 +25,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
             const ConfigPage(),
-            // DashboardPage(index: 2),
-            // DashboardPage(index: 3),
-            // DashboardPage(index: 4),
+
           ],
         ),
       ),

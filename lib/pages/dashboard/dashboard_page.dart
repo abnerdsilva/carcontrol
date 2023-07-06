@@ -1,15 +1,14 @@
 import 'package:carcontrol/config/theme_config.dart';
 import 'package:carcontrol/pages/dashboard/race_model.dart';
 import 'package:carcontrol/pages/home/home_controller.dart';
-import 'package:carcontrol/pages/races/choose_test.dart';
 import 'package:carcontrol/shared/components/race_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../races/choose_driver.dart';
 
 class DashboardPage extends GetView<HomeController> {
   const DashboardPage({Key? key, required this.index}) : super(key: key);
-
   final int index;
 
   @override

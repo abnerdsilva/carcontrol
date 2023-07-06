@@ -1,73 +1,156 @@
 import 'package:carcontrol/pages/home/home_page.dart';
+import 'package:carcontrol/pages/register/register.dart';
+import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../config/theme_config.dart';
+import 'usuario.dart';
 
 class LoginPage extends StatelessWidget {
   static const String route = '/login';
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  late BuildContext context;
+
+  String _mensagemErro = "";
+
+  TextEditingController _controllerEmail = TextEditingController();
+  TextEditingController _controllerSenha = TextEditingController();
+
+  _validarCampos() {
+    //Recuperar dados dos campos
+    String email = _controllerEmail.text;
+    String senha = _controllerSenha.text;
+
+    //validar campos
+    if (email.isNotEmpty && _isEmailValid(email)) {
+      if (senha.isNotEmpty && senha.length > 6) {
+        Usuario usuario = Usuario();
+        usuario.email = email;
+        usuario.senha = senha;
+
+        _logarUsuario(usuario);
+      } else {
+        _showAlertDialog(
+            'Erro', 'Preencha a senha! Digite mais de 6 caracteres.');
+      }
+    } else {
+      _showAlertDialog('Erro', 'Preencha o E-mail válido');
+    }
+  }
+
+  _logarUsuario(Usuario usuario) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    auth
+        .signInWithEmailAndPassword(
+            email: usuario.email, password: usuario.senha)
+        .then((firebaseUser) {
+      Get.off(HomePage());
+    }).catchError((error) {
+      _showAlertDialog('Tente Novamente', 'Verifique o E-mail e Senha!');
+    });
+  }
+
+  _showAlertDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  static bool _isEmailValid(String email) {
+    // Utilizar uma expressão regular para validar o formato do e-mail
+    String emailRegex = r'^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$';
+    RegExp regex = RegExp(emailRegex);
+    return regex.hasMatch(email);
+  }
 
   @override
   Widget build(BuildContext context) {
+    this.context = context;
+
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: const EdgeInsets.all(50),
-            ),
-            Center(
-              child: Image.asset('assets/images/carro.png'),
-            ),
-            const SizedBox(height: 5),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * .7,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Faça seu Login ou Registre-se',
-                    style: TextStyle(
-                        color: ThemeConfig.kPrimaryColor,
-                        fontWeight: FontWeight.w400),
+      body: Container(
+        padding: EdgeInsets.all(16),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(bottom: 32),
+                  child: Image.asset(
+                    'assets/images/carro.png',
+                    width: 200,
+                    height: 140,
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    child: Container(
-                      margin: const EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width * .7,
-                      height: 50,
-                      child: Text(" "),
-                      decoration: BoxDecoration(
-                        color: ThemeConfig.kPrimaryColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30)),
-                        image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/google-colorido.png')),
+                ),
+                TextField(
+                  controller: _controllerEmail,
+                  //autofocus: true,
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(fontSize: 20),
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
+                      hintText: "E-mail",
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6))),
+                ),
+                TextField(
+                  controller: _controllerSenha,
+                  obscureText: true,
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(fontSize: 20),
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
+                      hintText: "Senha",
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6))),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16, bottom: 10),
+                  child: ElevatedButton(
+                      child: Text(
+                        "Entrar",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
+                      onPressed: () {
+                        _validarCampos();
+                      }),
+                ),
+                Center(
+                  child: GestureDetector(
+                    child: Text(
+                      "Não tem conta? cadastre-se!",
+                      style: TextStyle(color: Color(0xFF1A2E35)),
                     ),
                     onTap: () {
-                      Get.off(HomePage());
+                      Get.to(Cadastro());
                     },
                   ),
-                ],
-              ),
-            )
-          ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -11,7 +11,6 @@ import 'package:google_maps_webservice/places.dart';
 
 class HomeController extends GetxController {
   var tabIndex = 0.obs;
-
   final latitude = 0.0.obs;
   final longitude = 0.0.obs;
   late StreamSubscription<Position> positionStream;
@@ -23,7 +22,32 @@ class HomeController extends GetxController {
   get position => _position;
   late Position posi;
 
-  final markers = <Marker>{};
+  final markers = <Marker>{
+
+    const Marker(markerId: MarkerId(AutofillHints.name)),
+
+  };
+
+  void _exibirMarcador(BuildContext context, Position local) async {
+    double pixelRatio = MediaQuery.of(context).devicePixelRatio;
+
+    BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(devicePixelRatio: pixelRatio),
+      "image/passageiro.png",
+    ).then((BitmapDescriptor icone) {
+      Marker marcadorPassageiro = Marker(
+        markerId: MarkerId("marcador-passageiro"),
+        position: LatLng(local.latitude, local.longitude),
+        infoWindow: InfoWindow(
+          title: "Meu Local",
+        ),
+        icon: icone,
+      );
+
+      markers.add(marcadorPassageiro);
+      update();
+    });
+  }
 
   final RxBool _statusStartRaces = false.obs;
 
@@ -47,6 +71,7 @@ class HomeController extends GetxController {
   }
 
   Future<Position> _posicaoAtual() async {
+
     LocationPermission permission;
     bool ativado = await Geolocator.isLocationServiceEnabled();
     if (!ativado) {
@@ -186,6 +211,7 @@ class HomeController extends GetxController {
     final lng = detail.result.geometry!.location.lng;
 
     print("${p.description} - $lat/$lng");
+
 
     await _mapsController.animateCamera(
       CameraUpdate.newLatLng(LatLng(lat, lng)),
