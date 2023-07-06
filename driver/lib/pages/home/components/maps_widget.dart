@@ -70,17 +70,17 @@ class MapsWidget extends GetView<HomeController> {
                       polylines: controller.polyline,
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: const Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        'R\$ 10,00',
-                        style: TextStyle(fontSize: 42),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   margin: const EdgeInsets.only(top: 20),
+                  //   child: const Align(
+                  //     alignment: Alignment.topCenter,
+                  //     child: Text(
+                  //       'R\$ 10,00',
+                  //       style: TextStyle(fontSize: 42),
+                  //       textAlign: TextAlign.center,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
