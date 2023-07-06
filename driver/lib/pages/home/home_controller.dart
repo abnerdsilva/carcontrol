@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:carcontrol/config/constants.dart';
 import 'package:carcontrol/core/db/db_firestore.dart';
@@ -23,6 +24,7 @@ class HomeController extends GetxController {
 
   final latitude = 0.0.obs;
   final longitude = 0.0.obs;
+
   // late StreamSubscription<Position> positionStream;
   LatLng _currentPosition = const LatLng(-23.092602, -47.213902);
   late GoogleMapController _mapsController;
@@ -76,16 +78,17 @@ class HomeController extends GetxController {
     final doc = prefs.getString('DOC_RACE');
 
     await homeRepository.saveRaceConcluded(doc!, _raceAcceted.value);
-    await homeRepository.deleteCollectionPendingRaces(doc);
-
     clearPoints();
+
+    await homeRepository.deleteCollectionPendingRaces(doc);
   }
 
   Future<void> setRaceAcceted(RaceModel value) async {
     await getPolyPoints(value.origemPosition!, value.destinationPosition!);
     if (polyline.isNotEmpty) {
-      addMarker('dest', value.origemPosition!, 'title');
-      addMarker('dest', value.destinationPosition!, 'title');
+      addMarker('current', _currentPosition, 'Posição atual');
+      addMarker('origin', value.origemPosition!, 'Origem corrida');
+      addMarker('dest', value.destinationPosition!, 'Destino corrida');
 
       _raceAcceted.value = value;
       _race.value = RaceModel(id: 0, clientName: 'destino');
