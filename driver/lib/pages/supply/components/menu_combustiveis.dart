@@ -14,18 +14,20 @@ class MenuCombustiveis {
   ];
 
   static Widget buildItem(MenuTipoCombustivelModel item) {
-    return Row(
-      children: [
-        const SizedBox(
-          width: 10,
-        ),
-        Text(
-          item.text,
-          style: const TextStyle(
-            color: Colors.black,
+    return Expanded(
+      child: Row(
+        children: [
+          const SizedBox(
+            width: 10,
           ),
-        ),
-      ],
+          Text(
+            item.text,
+            style: const TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

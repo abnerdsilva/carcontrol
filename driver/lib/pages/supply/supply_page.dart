@@ -22,11 +22,10 @@ class SupplyPage extends StatefulWidget {
 class _SupplyPageState extends State<SupplyPage> {
   final controller = Get.put(HomeController(Get.find()));
 
-  TextEditingController dataEC = TextEditingController();
-  TextEditingController hourEC = TextEditingController();
-  TextEditingController priceEC = TextEditingController();
-  TextEditingController totalEC = TextEditingController();
-  TextEditingController quantityEC = TextEditingController();
+  TextEditingController dataEC = TextEditingController(text: DateTime.now().toLocal().toString().substring(0, 10));
+  TextEditingController priceEC = TextEditingController(text: 0.toStringAsFixed(2));
+  TextEditingController totalEC = TextEditingController(text: 0.toStringAsFixed(2));
+  TextEditingController quantityEC = TextEditingController(text: 0.toStringAsFixed(2));
   TextEditingController typeEC = TextEditingController();
   TextEditingController observationEC = TextEditingController();
 
@@ -90,8 +89,7 @@ class _SupplyPageState extends State<SupplyPage> {
                           style: TextStyle(fontSize: 24),
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 32),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -101,15 +99,25 @@ class _SupplyPageState extends State<SupplyPage> {
                               const Text('Preço combustível'),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * .45,
-                                child: CustomTextFormField(
-                                  controller: priceEC,
-                                  height: 35,
-                                  keyboardType: TextInputType.number,
-                                  validator: (value) {
-                                    if (value == null) {
-                                      return 'Campo obrigatório';
+                                child: Focus(
+                                  child: CustomTextFormField(
+                                    controller: priceEC,
+                                    height: 35,
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'Campo obrigatório';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  onFocusChange: (value) {
+                                    if (!value) {
+                                      setState(() {
+                                        totalEC.text = double.parse(totalEC.value.text).toStringAsFixed(2);
+                                      });
                                     }
-                                    return null;
                                   },
                                 ),
                               ),
@@ -121,15 +129,25 @@ class _SupplyPageState extends State<SupplyPage> {
                               const Text('Litros'),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * .45,
-                                child: CustomTextFormField(
-                                  controller: quantityEC,
-                                  height: 35,
-                                  keyboardType: TextInputType.number,
-                                  validator: (value) {
-                                    if (value == null) {
-                                      return 'Campo obrigatório';
+                                child: Focus(
+                                  child: CustomTextFormField(
+                                    controller: quantityEC,
+                                    height: 35,
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'Campo obrigatório';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  onFocusChange: (value) {
+                                    if (!value) {
+                                      setState(() {
+                                        totalEC.text = double.parse(totalEC.value.text).toStringAsFixed(2);
+                                      });
                                     }
-                                    return null;
                                   },
                                 ),
                               ),
@@ -137,13 +155,14 @@ class _SupplyPageState extends State<SupplyPage> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 4),
                       const Text('Tipo combustível'),
+                      const SizedBox(height: 6),
                       DropdownButtonHideUnderline(
                         child: DropdownButton2(
                           hint: itemSelected == null
                               ? Text(
-                                  'Select Item',
+                                  'Selecione um combustível',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Theme.of(context).hintColor,
@@ -159,6 +178,19 @@ class _SupplyPageState extends State<SupplyPage> {
                             ),
                           ],
                           value: itemSelected,
+                          buttonStyleData: ButtonStyleData(
+                            height: 50,
+                            width: MediaQuery.of(context).size.width,
+                            padding: const EdgeInsets.only(left: 14, right: 14),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: Colors.black26,
+                              ),
+                              color: Colors.white,
+                            ),
+                            elevation: 2,
+                          ),
                           onChanged: (value) {
                             final t = value as MenuTipoCombustivelModel;
                             log(t.text);
@@ -166,9 +198,21 @@ class _SupplyPageState extends State<SupplyPage> {
                               itemSelected = t;
                             });
                           },
-                          buttonStyleData: const ButtonStyleData(
-                            height: 40,
-                            width: 140,
+                          dropdownStyleData: DropdownStyleData(
+                            maxHeight: 200,
+                            width: MediaQuery.of(context).size.width * .9,
+                            // padding: const EdgeInsets.only(left: 14, right: 14),
+                            // useSafeArea: true,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              color: Colors.white,
+                            ),
+                            // offset: const Offset(20, 100),
+                            scrollbarTheme: ScrollbarThemeData(
+                              radius: const Radius.circular(40),
+                              thickness: MaterialStateProperty.all(6),
+                              thumbVisibility: MaterialStateProperty.all(true),
+                            ),
                           ),
                           menuItemStyleData: const MenuItemStyleData(
                             height: 40,
@@ -182,26 +226,43 @@ class _SupplyPageState extends State<SupplyPage> {
                           const Text('Total'),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * .45,
-                            child: CustomTextFormField(
-                              controller: totalEC,
-                              height: 35,
-                              keyboardType: TextInputType.number,
-                              validator: (value) {
-                                if (value == null) {
-                                  return 'Campo obrigatório';
+                            child: Focus(
+                              child: CustomTextFormField(
+                                controller: totalEC,
+                                height: 35,
+                                keyboardType: TextInputType.number,
+                                textAlign: TextAlign.center,
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Campo obrigatório';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              onFocusChange: (value) {
+                                if (!value) {
+                                  setState(() {
+                                    totalEC.text = double.parse(totalEC.value.text).toStringAsFixed(2);
+                                  });
                                 }
-                                return null;
                               },
                             ),
                           ),
                         ],
                       ),
+                      const SizedBox(height: 16),
                       Center(
                         child: TextField(
                           controller: dataEC,
                           decoration: const InputDecoration(
                             icon: Icon(Icons.calendar_today),
                             labelText: "Data evento",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(14)),
+                                borderSide: BorderSide(
+                                  color: Colors.greenAccent,
+                                  width: 3,
+                                )),
                           ),
                           readOnly: true,
                           onTap: () async {
