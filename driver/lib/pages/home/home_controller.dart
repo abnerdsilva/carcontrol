@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:carcontrol/config/constants.dart';
 import 'package:carcontrol/core/db/db_firestore.dart';
+import 'package:carcontrol/model/expense_model.dart';
 import 'package:carcontrol/model/race_model.dart';
 import 'package:carcontrol/pages/home/home_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -257,6 +258,32 @@ class HomeController extends GetxController {
     // if (index != 1) {
     tabIndex.value = index;
     // }
+  }
+
+  Future<void> saveExpense(ExpenseModel expense) async {
+    DBFirestore.get().collection('expenses').add({
+      'data_hora': expense.dataHora,
+      'valor': expense.valor,
+      'observacao': expense.observacao,
+      'tipo': expense.tipoDespesa,
+      'valor_combustivel': expense.valorCombustivel,
+      'quantidade_litros_abastecimento': expense.quantidade,
+      'tipo_combustivel': expense.tipoCombustivel,
+    }).then((value) {
+      Get.snackbar(
+        'Sucesso',
+        'Lançamento realizado com sucesso',
+        backgroundColor: Colors.green[100],
+      );
+
+      Get.back();
+    }).onError((error, stackTrace) {
+      Get.snackbar(
+        'Erro',
+        'Não foi possivel lançar evento',
+        backgroundColor: Colors.red[100],
+      );
+    });
   }
 
   @override
