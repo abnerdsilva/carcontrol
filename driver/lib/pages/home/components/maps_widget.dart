@@ -1,15 +1,12 @@
 import 'package:carcontrol/config/theme_config.dart';
-import 'package:carcontrol/pages/dashboard/race_model.dart';
 import 'package:carcontrol/pages/home/home_controller.dart';
 import 'package:carcontrol/shared/components/race_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class DashboardPage extends GetView<HomeController> {
-  const DashboardPage({Key? key, required this.index}) : super(key: key);
-
-  final int index;
+class MapsWidget extends GetView<HomeController> {
+  const MapsWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +22,7 @@ class DashboardPage extends GetView<HomeController> {
                   controller.setStatusStartRaces(!controller.stausStartRaces.value);
                   if (controller.stausStartRaces.value) {
                     Future.delayed(const Duration(seconds: 10), () {
-                      controller.setRace(
-                        RaceModel(
-                          id: 1,
-                          clientName: 'Abner Silva',
-                        ),
-                      );
+                      controller.getFirstPendingRaces();
                     });
                   }
                 },
@@ -43,11 +35,7 @@ class DashboardPage extends GetView<HomeController> {
                   }
 
                   if (controller.raceAcceted.value.id != 0 && controller.stausStartRaces.value) {
-                    return RaceCardWidget(
-                      function: () {
-                        controller.setRaceAcceted(RaceModel(id: 0, clientName: ''));
-                      },
-                    );
+                    return Container();
                   }
                   return Container(
                     margin: const EdgeInsets.all(10),
@@ -79,21 +67,37 @@ class DashboardPage extends GetView<HomeController> {
                       onMapCreated: controller.onMapCreated,
                       myLocationEnabled: true,
                       markers: controller.markers,
+                      polylines: controller.polyline,
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: const Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        'R\$ 10,00',
-                        style: TextStyle(fontSize: 42),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   margin: const EdgeInsets.only(top: 20),
+                  //   child: const Align(
+                  //     alignment: Alignment.topCenter,
+                  //     child: Text(
+                  //       'R\$ 10,00',
+                  //       style: TextStyle(fontSize: 42),
+                  //       textAlign: TextAlign.center,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
+            ),
+            Obx(
+              () {
+                if (controller.raceAcceted.value.id != 0 && controller.stausStartRaces.value) {
+                  return RaceCardWidget(
+                    race: controller.raceAcceted.value,
+                    color: ThemeConfig.kGravishBlueColor,
+                    function: () async {
+                      await controller.concludeRace();
+                    },
+                  );
+                }
+
+                return Container();
+              },
             ),
           ],
         ),

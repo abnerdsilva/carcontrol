@@ -1,7 +1,13 @@
+import 'package:carcontrol/pages/home/home_page.dart';
 import 'package:carcontrol/pages/login/login_page.dart';
+import 'package:carcontrol/shared/repositories/shared_prefs_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SplashSreenPage extends StatefulWidget {
+
+  static const String route = '/';
+
   const SplashSreenPage({Key? key}) : super(key: key);
 
   @override
@@ -13,8 +19,15 @@ class _SplashSreenPageState extends State<SplashSreenPage> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushNamedAndRemoveUntil(context, LoginPage.route, (route) => false);
+    Future.delayed(const Duration(seconds: 3), () async {
+      final prefs = await SharedPrefsRepository.instance;
+      if (prefs.firebaseID != null) {
+        if (prefs.firebaseID!.isNotEmpty) {
+          Get.offAllNamed(HomePage.route);
+          return;
+        }
+      }
+      Get.offAllNamed(LoginPage.route);
     });
   }
 

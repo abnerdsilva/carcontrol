@@ -1,12 +1,15 @@
 import 'package:carcontrol/config/theme_config.dart';
+import 'package:carcontrol/model/race_model.dart';
 import 'package:flutter/material.dart';
 
 class RaceCardWidget extends StatelessWidget {
   final Color? color;
+  final RaceModel race;
   final Function()? function;
 
   const RaceCardWidget({
     Key? key,
+    required this.race,
     this.color,
     this.function,
   }) : super(key: key);
@@ -29,19 +32,19 @@ class RaceCardWidget extends StatelessWidget {
                     flex: 1,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.person, color: Colors.white),
-                        SizedBox(width: 12),
+                      children: [
+                        const Icon(Icons.person, color: Colors.white),
+                        const SizedBox(width: 12),
                         Text(
-                          'Nome Cliente',
-                          style: TextStyle(color: ThemeConfig.kTextThirdColor),
+                          race.clientName!,
+                          style: const TextStyle(color: ThemeConfig.kTextThirdColor),
                         ),
                       ],
                     ),
                   ),
-                  const Text(
-                    '5 minutos (2,2km) de distância',
-                    style: TextStyle(
+                  Text(
+                    '${race.distanceDestination} km de distância',
+                    style: const TextStyle(
                       color: ThemeConfig.kTextSecundaryColor,
                       fontSize: 12,
                     ),

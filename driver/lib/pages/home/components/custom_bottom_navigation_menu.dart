@@ -9,12 +9,12 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
   final TextStyle unselectedLabelStyle = TextStyle(
     color: Colors.white.withOpacity(0.5),
     fontWeight: FontWeight.w500,
-    fontSize: 12,
+    fontSize: 1,
   );
   final TextStyle selectedLabelStyle = const TextStyle(
     color: Colors.white,
     fontWeight: FontWeight.w500,
-    fontSize: 12,
+    fontSize: 1,
   );
 
   @override
@@ -23,8 +23,8 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
       height: 54,
       child: Obx(
         () => BottomNavigationBar(
-          showUnselectedLabels: true,
-          showSelectedLabels: true,
+          showUnselectedLabels: false,
+          showSelectedLabels: false,
           onTap: controller.changeTabIndex,
           currentIndex: controller.tabIndex.value,
           unselectedItemColor: Colors.white38,
@@ -32,18 +32,23 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
           selectedItemColor: Colors.white70,
           unselectedLabelStyle: unselectedLabelStyle,
           selectedLabelStyle: selectedLabelStyle,
-          items: [
+          items: const [
             BottomNavigationBarItem(
-              icon: Container(
-                margin: const EdgeInsets.only(bottom: 7),
-                child: const Icon(
-                  Icons.home,
-                  size: 20.0,
-                ),
+              icon: Icon(
+                Icons.home,
+                size: 28.0,
               ),
-              label: 'Home',
+              label: '',
               backgroundColor: ThemeConfig.kPrimaryColor,
             ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(
+            //     Icons.list,
+            //     size: 28.0,
+            //   ),
+            //   label: '',
+            //   backgroundColor: ThemeConfig.kPrimaryColor,
+            // ),
             // BottomNavigationBarItem(
             //   icon: Container(
             //     margin: const EdgeInsets.only(bottom: 7),
@@ -76,14 +81,11 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
             //   backgroundColor: ThemeConfig.kPrimaryColor,
             // ),
             BottomNavigationBarItem(
-              icon: Container(
-                margin: const EdgeInsets.only(bottom: 7),
-                child: const Icon(
-                  Icons.location_history,
-                  size: 20.0,
-                ),
+              icon: Icon(
+                Icons.location_history,
+                size: 28.0,
               ),
-              label: 'Config',
+              label: '',
               backgroundColor: ThemeConfig.kPrimaryColor,
             ),
           ],
