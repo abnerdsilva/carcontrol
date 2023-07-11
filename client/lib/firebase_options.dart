@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBhIndWExWIlbdrjACut8X0PHTUEwQJ7mQ',
-    appId: '1:965457092827:android:ed6071984869a2c0e7acfe',
+    appId: '1:965457092827:android:fcc778f0f65ef5ebe7acfe',
     messagingSenderId: '965457092827',
     projectId: 'carcontrol-f9ffc',
     storageBucket: 'carcontrol-f9ffc.appspot.com',
