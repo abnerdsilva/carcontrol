@@ -1,4 +1,4 @@
-package br.com.carcontrol.carcontrol
+package br.com.carcontrol.client
 
 import io.flutter.embedding.android.FlutterActivity
 
