@@ -26,6 +26,7 @@ class _SupplyPageState extends State<SupplyPage> {
   TextEditingController priceEC = TextEditingController(text: 0.toStringAsFixed(2));
   TextEditingController totalEC = TextEditingController(text: 0.toStringAsFixed(2));
   TextEditingController quantityEC = TextEditingController(text: 0.toStringAsFixed(2));
+  TextEditingController kilometragemEC = TextEditingController();
   TextEditingController typeEC = TextEditingController();
   TextEditingController observationEC = TextEditingController();
 
@@ -54,6 +55,7 @@ class _SupplyPageState extends State<SupplyPage> {
       valor: double.parse(totalEC.value.text),
       valorCombustivel: double.parse(priceEC.value.text),
       quantidade: double.parse(quantityEC.value.text),
+      kilometragem: double.parse(kilometragemEC.value.text.isEmpty ? '0' : kilometragemEC.value.text),
     );
 
     if (item.tipoCombustivel.isEmpty ||
@@ -61,7 +63,7 @@ class _SupplyPageState extends State<SupplyPage> {
         item.valor.isEqual(0.0) ||
         item.dataHora.isEmpty ||
         item.quantidade.isEqual(0)) {
-      Get.snackbar('title', 'message');
+      Get.snackbar('Ops', 'verifique os campos');
       return;
     }
 

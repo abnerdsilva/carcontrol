@@ -8,6 +8,7 @@ class ExpenseModel {
   final double valor;
   final double valorCombustivel;
   final double quantidade;
+  final double kilometragem;
 
   ExpenseModel({
     required this.dataHora,
@@ -17,6 +18,7 @@ class ExpenseModel {
     required this.valor,
     required this.valorCombustivel,
     required this.quantidade,
+    required this.kilometragem,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,6 +30,7 @@ class ExpenseModel {
       'valor': valor,
       'valorCombustivel': valorCombustivel,
       'quantidade': quantidade,
+      'kilometragem': kilometragem,
     };
   }
 
@@ -40,6 +43,7 @@ class ExpenseModel {
       valor: map['valor'],
       valorCombustivel: map['valorCombustivel'],
       quantidade: map['quantidade'],
+      kilometragem: map['kilometragem'],
     );
   }
 
