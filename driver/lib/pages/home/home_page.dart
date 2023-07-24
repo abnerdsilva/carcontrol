@@ -25,7 +25,7 @@ class HomePage extends GetView<HomeController> {
               children: [
                 const MapsWidget(),
                 Obx(
-                  () => controller.raceAcceted.value.id != 0
+                  () => controller.raceAcceted.value.id != '0'
                       ? Container()
                       : Positioned(
                           child: Align(
@@ -38,7 +38,7 @@ class HomePage extends GetView<HomeController> {
                         ),
                 ),
                 Obx(() {
-                  if (controller.race.value.id == 0 || !controller.stausStartRaces.value) return Container();
+                  if (controller.race.value.id == '0' || !controller.stausStartRaces.value) return Container();
                   return RaceWidget(race: controller.race.value);
                 }),
               ],

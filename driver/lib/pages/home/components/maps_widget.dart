@@ -20,6 +20,8 @@ class MapsWidget extends GetView<HomeController> {
               child: InkWell(
                 onTap: () {
                   controller.setStatusStartRaces(!controller.stausStartRaces.value);
+                  controller.clearPoints();
+
                   if (controller.stausStartRaces.value) {
                     Future.delayed(const Duration(seconds: 10), () {
                       controller.getFirstPendingRaces();
@@ -34,7 +36,7 @@ class MapsWidget extends GetView<HomeController> {
                     messageStatusRaces = 'Parar corridas';
                   }
 
-                  if (controller.raceAcceted.value.id != 0 && controller.stausStartRaces.value) {
+                  if (controller.raceAcceted.value.id != '0' && controller.stausStartRaces.value) {
                     return Container();
                   }
                   return Container(
@@ -51,6 +53,13 @@ class MapsWidget extends GetView<HomeController> {
                 }),
               ),
             ),
+            // TextButton(
+            //   onPressed: () => controller.createRace(),
+            //   child: Container(
+            //     padding: const EdgeInsets.all(10),
+            //     child: const Text('Adicionar'),
+            //   ),
+            // ),
             Expanded(
               child: Stack(
                 children: [
@@ -86,12 +95,12 @@ class MapsWidget extends GetView<HomeController> {
             ),
             Obx(
               () {
-                if (controller.raceAcceted.value.id != 0 && controller.stausStartRaces.value) {
+                if (controller.raceAcceted.value.id != '0' && controller.stausStartRaces.value) {
                   return RaceCardWidget(
                     race: controller.raceAcceted.value,
                     color: ThemeConfig.kGravishBlueColor,
                     function: () async {
-                      await controller.concludeRace();
+                      await controller.concludeRace(controller.raceAcceted.value);
                     },
                   );
                 }

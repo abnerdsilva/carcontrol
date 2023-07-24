@@ -6,6 +6,8 @@ class FlavorSharedPrefs {
   static const deviceID = '/CARCONTROL_DEVICE_ID/';
   static const firebaseID = '/CARCONTROL_FIREBASE_ID/';
   static const userEMAIL = '/CARCONTROL_FIREBASE_ID/';
+  static const docRacePending = '/DOC_RACE/';
+  static const docActiveRequestRace = '/DOC_RACE_ACTIVE/';
 }
 
 class SharedPrefsRepository {
@@ -13,6 +15,8 @@ class SharedPrefsRepository {
   static const _deviceID = FlavorSharedPrefs.deviceID;
   static const _firebaseID = FlavorSharedPrefs.firebaseID;
   static const _userEMAIL = FlavorSharedPrefs.userEMAIL;
+  static const _docRacePending = FlavorSharedPrefs.docRacePending;
+  static const _docActiveRequestRace = FlavorSharedPrefs.docActiveRequestRace;
 
   static SharedPreferences? prefs;
   static SharedPrefsRepository? _instanceRepository;
@@ -50,8 +54,32 @@ class SharedPrefsRepository {
 
   String? get firebaseID => prefs!.getString(_firebaseID);
 
+  Future<void> registerDocRacePending(String id) async {
+    await prefs!.setString(_docRacePending, id);
+  }
+
+  String? get docRacePending => prefs!.getString(_docRacePending);
+
+  Future<void> registerDocActiveRequestRace(String id) async {
+    await prefs!.setString(_docActiveRequestRace, id);
+  }
+
+  String? get docActiveRequestRace => prefs!.getString(_docActiveRequestRace);
+
   Future<void> logout() async {
     prefs!.clear();
     Get.offAndToNamed('/');
+  }
+
+  @override
+  String toString() {
+    final item = {
+      'firebaseID': firebaseID,
+      'accessTOKEN': accessToken,
+      'deviceID': deviceId,
+      'docRacePending': docRacePending,
+      'userEMAIL': userEmail,
+    };
+    return item.toString();
   }
 }
