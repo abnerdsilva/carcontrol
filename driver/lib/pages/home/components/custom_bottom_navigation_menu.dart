@@ -41,14 +41,14 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
               label: '',
               backgroundColor: ThemeConfig.kPrimaryColor,
             ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(
-            //     Icons.list,
-            //     size: 28.0,
-            //   ),
-            //   label: '',
-            //   backgroundColor: ThemeConfig.kPrimaryColor,
-            // ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.list_sharp,
+                size: 28.0,
+              ),
+              label: '',
+              backgroundColor: ThemeConfig.kPrimaryColor,
+            ),
             // BottomNavigationBarItem(
             //   icon: Container(
             //     margin: const EdgeInsets.only(bottom: 7),
