@@ -36,7 +36,7 @@ class RaceCardWidget extends StatelessWidget {
                         const Icon(Icons.person, color: Colors.white),
                         const SizedBox(width: 12),
                         Text(
-                          race.clientName!,
+                          race.customer.name ?? '',
                           style: const TextStyle(color: ThemeConfig.kTextThirdColor),
                         ),
                       ],

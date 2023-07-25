@@ -39,7 +39,7 @@ class DashboardPage extends GetView<HomeController> {
                   Color colorStatusRaces = Colors.grey;
                   if (controller.stausStartRaces.value) {}
 
-                  if (controller.raceAcceted.value.id != 0 &&
+                  if (controller.raceAcceted.value.id != '0' &&
                       controller.stausStartRaces.value) {
                     return RaceCardWidget(
                       function: () {

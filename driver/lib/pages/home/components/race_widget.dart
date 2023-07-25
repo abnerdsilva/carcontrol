@@ -42,7 +42,7 @@ class RaceWidget extends GetView<HomeController> {
                 color: Colors.grey,
                 borderRadius: BorderRadius.all(Radius.circular(20)),
               ),
-              child: Text(race.clientName!),
+              child: Text(race.customer.name!),
             ),
             const SizedBox(height: 12),
             Container(
@@ -55,7 +55,7 @@ class RaceWidget extends GetView<HomeController> {
                     style: TextStyle(color: ThemeConfig.kTextSecundaryColor),
                   ),
                   Text(
-                    'R\$ ${race.value}',
+                    'R\$ ${race.value!.toStringAsFixed(2)}',
                     style: const TextStyle(color: ThemeConfig.kTextSecundaryColor),
                   ),
                 ],
@@ -76,7 +76,7 @@ class RaceWidget extends GetView<HomeController> {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 12),
               child: Text(
-                race.addressOrigem!,
+                '${race.origem.address}, ${race.origem.number} - ${race.origem.neighborhood}',
                 style: const TextStyle(color: ThemeConfig.kTextSecundaryColor),
               ),
             ),
@@ -92,7 +92,7 @@ class RaceWidget extends GetView<HomeController> {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 12),
               child: Text(
-                race.addressDestination!,
+                '${race.destino.address}, ${race.destino.number} - ${race.destino.neighborhood}',
                 style: const TextStyle(color: ThemeConfig.kTextSecundaryColor),
               ),
             ),
@@ -118,7 +118,7 @@ class RaceWidget extends GetView<HomeController> {
                     style: TextStyle(color: ThemeConfig.kTextSecundaryColor),
                   ),
                   Text(
-                    'R\$ ${race.valueDriver!.toStringAsFixed(2)}',
+                    race.valueDriver != null ? 'R\$ ${race.valueDriver!.toStringAsFixed(2)}' : '',
                     style: const TextStyle(color: ThemeConfig.kTextSecundaryColor),
                   ),
                 ],
