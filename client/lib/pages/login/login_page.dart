@@ -1,23 +1,24 @@
 import 'package:carcontrol/pages/home/home_page.dart';
 import 'package:carcontrol/pages/register/register.dart';
-import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
+import '../../shared/components/custom_button.dart';
+import '../../shared/components/custom_text_form_field.dart';
+import 'field_validator.dart';
 import 'usuario.dart';
 
 class LoginPage extends StatelessWidget {
-
   static const String route = '/login';
 
   late BuildContext context;
 
-  String _mensagemErro = "";
-
-  TextEditingController _controllerEmail = TextEditingController();
+  TextEditingController _controllerEmail =
+      TextEditingController(text: "muriloschali629@gmail.com");
   TextEditingController _controllerSenha = TextEditingController();
+
+  final formKey = GlobalKey<FormState>();
 
   LoginPage({super.key});
 
@@ -27,7 +28,7 @@ class LoginPage extends StatelessWidget {
     String senha = _controllerSenha.text;
 
     //validar campos
-    if (email.isNotEmpty && _isEmailValid(email)) {
+    if (email.isNotEmpty && ValidationUtils.isValidEmail(email)) {
       if (senha.isNotEmpty && senha.length > 6) {
         Usuario usuario = Usuario();
         usuario.email = email;
@@ -50,7 +51,7 @@ class LoginPage extends StatelessWidget {
         .signInWithEmailAndPassword(
             email: usuario.email, password: usuario.senha)
         .then((firebaseUser) {
-      Get.off(HomePage());
+      Get.offAll(HomePage());
     }).catchError((error) {
       _showAlertDialog('Tente Novamente', 'Verifique o E-mail e Senha!');
     });
@@ -76,86 +77,196 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  static bool _isEmailValid(String email) {
-    // Utilizar uma expressão regular para validar o formato do e-mail
-    String emailRegex = r'^[\w-]+(?:\.[\w-]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$';
-    RegExp regex = RegExp(emailRegex);
-    return regex.hasMatch(email);
-  }
-
   @override
   Widget build(BuildContext context) {
     this.context = context;
-
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(bottom: 32),
-                  child: Image.asset(
-                    'assets/images/carro.png',
-                    width: 200,
-                    height: 140,
-                  ),
-                ),
-                TextField(
-                  controller: _controllerEmail,
-                  //autofocus: true,
-                  keyboardType: TextInputType.emailAddress,
-                  style: TextStyle(fontSize: 20),
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-                      hintText: "E-mail",
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6))),
-                ),
-                TextField(
-                  controller: _controllerSenha,
-                  obscureText: true,
-                  keyboardType: TextInputType.emailAddress,
-                  style: TextStyle(fontSize: 20),
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-                      hintText: "Senha",
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6))),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 16, bottom: 10),
-                  child: ElevatedButton(
-                      child: Text(
-                        "Entrar",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      onPressed: () {
-                        _validarCampos();
-                      }),
-                ),
-                Center(
-                  child: GestureDetector(
-                    child: Text(
-                      "Não tem conta? cadastre-se!",
-                      style: TextStyle(color: Color(0xFF1A2E35)),
+      body: SingleChildScrollView(
+          child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20, bottom: 16),
+          child: Column(
+            children: [
+              Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Image.asset('assets/images/carro.png'),
                     ),
-                    onTap: () {
-                      Get.to(Cadastro());
-                    },
-                  ),
+                    const SizedBox(height: 0),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * .7,
+                      child: CustomTextFormField(
+                        radiusBorder: 10,
+                        heightWithLabel: 70,
+                        height: 50,
+                        label: 'E-mail',
+                        controller: _controllerEmail,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * .7,
+                      child: CustomTextFormField(
+                        radiusBorder: 10,
+                        heightWithLabel: 70,
+                        height: 50,
+                        label: 'Senha',
+                        controller: _controllerSenha,
+                        obscureText: true,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * .7,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: CustomButton(
+                                label: 'Entrar',
+                                alignment: Alignment.center,
+                                fontSize: 16,
+                                onClick: () {
+                                  _validarCampos();
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    GestureDetector(
+                      child: const Text(
+                        'Esqueci minha senha',
+                        style: TextStyle(color: Color(0xFF1A2E35)),
+                      ),
+                      onTap: () => _funcaoEsqueciSenha(context),
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 16,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Novo por aqui?',
+                      style: TextStyle(color: Color(0xFF1A2E35))),
+                  const SizedBox(width: 16),
+                  ElevatedButton(
+                    onPressed: () => Get.to(Cadastro()),
+                    child: const Text('Registre-se'),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-      ),
+      )),
     );
+  }
+
+  _funcaoEsqueciSenha(BuildContext context) async {
+    if (_controllerEmail.text.isNotEmpty &&
+        ValidationUtils.isValidEmail(_controllerEmail.text)) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Confirme seu e-mail.'),
+            content: CustomTextFormField(
+              controller: _controllerEmail,
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                child: Text('OK'),
+                onPressed: () {
+                  _funcaoRecuperarSenha();
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      _showAlertDialog(
+          "Ops!", "Digite um e-mail válido, para poder recuperar a senha.");
+    }
+  }
+
+  _funcaoRecuperarSenha() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    auth
+        .fetchSignInMethodsForEmail(_controllerEmail.text)
+        .then((signInMethods) async {
+      try {
+        if (signInMethods.isNotEmpty) {
+          await FirebaseAuth.instance
+              .sendPasswordResetEmail(email: _controllerEmail.text);
+
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Esqueci minha senha'),
+                content: Text(
+                    'Enviamos um e-mail para redefinir sua senha.\n\nVerifique sua caixa de e-mail.'),
+                actions: <Widget>[
+                  ElevatedButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Ops!'),
+                content: Text(
+                  'E-mail não cadastrado. Por favor, verifique seu e-mail e tente novamente.',
+                ),
+                actions: <Widget>[
+                  ElevatedButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      } catch (error) {
+        _showAlertDialog("Ops!",
+            "Não foi possivel recuperar a senha.\nTente novamente mais tarde!");
+      }
+    });
   }
 }

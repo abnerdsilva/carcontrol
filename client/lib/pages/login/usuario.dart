@@ -1,9 +1,42 @@
 class Usuario {
-  late String _idUsuario;
+  late String _id;
+
+  String get id => _id;
+
+  set id(String value) {
+    _id = value;
+  }
+
   late String _nome;
   late String _email;
   late String _senha;
+  late String _telefone;
+  late String _cpf;
   late String _tipoUsuario;
+
+  String get tipoUsuario => _tipoUsuario;
+
+  set tipoUsuario(String value) {
+    _tipoUsuario = value;
+  }
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> dadosPessoais = {
+      "id": this.id,
+      "nome": this.nome,
+      "email": this.email,
+      "telefone": this.telefone,
+      "cpf": this.cpf,
+      "tipoUsuario": this.tipoUsuario,
+    };
+    return dadosPessoais;
+  }
+
+  String get telefone => _telefone;
+
+  set telefone(String value) {
+    _telefone = value;
+  }
 
   Usuario();
 
@@ -25,24 +58,9 @@ class Usuario {
     _nome = value;
   }
 
-  String get idUsuario => _idUsuario;
+  String get cpf => _cpf;
 
-  set idUsuario(String value) {
-    _idUsuario = value;
-  }
-
-  String get tipoUsuario => _tipoUsuario;
-
-  set tipoUsuario(String value) {
-    _tipoUsuario = value;
-  }
-
-  Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = {
-      "nome": this.nome,
-      "email": this.email,
-      "tipoUsuario": this.tipoUsuario,
-    };
-    return map;
+  set cpf(String value) {
+    _cpf = value;
   }
 }

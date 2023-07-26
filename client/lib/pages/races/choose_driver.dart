@@ -26,11 +26,10 @@ class _ChooseDriverState extends State<ChooseDriver> {
   late Function _funcaoBotao;
   late String _idRequisicao;
 
-  TextEditingController _controllerDestino =
-  TextEditingController();
+  TextEditingController _controllerDestino = TextEditingController();
 
   TextEditingController _controllerLocal =
-  TextEditingController(text: "Meu Local");
+      TextEditingController(text: "Meu Local");
 
   double? latitude;
 
@@ -48,7 +47,6 @@ class _ChooseDriverState extends State<ChooseDriver> {
     controller = Get.find<HomeController>();
     _pegarPosicao();
     _adicionarListenerRequisicaoAtiva();
-    //_funcaoBotao = () {};
   }
 
   @override
@@ -60,20 +58,19 @@ class _ChooseDriverState extends State<ChooseDriver> {
       body: Stack(children: [
         GetBuilder<HomeController>(
           init: controller,
-          builder: (value) =>
-              GoogleMap(
-                mapType: MapType.normal,
-                zoomControlsEnabled: true,
-                // initialCameraPosition: _kGooglePlex,
-                initialCameraPosition: CameraPosition(
-                  target: controller.position,
-                  zoom: 13,
-                ),
-                onMapCreated: controller.onMapCreated,
-                //myLocationEnabled: true,
-                myLocationButtonEnabled: false,
-                markers: controller.markers,
-              ),
+          builder: (value) => GoogleMap(
+            mapType: MapType.normal,
+            zoomControlsEnabled: true,
+            // initialCameraPosition: _kGooglePlex,
+            initialCameraPosition: CameraPosition(
+              target: controller.position,
+              zoom: 13,
+            ),
+            onMapCreated: controller.onMapCreated,
+            //myLocationEnabled: true,
+            myLocationButtonEnabled: false,
+            markers: controller.markers,
+          ),
         ),
         Visibility(
           visible: _exibirCaixaEnderecoDestino,
@@ -159,7 +156,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
               child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(_corBotao),
+                        MaterialStateProperty.all<Color>(_corBotao),
                   ),
                   child: Text(
                     _textoBotao,
@@ -197,7 +194,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
     _alterarBotaoPrincipal(
       "Cancelar",
       Colors.red,
-          () {
+      () {
         _cancelarMotorista();
       },
     );
@@ -221,7 +218,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
 
     if (enderecoDestino.isNotEmpty) {
       List<Location> listaEnderecos =
-      await locationFromAddress(enderecoDestino);
+          await locationFromAddress(enderecoDestino);
 
       Location enderecoNovo = listaEnderecos[0];
 
@@ -248,7 +245,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
       String enderecoConfirmacao;
 
       enderecoConfirmacao =
-      "\n Cidade: ${destino.cidade}\n Rua: ${destino.rua},${destino.numero}"
+          "\n Cidade: ${destino.cidade}\n Rua: ${destino.rua},${destino.numero}"
           "\n Bairro: ${destino.bairro}\n Cep: ${destino.cep}";
 
       showDialog(
@@ -312,7 +309,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
     Position posicao = controller.posi;
 
     List<Placemark> locais =
-    await placemarkFromCoordinates(posicao.latitude, posicao.longitude);
+        await placemarkFromCoordinates(posicao.latitude, posicao.longitude);
 
     if (locais != null) {
       setState(() {
@@ -365,14 +362,14 @@ class _ChooseDriverState extends State<ChooseDriver> {
 
     Map<String, dynamic> dadosRequisicaoAtiva = {};
     dadosRequisicaoAtiva["id_requisicao"] = requisicao.id;
-    dadosRequisicaoAtiva["id_usuario"] = passageiro.idUsuario;
+    dadosRequisicaoAtiva["id_usuario"] = passageiro.id;
     dadosRequisicaoAtiva["status"] = StatusRequisicao.AGUARDANDO;
 
     print("\n\n Salvamento Concluido com Sucesso! \n\n");
 
     db
         .collection("requisicoes_ativas")
-        .doc(passageiro.idUsuario)
+        .doc(passageiro.id)
         .set(dadosRequisicaoAtiva);
   }
 
@@ -407,13 +404,13 @@ class _ChooseDriverState extends State<ChooseDriver> {
               _statusAguardando();
               break;
             case StatusRequisicao.A_CAMINHO:
-            // Restante do código
+              // Restante do código
               break;
             case StatusRequisicao.VIAGEM:
-            // Restante do código
+              // Restante do código
               break;
             case StatusRequisicao.FINALIZADA:
-            // Restante do código
+              // Restante do código
               break;
           }
         }
