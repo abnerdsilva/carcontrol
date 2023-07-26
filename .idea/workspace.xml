@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="version client">
+    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="resolution conflits">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/pages/supply/supply_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/supply/supply_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/driver/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/driver/pubspec.yaml" afterDir="false" />
     </list>
@@ -183,7 +186,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681785919651</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="resolution conflits">
+      <created>1690385730803</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1690385730803</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -210,7 +220,8 @@
     <MESSAGE value="add visualização corrida pendente e confirma" />
     <MESSAGE value="altera projeto para pasta driver" />
     <MESSAGE value="version client" />
-    <option name="LAST_COMMIT_MESSAGE" value="version client" />
+    <MESSAGE value="resolution conflits" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolution conflits" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

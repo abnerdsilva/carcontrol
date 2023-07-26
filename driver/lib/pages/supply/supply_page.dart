@@ -22,10 +22,14 @@ class SupplyPage extends StatefulWidget {
 class _SupplyPageState extends State<SupplyPage> {
   final controller = Get.put(HomeController(Get.find()));
 
-  TextEditingController dataEC = TextEditingController(text: DateTime.now().toLocal().toString().substring(0, 10));
-  TextEditingController priceEC = TextEditingController(text: 0.toStringAsFixed(2));
-  TextEditingController totalEC = TextEditingController(text: 0.toStringAsFixed(2));
-  TextEditingController quantityEC = TextEditingController(text: 0.toStringAsFixed(2));
+  TextEditingController dataEC = TextEditingController(
+      text: DateTime.now().toLocal().toString().substring(0, 10));
+  TextEditingController priceEC =
+      TextEditingController(text: 0.toStringAsFixed(2));
+  TextEditingController totalEC =
+      TextEditingController(text: 0.toStringAsFixed(2));
+  TextEditingController quantityEC =
+      TextEditingController(text: 0.toStringAsFixed(2));
   TextEditingController typeEC = TextEditingController();
   TextEditingController observationEC = TextEditingController();
 
@@ -41,7 +45,9 @@ class _SupplyPageState extends State<SupplyPage> {
       Get.snackbar('Ops', 'Selecione um tipo de cumbustível');
       return;
     }
-    if (totalEC.value.text == '' || priceEC.value.text == '' || quantityEC.value.text == '') {
+    if (totalEC.value.text == '' ||
+        priceEC.value.text == '' ||
+        quantityEC.value.text == '') {
       Get.snackbar('Ops', 'Preencha todos os campos obrigatórios');
       return;
     }
@@ -115,7 +121,9 @@ class _SupplyPageState extends State<SupplyPage> {
                                   onFocusChange: (value) {
                                     if (!value) {
                                       setState(() {
-                                        totalEC.text = double.parse(totalEC.value.text).toStringAsFixed(2);
+                                        totalEC.text =
+                                            double.parse(totalEC.value.text)
+                                                .toStringAsFixed(2);
                                       });
                                     }
                                   },
@@ -145,7 +153,9 @@ class _SupplyPageState extends State<SupplyPage> {
                                   onFocusChange: (value) {
                                     if (!value) {
                                       setState(() {
-                                        totalEC.text = double.parse(totalEC.value.text).toStringAsFixed(2);
+                                        totalEC.text =
+                                            double.parse(totalEC.value.text)
+                                                .toStringAsFixed(2);
                                       });
                                     }
                                   },
@@ -171,7 +181,8 @@ class _SupplyPageState extends State<SupplyPage> {
                               : null,
                           items: [
                             ...MenuCombustiveis.items.map(
-                              (item) => DropdownMenuItem<MenuTipoCombustivelModel>(
+                              (item) =>
+                                  DropdownMenuItem<MenuTipoCombustivelModel>(
                                 value: item,
                                 child: MenuCombustiveis.buildItem(item),
                               ),
@@ -242,7 +253,9 @@ class _SupplyPageState extends State<SupplyPage> {
                               onFocusChange: (value) {
                                 if (!value) {
                                   setState(() {
-                                    totalEC.text = double.parse(totalEC.value.text).toStringAsFixed(2);
+                                    totalEC.text =
+                                        double.parse(totalEC.value.text)
+                                            .toStringAsFixed(2);
                                   });
                                 }
                               },
@@ -258,7 +271,8 @@ class _SupplyPageState extends State<SupplyPage> {
                             icon: Icon(Icons.calendar_today),
                             labelText: "Data evento",
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(14)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(14)),
                                 borderSide: BorderSide(
                                   color: Colors.greenAccent,
                                   width: 3,
@@ -273,7 +287,8 @@ class _SupplyPageState extends State<SupplyPage> {
                                 lastDate: DateTime(2100));
 
                             if (pickedDate != null) {
-                              String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                              String formattedDate =
+                                  DateFormat('yyyy-MM-dd').format(pickedDate);
 
                               dataEC.text = formattedDate;
                             }
