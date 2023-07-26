@@ -5,19 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="version client">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/lib/pages/login/login_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/pages/login/login_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/lib/pages/login/usuario.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/pages/login/usuario.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/lib/pages/races/choose_driver.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/pages/races/choose_driver.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/lib/pages/races/requisicao.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/pages/races/requisicao.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/lib/pages/register/register.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/pages/register/register.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/lib/util/usuario_firebase.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/util/usuario_firebase.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/client/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/login/login_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/login/login_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/login/login_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/login/login_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/new_driver/new_driver_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/new_driver/new_driver_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/driver/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/driver/pubspec.yaml" afterDir="false" />
     </list>
@@ -55,14 +42,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{ &quot;keyToString&quot;: { &quot;DEBUGGABLE_DEVICE&quot;:
-        &quot;Nexus_5_API_27 [emulator-5554]&quot;, &quot;DEBUGGABLE_PROCESS&quot;: &quot;br.com.carcontrol.carcontrol&quot;,
-        &quot;DEBUGGER_ID&quot;: &quot;Java&quot;, &quot;RunOnceActivity.cidr.known.project.marker&quot;:
-        &quot;true&quot;, &quot;SHOW_ALL_PROCESSES&quot;: &quot;true&quot;, &quot;cidr.known.project.marker&quot;:
-        &quot;true&quot;, &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;, &quot;io.flutter.reload.alreadyRun&quot;:
-        &quot;true&quot;, &quot;settings.editor.selected.configurable&quot;: &quot;memory.settings&quot;,
-        &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot; }
-        }</component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DEBUGGABLE_DEVICE": "Nexus_5_API_27 [emulator-5554]",
+    "DEBUGGABLE_PROCESS": "br.com.carcontrol.carcontrol",
+    "DEBUGGER_ID": "Java",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHOW_ALL_PROCESSES": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "io.flutter.reload.alreadyRun": "true",
+    "settings.editor.selected.configurable": "memory.settings",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/assets/images" />
