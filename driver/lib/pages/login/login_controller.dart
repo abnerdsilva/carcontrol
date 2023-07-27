@@ -24,7 +24,8 @@ class LoginController extends GetxController {
   }
 
   Future<void> login(String email, String password) async {
-    final userCredential = await _fbService.signInWithEmailPassword(email, password);
+    final userCredential =
+        await _fbService.signInWithEmailPassword(email, password);
     if (userCredential.user == null) {
       return;
     }

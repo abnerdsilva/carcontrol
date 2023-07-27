@@ -18,12 +18,12 @@ class NewDriverPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
-                child: Image.asset('assets/images/carro.png'),
-              ),
-              const Text(
+                  //child: Image.asset('assets/images/carro.png'),
+                  ),
+              /*const Text(
                 'Cadastro de motorista',
                 style: TextStyle(fontSize: 18),
-              ),
+              ),*/
               const SizedBox(height: 32),
               SizedBox(
                 width: MediaQuery.of(context).size.width * .7,
@@ -100,7 +100,8 @@ class NewDriverPage extends StatelessWidget {
                 fontSize: 22,
                 height: 55,
                 alignment: Alignment.center,
-                onClick: () => Navigator.popAndPushNamed(context, NewDriverAnalyzePage.route),
+                onClick: () => Navigator.popAndPushNamed(
+                    context, NewDriverAnalyzePage.route),
               ),
               const SizedBox(height: 8),
             ],
