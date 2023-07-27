@@ -14,16 +14,13 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
-  TextEditingController _controllerNome =
-      TextEditingController(text: "Murilex Corre");
+  TextEditingController _controllerNome = TextEditingController();
   TextEditingController _controllerCpf =
-      MaskedTextController(mask: '000.000.000-00', text: "536.112.999-59");
+      MaskedTextController(mask: '000.000.000-00');
   TextEditingController _controllerTelefone =
-      MaskedTextController(mask: '(00) 00000-0000', text: "(19) 99296-9999");
-  TextEditingController _controllerEmail =
-      TextEditingController(text: "muriloschali90@gmail.com");
-  TextEditingController _controllerSenha =
-      TextEditingController(text: "carcontrol");
+      MaskedTextController(mask: '(00) 00000-0000');
+  TextEditingController _controllerEmail = TextEditingController();
+  TextEditingController _controllerSenha = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
