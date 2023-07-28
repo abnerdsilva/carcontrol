@@ -9,11 +9,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../config/constants.dart';
 
-class HomeRepository {
+class FirebaseRepository {
   late FirebaseFirestore db;
   late Dio dbClient;
 
-  HomeRepository() {
+  FirebaseRepository() {
     db = DBFirestore.get();
     dbClient = Dio();
   }
