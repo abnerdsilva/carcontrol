@@ -8,6 +8,7 @@ import 'package:carcontrol/model/race_destination_model.dart';
 import 'package:carcontrol/model/race_model.dart';
 import 'package:carcontrol/model/race_origin_model.dart';
 import 'package:carcontrol/model/race_pending_model.dart';
+import 'package:carcontrol/pages/race/race_controller.dart';
 import 'package:carcontrol/shared/repositories/firebase_repository.dart';
 import 'package:carcontrol/shared/repositories/shared_prefs_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -366,9 +367,12 @@ class HomeController extends GetxController {
   }
 
   void changeTabIndex(int index) {
-    // if (index != 1) {
     tabIndex.value = index;
-    // }
+
+    if (index == 1) {
+      final raceController = Get.find<RaceController>();
+      raceController.getRaces();
+    }
   }
 
   Future<void> saveExpense(ExpenseModel expense) async {
@@ -411,12 +415,12 @@ class HomeController extends GetxController {
   //       address: 'Rua Jamil Antônio Ticiane',
   //     ),
   //     origem: RaceOriginModel(
-  //       address: 'Rua xpto',
+  //       address: 'Rua Com nome um pouco maior',
   //       number: '15',
   //       latitude: -23.0882,
   //       longitude: -47.2234,
   //       postalCode: '1345-760',
-  //       neighborhood: 'Bairro Qlqr',
+  //       neighborhood: 'Bairro Jardim Xpto',
   //     ),
   //     customer: RaceCustomerModel(
   //       id: idusuario,
@@ -428,12 +432,12 @@ class HomeController extends GetxController {
   //     departureDate: DateTime.now().toLocal().toString(),
   //     // landingDate: DateTime.now().toLocal().toString(),
   //     // distanceDestination: 15.7,
-  //     distanceOrigem: '1.8',
+  //     distanceOrigem: '',
   //     driveId: '1',
   //     driverUserId: '1',
   //     id: idReq.toString(),
-  //     value: 15.8,
-  //     valueDriver: 15.8 * .7,
+  //     value: 30.8,
+  //     valueDriver: 30.8 * .7,
   //   );
   //
   //   final doc = await firebaseRepository.addRace(raceModel);

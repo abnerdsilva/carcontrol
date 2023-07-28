@@ -9,12 +9,12 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
   final TextStyle unselectedLabelStyle = TextStyle(
     color: Colors.white.withOpacity(0.5),
     fontWeight: FontWeight.w500,
-    fontSize: 1,
+    fontSize: 12,
   );
   final TextStyle selectedLabelStyle = const TextStyle(
     color: Colors.white,
     fontWeight: FontWeight.w500,
-    fontSize: 1,
+    fontSize: 12,
   );
 
   @override
@@ -23,8 +23,8 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
       height: 54,
       child: Obx(
         () => BottomNavigationBar(
-          showUnselectedLabels: false,
-          showSelectedLabels: false,
+          showUnselectedLabels: true,
+          showSelectedLabels: true,
           onTap: controller.changeTabIndex,
           currentIndex: controller.tabIndex.value,
           unselectedItemColor: Colors.white38,
@@ -38,7 +38,7 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
                 Icons.home,
                 size: 28.0,
               ),
-              label: '',
+              label: 'Inicio',
               backgroundColor: ThemeConfig.kPrimaryColor,
             ),
             BottomNavigationBarItem(
@@ -46,46 +46,15 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
                 Icons.list_sharp,
                 size: 28.0,
               ),
-              label: '',
+              label: 'Corridas',
               backgroundColor: ThemeConfig.kPrimaryColor,
             ),
-            // BottomNavigationBarItem(
-            //   icon: Container(
-            //     margin: const EdgeInsets.only(bottom: 7),
-            //     child: const Icon(
-            //       Icons.menu,
-            //       size: 20.0,
-            //     ),
-            //   ),
-            //   label: 'Pedidos',
-            //   backgroundColor: ThemeConfig.kPrimaryColor,
-            // ),
-            // BottomNavigationBarItem(
-            //   icon: Container(
-            //     margin: const EdgeInsets.only(bottom: 7),
-            //     width: 30,
-            //     child: Container(),
-            //   ),
-            //   label: '',
-            //   backgroundColor: ThemeConfig.kPrimaryColor,
-            // ),
-            // BottomNavigationBarItem(
-            //   icon: Container(
-            //     margin: const EdgeInsets.only(bottom: 7),
-            //     child: const Icon(
-            //       Icons.location_city,
-            //       size: 20.0,
-            //     ),
-            //   ),
-            //   label: 'Endereços',
-            //   backgroundColor: ThemeConfig.kPrimaryColor,
-            // ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.location_history,
+                Icons.settings,
                 size: 28.0,
               ),
-              label: '',
+              label: 'Config',
               backgroundColor: ThemeConfig.kPrimaryColor,
             ),
           ],

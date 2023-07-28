@@ -83,4 +83,18 @@ class FirebaseRepository {
   Future<QuerySnapshot<Map<String, dynamic>>> getRaces() async {
     return await db.collection('requisicoes_ativas').get();
   }
+
+  Future<List<RaceModel>> getRacesHistory() async {
+    final races = await db
+        .collection('requisicoes')
+        .where('status', isEqualTo: 'concluido')
+        .where('id_motorista', isEqualTo: '1')
+        .get();
+
+    final List<RaceModel> items = [];
+    for (var element in races.docs) {
+      items.add(RaceModel.fromFirestore(element));
+    }
+    return items;
+  }
 }

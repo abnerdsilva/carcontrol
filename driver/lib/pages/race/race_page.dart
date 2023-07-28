@@ -1,6 +1,8 @@
+import 'package:carcontrol/pages/race/race_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class RacePage extends StatelessWidget {
+class RacePage extends GetView<RaceController> {
   const RacePage({Key? key}) : super(key: key);
 
   @override
@@ -19,115 +21,121 @@ class RacePage extends StatelessWidget {
           ),
           child: Column(
             children: [
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                        top: 12,
-                        bottom: 12,
-                        left: 12,
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 7,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Nome do Cliente $index',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Text(
-                                      'Origem:',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                      ),
+              Obx(() {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: controller.races.length,
+                  itemBuilder: (context, index) {
+                    final item = controller.races[index];
+                    final dataOrigem = controller.formatDate(DateTime.parse(item.departureDate));
+                    final dataConclusao = controller.formatDate(DateTime.parse(item.landingDate!));
+
+                    return Card(
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                          top: 12,
+                          bottom: 12,
+                          left: 12,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 7,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item.customer.name!,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    Text(
-                                      '25/07/2023 15:30',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const Text(
-                                  'Endereço: aqui deve constar o endereço de origem da corrida',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 12,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: const [
-                                    Text(
-                                      'Destino:',
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Text(
-                                      '25/07/2023 15:30',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const Text(
-                                  'Endereço: aqui deve constar o endereço de destino da corrida',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
+                                  const SizedBox(
+                                    height: 6,
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 12,
-                                ),
-                                const Text(
-                                  'Comissão: R\$ 15,87',
-                                  style: TextStyle(
-                                    fontSize: 14,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Origem:',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      Text(
+                                        dataOrigem,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Expanded(
-                            flex: 1,
-                            child: Center(
-                              child: Icon(
-                                Icons.check,
-                                color: Colors.green,
+                                  Text(
+                                    'Endereço: ${item.origem.address}, ${item.origem.number} - ${item.origem.neighborhood}',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Destino:',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      Text(
+                                        dataConclusao,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    'Endereço: ${item.destino.address}, ${item.destino.number} - ${item.destino.neighborhood}',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  Text(
+                                    'Comissão: R\$ ${item.valueDriver!.toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                        ],
+                            const Expanded(
+                              flex: 1,
+                              child: Center(
+                                child: Icon(
+                                  Icons.check,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-              )
+                    );
+                  },
+                );
+              })
             ],
           ),
         ),
