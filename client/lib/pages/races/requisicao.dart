@@ -17,26 +17,31 @@ class Requisicao {
   }
 
   String get id => _id;
+
   set id(String value) {
     _id = value;
   }
 
   String get status => _status;
+
   set status(String value) {
     _status = value;
   }
 
   Usuario get passageiro => _passageiro;
+
   set passageiro(Usuario value) {
     _passageiro = value;
   }
 
   Usuario get motorista => _motorista;
+
   set motorista(Usuario value) {
     _motorista = value;
   }
 
   Destino get destino => _destino;
+
   set destino(Destino value) {
     _destino = value;
   }
@@ -46,7 +51,7 @@ class Requisicao {
       "nome": this.passageiro.nome,
       "email": this.passageiro.email,
       "tipoUsuario": this.passageiro.tipoUsuario,
-      "idUsuario": this.passageiro.idUsuario,
+      "idUsuario": this.passageiro.id,
     };
 
     Map<String, dynamic> dadosDestino = {
