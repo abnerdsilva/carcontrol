@@ -5,6 +5,7 @@ import 'package:carcontrol/pages/home/components/custom_bottom_navigation_menu.d
 import 'package:carcontrol/pages/home/components/race_widget.dart';
 import 'package:carcontrol/pages/home/home_controller.dart';
 import 'package:carcontrol/pages/maintenance/maintenance_page.dart';
+import 'package:carcontrol/pages/race/race_page.dart';
 import 'package:carcontrol/pages/supply/supply_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,7 +44,7 @@ class HomePage extends GetView<HomeController> {
                 }),
               ],
             ),
-            // Container(),
+            const RacePage(),
             const ConfigPage(),
           ],
         ),

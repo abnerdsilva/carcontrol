@@ -8,7 +8,8 @@ import 'package:carcontrol/model/race_destination_model.dart';
 import 'package:carcontrol/model/race_model.dart';
 import 'package:carcontrol/model/race_origin_model.dart';
 import 'package:carcontrol/model/race_pending_model.dart';
-import 'package:carcontrol/pages/home/home_repository.dart';
+import 'package:carcontrol/pages/race/race_controller.dart';
+import 'package:carcontrol/shared/repositories/firebase_repository.dart';
 import 'package:carcontrol/shared/repositories/shared_prefs_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,9 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeController extends GetxController {
-  final HomeRepository homeRepository;
+  final FirebaseRepository firebaseRepository;
 
-  HomeController(this.homeRepository);
+  HomeController(this.firebaseRepository);
 
   late FirebaseFirestore dbFirestore;
 
@@ -135,15 +136,15 @@ class HomeController extends GetxController {
       valueDriver: rm.valueDriver,
     );
 
-    await homeRepository.saveRaceConcluded(docActive!, raceModel);
+    await firebaseRepository.saveRaceConcluded(docActive!, raceModel);
     clearPoints();
 
-    await homeRepository.deleteCollectionPendingRaces(doc!);
+    await firebaseRepository.deleteCollectionPendingRaces(doc!);
 
     prefs.registerDocActiveRequestRace('');
     prefs.registerDocRacePending('');
 
-    final event = await homeRepository.getRaces();
+    final event = await firebaseRepository.getRaces();
     if (event.docs.isNotEmpty && _raceAcceted.value.id == '0') {
       final pendingRace = RacePendingModel.fromFirestore(event.docs.first);
       await getDetailsRace(pendingRace, event.docs.first.id);
@@ -188,8 +189,8 @@ class HomeController extends GetxController {
         valueDriver: value.valueDriver,
       );
 
-      await homeRepository.deleteCollectionPendingRaces(prefs.docRacePending!);
-      await homeRepository.acceptRace(prefs.docActiveRequestRace!, raceModel);
+      await firebaseRepository.deleteCollectionPendingRaces(prefs.docRacePending!);
+      await firebaseRepository.acceptRace(prefs.docActiveRequestRace!, raceModel);
     }
   }
 
@@ -250,14 +251,14 @@ class HomeController extends GetxController {
   }
 
   Future<void> getDetailsRace(RacePendingModel pendingRace, String docRequest) async {
-    final detailsPendingRace = await homeRepository.getRace(pendingRace.idRequisition!);
+    final detailsPendingRace = await firebaseRepository.getRace(pendingRace.idRequisition!);
     final corridaTemp = RaceModel.fromFirestore(detailsPendingRace);
 
     final distOrigin = LatLng(corridaTemp.origem.latitude!, corridaTemp.origem.longitude!);
     final distDestiny = LatLng(corridaTemp.destino.latitude!, corridaTemp.destino.longitude!);
 
-    final resDistanceOrigin = await homeRepository.getDistanceMatrix(_currentPosition, distOrigin);
-    final resDistanceDestiny = await homeRepository.getDistanceMatrix(_currentPosition, distDestiny);
+    final resDistanceOrigin = await firebaseRepository.getDistanceMatrix(_currentPosition, distOrigin);
+    final resDistanceDestiny = await firebaseRepository.getDistanceMatrix(_currentPosition, distDestiny);
 
     final corrida = RaceModel(
       destino: corridaTemp.destino,
@@ -366,9 +367,12 @@ class HomeController extends GetxController {
   }
 
   void changeTabIndex(int index) {
-    // if (index != 1) {
     tabIndex.value = index;
-    // }
+
+    if (index == 1) {
+      final raceController = Get.find<RaceController>();
+      raceController.getRaces();
+    }
   }
 
   Future<void> saveExpense(ExpenseModel expense) async {
@@ -411,12 +415,12 @@ class HomeController extends GetxController {
   //       address: 'Rua Jamil Antônio Ticiane',
   //     ),
   //     origem: RaceOriginModel(
-  //       address: 'Rua xpto',
+  //       address: 'Rua Com nome um pouco maior',
   //       number: '15',
   //       latitude: -23.0882,
   //       longitude: -47.2234,
   //       postalCode: '1345-760',
-  //       neighborhood: 'Bairro Qlqr',
+  //       neighborhood: 'Bairro Jardim Xpto',
   //     ),
   //     customer: RaceCustomerModel(
   //       id: idusuario,
@@ -428,16 +432,16 @@ class HomeController extends GetxController {
   //     departureDate: DateTime.now().toLocal().toString(),
   //     // landingDate: DateTime.now().toLocal().toString(),
   //     // distanceDestination: 15.7,
-  //     distanceOrigem: '1.8',
+  //     distanceOrigem: '',
   //     driveId: '1',
   //     driverUserId: '1',
   //     id: idReq.toString(),
-  //     value: 15.8,
-  //     valueDriver: 15.8 * .7,
+  //     value: 30.8,
+  //     valueDriver: 30.8 * .7,
   //   );
   //
-  //   final doc = await homeRepository.addRace(raceModel);
-  //   await homeRepository.addActiveRequests(doc, idusuario);
+  //   final doc = await firebaseRepository.addRace(raceModel);
+  //   await firebaseRepository.addActiveRequests(doc, idusuario);
   // }
 
   @override

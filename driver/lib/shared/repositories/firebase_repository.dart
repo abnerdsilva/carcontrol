@@ -9,11 +9,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../config/constants.dart';
 
-class HomeRepository {
+class FirebaseRepository {
   late FirebaseFirestore db;
   late Dio dbClient;
 
-  HomeRepository() {
+  FirebaseRepository() {
     db = DBFirestore.get();
     dbClient = Dio();
   }
@@ -82,5 +82,19 @@ class HomeRepository {
 
   Future<QuerySnapshot<Map<String, dynamic>>> getRaces() async {
     return await db.collection('requisicoes_ativas').get();
+  }
+
+  Future<List<RaceModel>> getRacesHistory() async {
+    final races = await db
+        .collection('requisicoes')
+        .where('status', isEqualTo: 'concluido')
+        .where('id_motorista', isEqualTo: '1')
+        .get();
+
+    final List<RaceModel> items = [];
+    for (var element in races.docs) {
+      items.add(RaceModel.fromFirestore(element));
+    }
+    return items;
   }
 }
