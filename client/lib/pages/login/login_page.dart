@@ -152,14 +152,6 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(
                       height: 32,
                     ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 16,
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
