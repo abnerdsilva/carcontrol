@@ -14,8 +14,8 @@ class LoginPage extends StatelessWidget {
 
   late BuildContext context;
 
-  TextEditingController _controllerEmail = TextEditingController();
-  TextEditingController _controllerSenha = TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerSenha = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -35,8 +35,7 @@ class LoginPage extends StatelessWidget {
 
         _logarUsuario(driver);
       } else {
-        _showAlertDialog(
-            'Erro', 'Preencha a senha! Digite mais de 6 caracteres.');
+        _showAlertDialog('Erro', 'Preencha a senha! Digite mais de 6 caracteres.');
       }
     } else {
       _showAlertDialog('Erro', 'Preencha o E-mail válido');
@@ -46,9 +45,7 @@ class LoginPage extends StatelessWidget {
   _logarUsuario(Driver driver) {
     FirebaseAuth auth = FirebaseAuth.instance;
 
-    auth
-        .signInWithEmailAndPassword(email: driver.email, password: driver.senha)
-        .then((firebaseUser) {
+    auth.signInWithEmailAndPassword(email: driver.email, password: driver.senha).then((firebaseUser) {
       Get.offAllNamed(HomePage.route);
     }).catchError((error) {
       _showAlertDialog('Tente Novamente', 'Verifique o E-mail e Senha!');
@@ -64,7 +61,7 @@ class LoginPage extends StatelessWidget {
           content: Text(message),
           actions: [
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -151,14 +148,6 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(
                       height: 32,
                     ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 16,
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
@@ -166,11 +155,15 @@ class LoginPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Novo por aqui?',
-                      style: TextStyle(color: Color(0xFF1A2E35))),
+                  const Text(
+                    'Novo por aqui?',
+                    style: TextStyle(
+                      color: Color(0xFF1A2E35),
+                    ),
+                  ),
                   const SizedBox(width: 16),
                   ElevatedButton(
-                    onPressed: () => Get.to(CadastroMotorista()),
+                    onPressed: () => Get.to(() => const CadastroMotorista()),
                     child: const Text('Registre-se'),
                   ),
                 ],
@@ -183,19 +176,18 @@ class LoginPage extends StatelessWidget {
   }
 
   _funcaoEsqueciSenha(BuildContext context) async {
-    if (_controllerEmail.text.isNotEmpty &&
-        ValidationUtils.isValidEmail(_controllerEmail.text)) {
+    if (_controllerEmail.text.isNotEmpty && ValidationUtils.isValidEmail(_controllerEmail.text)) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Confirme seu e-mail.'),
+            title: const Text('Confirme seu e-mail.'),
             content: CustomTextFormField(
               controller: _controllerEmail,
             ),
             actions: <Widget>[
               ElevatedButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   _funcaoRecuperarSenha();
                   Navigator.of(context).pop();
@@ -206,52 +198,44 @@ class LoginPage extends StatelessWidget {
         },
       );
     } else {
-      _showAlertDialog(
-          "Ops!", "Digite um e-mail válido, para poder recuperar a senha.");
+      _showAlertDialog("Ops!", "Digite um e-mail válido, para poder recuperar a senha.");
     }
   }
 
   _funcaoRecuperarSenha() async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
-    auth
-        .fetchSignInMethodsForEmail(_controllerEmail.text)
-        .then((signInMethods) async {
+    auth.fetchSignInMethodsForEmail(_controllerEmail.text).then((signInMethods) async {
       try {
         if (signInMethods.isNotEmpty) {
-          await FirebaseAuth.instance
-              .sendPasswordResetEmail(email: _controllerEmail.text);
+          await FirebaseAuth.instance.sendPasswordResetEmail(email: _controllerEmail.text);
 
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Esqueci minha senha'),
-                content: Text(
-                    'Enviamos um e-mail para redefinir sua senha.\n\nVerifique sua caixa de e-mail.'),
-                actions: <Widget>[
-                  ElevatedButton(
-                    child: Text('OK'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
+          Get.dialog(
+            AlertDialog(
+              title: const Text('Esqueci minha senha'),
+              content: const Text('Enviamos um e-mail para redefinir sua senha.\n\nVerifique sua caixa de e-mail.'),
+              actions: <Widget>[
+                ElevatedButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
           );
         } else {
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Ops!'),
-                content: Text(
+                title: const Text('Ops!'),
+                content: const Text(
                   'E-mail não cadastrado. Por favor, verifique seu e-mail e tente novamente.',
                 ),
                 actions: <Widget>[
                   ElevatedButton(
-                    child: Text('OK'),
+                    child: const Text('OK'),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -262,8 +246,7 @@ class LoginPage extends StatelessWidget {
           );
         }
       } catch (error) {
-        _showAlertDialog("Ops!",
-            "Não foi possivel recuperar a senha.\nTente novamente mais tarde!");
+        _showAlertDialog("Ops!", "Não foi possivel recuperar a senha.\nTente novamente mais tarde!");
       }
     });
   }

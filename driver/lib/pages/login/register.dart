@@ -1,48 +1,44 @@
+import 'dart:developer';
+
 import 'package:carcontrol/pages/login/user_driver.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:get/get.dart';
 
 import '../../shared/components/custom_text_form_field.dart';
 import 'field_validator.dart';
 import 'login_page.dart';
 
 class CadastroMotorista extends StatefulWidget {
+  const CadastroMotorista({super.key});
+
   @override
-  _CadastroState createState() => _CadastroState();
+  State<CadastroMotorista> createState() => _CadastroState();
 }
 
 class _CadastroState extends State<CadastroMotorista> {
-  TextEditingController _controllerNome = TextEditingController();
-  TextEditingController _controllerCpf =
-      MaskedTextController(mask: '000.000.000-00');
-  TextEditingController _controllerDataNascimento =
-      MaskedTextController(mask: '00/00/0000');
-  TextEditingController _controllerEndereco = TextEditingController();
-  TextEditingController _controllerTelefone =
-      MaskedTextController(mask: '(00) 00000-0000');
-  TextEditingController _controllerCnh =
-      MaskedTextController(mask: "0000000000");
-  TextEditingController _controllerEmail = TextEditingController();
-  TextEditingController _controllerSenha = TextEditingController();
+  final TextEditingController _controllerNome = TextEditingController();
+  final TextEditingController _controllerCpf = MaskedTextController(mask: '000.000.000-00');
+  final TextEditingController _controllerDataNascimento = MaskedTextController(mask: '00/00/0000');
+  final TextEditingController _controllerEndereco = TextEditingController();
+  final TextEditingController _controllerTelefone = MaskedTextController(mask: '(00) 00000-0000');
+  final TextEditingController _controllerCnh = MaskedTextController(mask: "0000000000");
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerSenha = TextEditingController();
 
   _validarCampos() async {
     if (_controllerNome.text.isNotEmpty &&
         ValidationUtils.isValidName(_controllerNome.text) &&
         _controllerNome.text.length < 100) {
-      if (_controllerCpf.text.isNotEmpty &&
-          ValidationUtils.isValidCPF(_controllerCpf.text)) {
+      if (_controllerCpf.text.isNotEmpty && ValidationUtils.isValidCPF(_controllerCpf.text)) {
         if (_controllerDataNascimento.text.isNotEmpty &&
-            ValidationUtils.isValidDateOfBirth(
-                _controllerDataNascimento.text)) {
-          if (_controllerEndereco.text.isNotEmpty &&
-              _controllerEndereco.text.length < 150) {
-            if (_controllerCnh.text.isNotEmpty &&
-                _controllerCnh.text.length < 12) {
-              if (_controllerTelefone.text.isNotEmpty &&
-                  ValidationUtils.isValidNumber(_controllerTelefone.text)) {
+            ValidationUtils.isValidDateOfBirth(_controllerDataNascimento.text)) {
+          if (_controllerEndereco.text.isNotEmpty && _controllerEndereco.text.length < 150) {
+            if (_controllerCnh.text.isNotEmpty && _controllerCnh.text.length < 12) {
+              if (_controllerTelefone.text.isNotEmpty && ValidationUtils.isValidNumber(_controllerTelefone.text)) {
                 if (_controllerEmail.text.isNotEmpty &&
                     ValidationUtils.isValidEmail(_controllerEmail.text) &&
                     _controllerEmail.text.length < 100) {
@@ -54,21 +50,18 @@ class _CadastroState extends State<CadastroMotorista> {
                     String enderecoDestino = _controllerEndereco.text;
 
                     if (enderecoDestino.isNotEmpty) {
-                      List<Location> enderecoDigitado =
-                          await locationFromAddress(enderecoDestino);
+                      List<Location> enderecoDigitado = await locationFromAddress(enderecoDestino);
 
                       Location pegarLatitudeLongitude = enderecoDigitado[0];
 
-                      List<Placemark> enderecoLocalizado =
-                          await placemarkFromCoordinates(
-                              pegarLatitudeLongitude.latitude,
-                              pegarLatitudeLongitude.longitude);
+                      List<Placemark> enderecoLocalizado = await placemarkFromCoordinates(
+                        pegarLatitudeLongitude.latitude,
+                        pegarLatitudeLongitude.longitude,
+                      );
 
                       Placemark endereco = enderecoLocalizado[0];
 
-                      print("\n\n\n\n Endereco do Motorista \n\n\n\n" +
-                          endereco.toString() +
-                          "\n\n\n\n");
+                      log("\n\n\n\n Endereco do Motorista \n\n\n\n $endereco\n\n\n\n");
 
                       driver.cidade = endereco.administrativeArea!;
                       driver.bairro = endereco.subLocality!;
@@ -78,89 +71,79 @@ class _CadastroState extends State<CadastroMotorista> {
 
                       String enderecoConfirmacao;
 
-                      enderecoConfirmacao =
-                          "\n Cidade: ${driver.cidade}\n Rua: ${driver.rua}, ${driver.numero}"
+                      enderecoConfirmacao = "\n Cidade: ${driver.cidade}\n Rua: ${driver.rua}, ${driver.numero}"
                           "\n Bairro: ${driver.bairro}\n Cep: ${driver.cep}";
 
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text('Confirmação de Endereço'),
-                              content: Text(enderecoConfirmacao),
-                              contentPadding: EdgeInsets.all(16),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text(
-                                    "Cancelar",
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text(
-                                    "Confirmar",
-                                    style: TextStyle(color: Colors.green),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    _cadastrarInformacoes(driver);
-                                  },
-                                ),
-                              ],
-                            );
-                          });
+                      Get.dialog(
+                        AlertDialog(
+                          title: const Text('Confirmação de Endereço'),
+                          content: Text(enderecoConfirmacao),
+                          contentPadding: const EdgeInsets.all(16),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text(
+                                "Cancelar",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: const Text(
+                                "Confirmar",
+                                style: TextStyle(color: Colors.green),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                _cadastrarInformacoes(driver);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
                     } else {
                       _showAlertDialog("Ops!", "Endereço de Destino Vazio.");
                     }
                   } else {
                     setState(() {
-                      _showAlertDialog('Ops!',
-                          'Preencha uma Senha de no mínimo 6 e máximo 20 caracteres. \n\nNão use: !,""');
+                      _showAlertDialog(
+                          'Ops!', 'Preencha uma Senha de no mínimo 6 e máximo 20 caracteres. \n\nNão use: !,""');
                     });
                   }
                 } else {
                   setState(() {
-                    _showAlertDialog('Ops!',
-                        'Preencha um E-mail de no máximo 100 caracteres. \n\nNão use: !,""');
+                    _showAlertDialog('Ops!', 'Preencha um E-mail de no máximo 100 caracteres. \n\nNão use: !,""');
                   });
                 }
               } else {
                 setState(() {
-                  _showAlertDialog(
-                      'Ops!', 'Preencha um Telefone Válido. \n\nNão use: !,""');
+                  _showAlertDialog('Ops!', 'Preencha um Telefone Válido. \n\nNão use: !,""');
                 });
               }
             } else {
               setState(() {
-                _showAlertDialog('Ops!',
-                    'Preencha um Número de CNH de no máximo de 11 caracteres. \n\nNão use: !,""');
+                _showAlertDialog('Ops!', 'Preencha um Número de CNH de no máximo de 11 caracteres. \n\nNão use: !,""');
               });
             }
           } else {
             setState(() {
-              _showAlertDialog(
-                  'Ops!', 'Preencha um Cidade Válida. \n\nNão use: !,""');
+              _showAlertDialog('Ops!', 'Preencha um Cidade Válida. \n\nNão use: !,""');
             });
           }
         } else {
           setState(() {
-            _showAlertDialog('Ops!',
-                'Preencha uma Data de Nascimento Válida. \n\nNão use: !,""');
+            _showAlertDialog('Ops!', 'Preencha uma Data de Nascimento Válida. \n\nNão use: !,""');
           });
         }
       } else {
         setState(() {
-          _showAlertDialog(
-              'Ops!', 'Preencha um Número de CPF Válido. \n\nNão use: !,""');
+          _showAlertDialog('Ops!', 'Preencha um Número de CPF Válido. \n\nNão use: !,""');
         });
       }
     } else {
       setState(() {
-        _showAlertDialog('Ops!',
-            'Preencha um Nome de no máximo 100 caracteres. \n\nNão use: !,""');
+        _showAlertDialog('Ops!', 'Preencha um Nome de no máximo 100 caracteres. \n\nNão use: !,""');
       });
     }
   }
@@ -173,8 +156,7 @@ class _CadastroState extends State<CadastroMotorista> {
 
     auth.fetchSignInMethodsForEmail(email).then((signInMethods) async {
       try {
-        UserCredential userCredential =
-            await auth.createUserWithEmailAndPassword(
+        UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email,
           password: senha,
         );
@@ -193,21 +175,17 @@ class _CadastroState extends State<CadastroMotorista> {
           driver.email = _controllerEmail.text;
           driver.senha = _controllerSenha.text;
 
-          db
-              .collection("motoristas")
-              .doc(firebase.uid)
-              .set(driver.toMap())
-              .then((_) {
+          db.collection("motoristas").doc(firebase.uid).set(driver.toMap()).then((_) {
             showDialog(
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text('Cadastrado com Sucesso!'),
-                  content: Text("Agora faça o Login na Aplicação."),
-                  contentPadding: EdgeInsets.all(16),
+                  title: const Text('Cadastrado com Sucesso!'),
+                  content: const Text("Agora faça o Login na Aplicação."),
+                  contentPadding: const EdgeInsets.all(16),
                   actions: <Widget>[
                     TextButton(
-                      child: Text(
+                      child: const Text(
                         "Continuar",
                         style: TextStyle(color: Colors.green),
                       ),
@@ -251,7 +229,7 @@ class _CadastroState extends State<CadastroMotorista> {
           content: Text(message),
           actions: [
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
