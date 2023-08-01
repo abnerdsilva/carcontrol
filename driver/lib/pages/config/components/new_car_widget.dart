@@ -1,9 +1,10 @@
+import 'package:carcontrol/pages/config/config_controller.dart';
 import 'package:carcontrol/shared/components/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class NewCarWidget extends StatelessWidget {
+class NewCarWidget extends GetView<ConfigController> {
   const NewCarWidget({Key? key}) : super(key: key);
 
   @override
@@ -33,12 +34,14 @@ class NewCarWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 26),
-                const CustomTextFormField(
+                CustomTextFormField(
                   label: 'Modelo',
+                  controller: controller.modelEC,
                 ),
                 const SizedBox(height: 12),
-                const CustomTextFormField(
+                CustomTextFormField(
                   label: 'Marca',
+                  controller: controller.brandEC,
                 ),
                 const SizedBox(height: 12),
                 Row(
@@ -46,15 +49,17 @@ class NewCarWidget extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width * .45,
-                      child: const CustomTextFormField(
+                      child:  CustomTextFormField(
                         label: 'Placa',
                         textAlign: TextAlign.center,
+                        controller: controller.plateEC,
                       ),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * .45,
                       child: CustomTextFormField(
                         label: 'Fabricação',
+                        controller: controller.yearEC,
                         textAlign: TextAlign.center,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
@@ -65,15 +70,24 @@ class NewCarWidget extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                const CustomTextFormField(
+                CustomTextFormField(
                   label: 'Cor',
+                  controller: controller.colorEC,
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  child: CheckboxListTile(
+                    value: controller.isDefaultVehicle.value,
+                    title: const Text('Veículo padrão?'),
+                    onChanged: (value) {
+                      controller.isDefaultVehicle.value = value!;
+                    },
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
-                      Get.back();
-                    },
+                    onPressed: () => controller.createVehicle(),
                     child: Container(
                       width: MediaQuery.of(context).size.width * .7,
                       alignment: Alignment.center,

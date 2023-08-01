@@ -1,8 +1,9 @@
 import 'package:carcontrol/pages/config/components/new_car_widget.dart';
+import 'package:carcontrol/pages/config/config_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CarWidget extends StatelessWidget {
+class CarWidget extends GetView<ConfigController> {
   const CarWidget({Key? key}) : super(key: key);
 
   void newCarWidget(BuildContext ctx) {
@@ -43,81 +44,85 @@ class CarWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 26),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: Container(
-                        padding: const EdgeInsets.only(
-                          top: 12,
-                          bottom: 12,
-                          left: 12,
-                        ),
-                        child: Row(
-                          children: [
-                            const Expanded(
-                              flex: 7,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Marca - Modelo Veículo',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 6,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'Placa',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey,
-                                        ),
+                Obx(() {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: controller.vehicles.length,
+                    itemBuilder: (context, index) {
+                      final vehicle = controller.vehicles[index];
+
+                      return Card(
+                        child: Container(
+                          padding: const EdgeInsets.only(
+                            top: 12,
+                            bottom: 12,
+                            left: 12,
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 7,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${vehicle.brand} - ${vehicle.model}',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      Text(
-                                        'Ano Fab',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    'Cor',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey,
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: InkWell(
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.delete,
-                                  ),
+                                    const SizedBox(
+                                      height: 6,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          vehicle.plate,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        Text(
+                                          vehicle.year,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      vehicle.color,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                onTap: () {},
                               ),
-                            ),
-                          ],
+                              Expanded(
+                                flex: 1,
+                                child: InkWell(
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.delete,
+                                    ),
+                                  ),
+                                  onTap: () {},
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  );
+                }),
               ],
             ),
           ),

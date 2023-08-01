@@ -21,7 +21,7 @@ class ConfigPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ConfigController());
+    final controller = Get.put(ConfigController(Get.find()));
 
     return Scaffold(
       appBar: AppBar(

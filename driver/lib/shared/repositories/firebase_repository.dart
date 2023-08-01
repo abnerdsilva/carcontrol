@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:carcontrol/core/db/db_firestore.dart';
+import 'package:carcontrol/model/car_model.dart';
 import 'package:carcontrol/model/race_matrix_entity.dart';
 import 'package:carcontrol/model/race_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -94,6 +95,24 @@ class FirebaseRepository {
     final List<RaceModel> items = [];
     for (var element in races.docs) {
       items.add(RaceModel.fromFirestore(element));
+    }
+    return items;
+  }
+
+  Future<String> addVehicle(CarModel car) async {
+    final res = await db.collection('veiculos').add(car.toMap());
+    return res.id;
+  }
+
+  Future<List<CarModel>> getVehiclesById(String driverId) async {
+    final vehicles = await db
+        .collection('veiculos')
+        .where('id', isEqualTo: driverId)
+        .get();
+
+    final List<CarModel> items = [];
+    for (var element in vehicles.docs) {
+      items.add(CarModel.fromFirestore(element));
     }
     return items;
   }

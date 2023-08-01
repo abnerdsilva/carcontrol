@@ -8,6 +8,7 @@ class FlavorSharedPrefs {
   static const userEMAIL = '/CARCONTROL_FIREBASE_ID/';
   static const docRacePending = '/DOC_RACE/';
   static const docActiveRequestRace = '/DOC_RACE_ACTIVE/';
+  static const vehicleId = '/VEHICLE_ID/';
 }
 
 class SharedPrefsRepository {
@@ -17,6 +18,7 @@ class SharedPrefsRepository {
   static const _userEMAIL = FlavorSharedPrefs.userEMAIL;
   static const _docRacePending = FlavorSharedPrefs.docRacePending;
   static const _docActiveRequestRace = FlavorSharedPrefs.docActiveRequestRace;
+  static const _vehicleId = FlavorSharedPrefs.docActiveRequestRace;
 
   static SharedPreferences? prefs;
   static SharedPrefsRepository? _instanceRepository;
@@ -65,6 +67,12 @@ class SharedPrefsRepository {
   }
 
   String? get docActiveRequestRace => prefs!.getString(_docActiveRequestRace);
+
+  Future<void> registerVehicleId(String id) async {
+    await prefs!.setString(_vehicleId, id);
+  }
+
+  String? get vehicleId => prefs!.getString(_vehicleId);
 
   Future<void> logout() async {
     prefs!.clear();
