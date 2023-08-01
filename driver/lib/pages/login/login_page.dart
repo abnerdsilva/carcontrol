@@ -1,6 +1,7 @@
 import 'package:carcontrol/pages/home/home_page.dart';
 import 'package:carcontrol/pages/login/register.dart';
 import 'package:carcontrol/pages/login/user_driver.dart';
+import 'package:carcontrol/shared/repositories/shared_prefs_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,7 +46,10 @@ class LoginPage extends StatelessWidget {
   _logarUsuario(Driver driver) {
     FirebaseAuth auth = FirebaseAuth.instance;
 
-    auth.signInWithEmailAndPassword(email: driver.email, password: driver.senha).then((firebaseUser) {
+    auth.signInWithEmailAndPassword(email: driver.email, password: driver.senha).then((firebaseUser) async {
+      final prefs = await SharedPrefsRepository.instance;
+      prefs.registerFirebaseId(firebaseUser.user!.uid);
+
       Get.offAllNamed(HomePage.route);
     }).catchError((error) {
       _showAlertDialog('Tente Novamente', 'Verifique o E-mail e Senha!');
