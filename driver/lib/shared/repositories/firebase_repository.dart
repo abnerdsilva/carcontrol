@@ -116,4 +116,11 @@ class FirebaseRepository {
     }
     return items;
   }
+
+  Future<void> deleteVehicle(String id) async {
+    final item = await db.collection('veiculos')
+        .where('id', isEqualTo: id)
+        .get();
+    await db.collection('veiculos').doc(item.docs.first.id).delete();
+  }
 }

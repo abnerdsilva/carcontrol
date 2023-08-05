@@ -2,7 +2,7 @@ import 'package:carcontrol/model/car_model.dart';
 import 'package:carcontrol/pages/splash_screen/splash_screen_page.dart';
 import 'package:carcontrol/shared/repositories/firebase_repository.dart';
 import 'package:carcontrol/shared/repositories/shared_prefs_repository.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -100,13 +100,29 @@ class ConfigController extends GetxController {
       main: isDefaultVehicle.value,
     );
 
-    await firebaseRepository.addVehicle(vehicle);
-
+    final doc = await firebaseRepository.addVehicle(vehicle);
+    if (doc.isEmpty) {
+      Get.snackbar(
+        'Ops',
+        'Não foi possível cadastrar veículo, tente novamente',
+        backgroundColor: Colors.yellow,
+      );
+      return;
+    }
     prefs.registerVehicleId(uid);
 
     vehicles.add(vehicle);
 
+    clearForm();
     Get.back();
+  }
+
+  void clearForm() {
+    brandEC.text = '';
+    modelEC.text = '';
+    plateEC.text = '';
+    colorEC.text = '';
+    yearEC.text = '';
   }
 
   Future<void> listenVehicles(String driverId) async {
@@ -118,6 +134,12 @@ class ConfigController extends GetxController {
       }
       vehicles.addAll(items);
     });
+  }
+
+  Future<void> deleteVehicle(CarModel car) async {
+    await firebaseRepository.deleteVehicle(car.id);
+    vehicles.remove(car);
+    update();
   }
 
   Future<void> setLogout() async {

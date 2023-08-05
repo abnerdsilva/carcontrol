@@ -113,7 +113,7 @@ class CarWidget extends GetView<ConfigController> {
                                       Icons.delete,
                                     ),
                                   ),
-                                  onTap: () {},
+                                  onTap: () => controller.deleteVehicle(vehicle),
                                 ),
                               ),
                             ],
