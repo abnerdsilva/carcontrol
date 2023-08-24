@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:carcontrol/config/constants.dart';
 import 'package:carcontrol/core/db/db_firestore.dart';
-import 'package:carcontrol/model/expense_model.dart';
 import 'package:carcontrol/model/race_customer_model.dart';
 import 'package:carcontrol/model/race_destination_model.dart';
 import 'package:carcontrol/model/race_model.dart';
 import 'package:carcontrol/model/race_origin_model.dart';
 import 'package:carcontrol/model/race_pending_model.dart';
+import 'package:carcontrol/pages/finance/finance_controller.dart';
 import 'package:carcontrol/pages/race/race_controller.dart';
 import 'package:carcontrol/shared/repositories/firebase_repository.dart';
 import 'package:carcontrol/shared/repositories/shared_prefs_repository.dart';
@@ -373,33 +373,13 @@ class HomeController extends GetxController {
       final raceController = Get.find<RaceController>();
       raceController.getRaces();
     }
+    if (index == 2) {
+      final financeController = Get.find<FinanceController>();
+      financeController.start();
+    }
   }
 
-  Future<void> saveExpense(ExpenseModel expense) async {
-    dbFirestore.collection('despesas').add({
-      'data_hora': expense.dataHora,
-      'valor': expense.valor,
-      'observacao': expense.observacao,
-      'tipo': expense.tipoDespesa,
-      'valor_combustivel': expense.valorCombustivel,
-      'quantidade_litros_abastecimento': expense.quantidade,
-      'tipo_combustivel': expense.tipoCombustivel,
-    }).then((value) {
-      Get.snackbar(
-        'Sucesso',
-        'Lançamento realizado com sucesso',
-        backgroundColor: Colors.green[100],
-      );
 
-      Get.back();
-    }).onError((error, stackTrace) {
-      Get.snackbar(
-        'Erro',
-        'Não foi possivel lançar evento',
-        backgroundColor: Colors.red[100],
-      );
-    });
-  }
 
   // Future<void> createRace() async {
   //   const idusuario = '38Rke9auqOWJG3NNmXrJc8hRXyI3';

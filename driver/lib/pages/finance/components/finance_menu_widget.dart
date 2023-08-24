@@ -1,27 +1,31 @@
 import 'package:carcontrol/model/maintenance_menu_model.dart';
 import 'package:flutter/material.dart';
 
-class MaintenanceMenuWidget {
-  static const List<MaintenanceMenuModel> items = [
-    MaintenanceMenuModel(
-      text: 'Outro',
+class FinanceMenuWidget {
+  static const List<FinanceMenuModel> items = [
+    FinanceMenuModel(
+      text: 'Abastecimento',
       code: 1,
     ),
-    MaintenanceMenuModel(
+    FinanceMenuModel(
       text: 'Mecânica',
       code: 2,
     ),
-    MaintenanceMenuModel(
+    FinanceMenuModel(
       text: 'Elétrica',
       code: 3,
     ),
-    MaintenanceMenuModel(
+    FinanceMenuModel(
       text: 'Imposto',
+      code: 4,
+    ),
+    FinanceMenuModel(
+      text: 'Outro',
       code: 4,
     ),
   ];
 
-  static Widget buildItem(MaintenanceMenuModel item) {
+  static Widget buildItem(FinanceMenuModel item) {
     return Text(
       item.text,
       style: const TextStyle(
@@ -30,7 +34,7 @@ class MaintenanceMenuWidget {
     );
   }
 
-  static MaintenanceMenuModel getMenuItem(int code) {
+  static FinanceMenuModel getMenuItem(int code) {
     return items.firstWhere((element) => code == element.code);
   }
 }

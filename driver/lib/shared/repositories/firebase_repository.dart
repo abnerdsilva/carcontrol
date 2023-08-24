@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:carcontrol/core/db/db_firestore.dart';
 import 'package:carcontrol/model/car_model.dart';
+import 'package:carcontrol/model/expense_model.dart';
 import 'package:carcontrol/model/race_matrix_entity.dart';
 import 'package:carcontrol/model/race_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -122,5 +123,9 @@ class FirebaseRepository {
         .where('id', isEqualTo: id)
         .get();
     await db.collection('veiculos').doc(item.docs.first.id).delete();
+  }
+
+  Future<DocumentReference<Map<String, dynamic>>>  saveExpense(ExpenseModel expense) async {
+    return await db.collection('despesas').add(expense.toMap());
   }
 }

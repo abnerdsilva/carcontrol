@@ -1,8 +1,8 @@
-class MaintenanceMenuModel {
+class FinanceMenuModel {
   final int code;
   final String text;
 
-  const MaintenanceMenuModel({
+  const FinanceMenuModel({
     required this.text,
     required this.code,
   });

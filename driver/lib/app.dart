@@ -1,10 +1,9 @@
+import 'package:carcontrol/pages/finance/finance_page.dart';
 import 'package:carcontrol/pages/home/home_binding.dart';
 import 'package:carcontrol/pages/home/home_page.dart';
 import 'package:carcontrol/pages/login/login_binding.dart';
-import 'package:carcontrol/pages/maintenance/maintenance_page.dart';
 import 'package:carcontrol/pages/new_driver/new_driver_page.dart';
 import 'package:carcontrol/pages/new_driver_analyse/new_driver_analyze_page.dart';
-import 'package:carcontrol/pages/supply/supply_page.dart';
 import 'package:flutter/material.dart';
 import 'package:carcontrol/config/theme_config.dart';
 import 'package:carcontrol/pages/login/login_page.dart';
@@ -44,12 +43,8 @@ class App extends StatelessWidget {
           binding: HomeBinding(),
         ),
         GetPage(
-          name: SupplyPage.route,
-          page: () => const SupplyPage(),
-        ),
-        GetPage(
-          name: MaintenancePage.route,
-          page: () => const MaintenancePage(),
+          name: FinancePage.route,
+          page: () => const FinancePage(),
         ),
       ],
     );

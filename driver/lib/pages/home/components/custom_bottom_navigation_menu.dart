@@ -51,6 +51,14 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
             ),
             BottomNavigationBarItem(
               icon: Icon(
+                Icons.attach_money,
+                size: 28.0,
+              ),
+              label: 'Financeiro',
+              backgroundColor: ThemeConfig.kPrimaryColor,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
                 Icons.settings,
                 size: 28.0,
               ),

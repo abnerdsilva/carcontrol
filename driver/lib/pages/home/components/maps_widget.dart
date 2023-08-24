@@ -14,45 +14,6 @@ class MapsWidget extends GetView<HomeController> {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              color: ThemeConfig.kPrimaryColor,
-              width: double.infinity,
-              child: InkWell(
-                onTap: () {
-                  controller.setStatusStartRaces(!controller.stausStartRaces.value);
-                  controller.clearPoints();
-
-                  if (controller.stausStartRaces.value) {
-                    Future.delayed(const Duration(seconds: 10), () {
-                      controller.getFirstPendingRaces();
-                    });
-                  }
-                },
-                child: Obx(() {
-                  Color colorStatusRaces = Colors.grey;
-                  String messageStatusRaces = 'Começar corridas';
-                  if (controller.stausStartRaces.value) {
-                    colorStatusRaces = Colors.redAccent;
-                    messageStatusRaces = 'Parar corridas';
-                  }
-
-                  if (controller.raceAcceted.value.id != '0' && controller.stausStartRaces.value) {
-                    return Container();
-                  }
-                  return Container(
-                    margin: const EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width * .7,
-                    height: 50,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: colorStatusRaces,
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    ),
-                    child: Text(messageStatusRaces),
-                  );
-                }),
-              ),
-            ),
             // TextButton(
             //   onPressed: () => controller.createRace(),
             //   child: Container(
@@ -91,6 +52,45 @@ class MapsWidget extends GetView<HomeController> {
                   //   ),
                   // ),
                 ],
+              ),
+            ),
+            Container(
+              color: ThemeConfig.kPrimaryColor,
+              width: double.infinity,
+              child: InkWell(
+                onTap: () {
+                  controller.setStatusStartRaces(!controller.stausStartRaces.value);
+                  controller.clearPoints();
+
+                  if (controller.stausStartRaces.value) {
+                    Future.delayed(const Duration(seconds: 10), () {
+                      controller.getFirstPendingRaces();
+                    });
+                  }
+                },
+                child: Obx(() {
+                  Color colorStatusRaces = Colors.grey;
+                  String messageStatusRaces = 'Começar corridas';
+                  if (controller.stausStartRaces.value) {
+                    colorStatusRaces = Colors.redAccent;
+                    messageStatusRaces = 'Parar corridas';
+                  }
+
+                  if (controller.raceAcceted.value.id != '0' && controller.stausStartRaces.value) {
+                    return Container();
+                  }
+                  return Container(
+                    margin: const EdgeInsets.all(10),
+                    width: MediaQuery.of(context).size.width * .7,
+                    height: 50,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: colorStatusRaces,
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: Text(messageStatusRaces),
+                  );
+                }),
               ),
             ),
             Obx(
