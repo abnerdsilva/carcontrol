@@ -189,6 +189,8 @@ class HomeController extends GetxController {
         valueDriver: value.valueDriver,
       );
 
+      /* VERIFICAR */
+      /* NÃO DELETAR -> ATUALIZAR STATUS PARA VIAGEM */
       await firebaseRepository.deleteCollectionPendingRaces(prefs.docRacePending!);
       await firebaseRepository.acceptRace(prefs.docActiveRequestRace!, raceModel);
     }

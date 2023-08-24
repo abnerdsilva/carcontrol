@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:carcontrol/model/race_customer_model.dart';
 import 'package:carcontrol/model/race_destination_model.dart';
 import 'package:carcontrol/model/race_origin_model.dart';
+import 'package:carcontrol/model/race_price_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RaceModel {
@@ -14,6 +15,7 @@ class RaceModel {
   final RaceDestinationModel destino;
   final RaceOriginModel origem;
   final RaceCustomerModel customer;
+  final RacePriceModel? prices;
   final String status;
   final String? driverUserId;
   final String? driveId;
@@ -29,6 +31,7 @@ class RaceModel {
     required this.destino,
     required this.origem,
     required this.customer,
+    this.prices,
     required this.status,
     this.driverUserId,
     this.driveId,
@@ -42,6 +45,7 @@ class RaceModel {
       'destino': destino.toMap(),
       'origem': origem.toMap(),
       'passageiro': customer.toMap(),
+      'valoresDaCorrida': prices?.toMap(),
       'status': status,
       'vr_corrida': value,
       'comissao': valueDriver,
@@ -60,9 +64,10 @@ class RaceModel {
       destino: RaceDestinationModel.fromMap(map),
       origem: RaceOriginModel.fromMap(map),
       customer: RaceCustomerModel.fromMap(map),
+      prices: RacePriceModel.fromMap(map),
       status: map['status'] ?? '',
-      value: map['total'] ?? 0.0,
-      valueDriver: map['taxa'] ?? 0.0,
+      value: map['vr_corrida'] ?? 0.0,
+      valueDriver: map['comissao'] ?? 0.0,
       distanceOrigem: map['distancia_origem'],
       distanceDestination: map['distancia_destino'],
       departureDate: map['data_embarque'] ?? '',
@@ -83,9 +88,10 @@ class RaceModel {
       destino: RaceDestinationModel.fromFirestore(snapshot),
       origem: RaceOriginModel.fromFirestore(snapshot),
       customer: RaceCustomerModel.fromFirestore(snapshot),
+      prices: RacePriceModel.fromFirestore(snapshot),
       status: data['status'],
-      value: data['vr_corrida'],
-      valueDriver: data['comissao'],
+      value: data['vr_corrida'] ?? 0.0,
+      valueDriver: data['comissao'] ?? 0.0,
       departureDate: data['data_embarque'] ?? '',
       landingDate: data['data_desembarque'],
       driverUserId: data['id_motorista'],
