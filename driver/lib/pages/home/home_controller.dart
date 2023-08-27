@@ -184,7 +184,7 @@ class HomeController extends GetxController {
         destino: value.destino,
         origem: value.origem,
         customer: value.customer,
-        status: 'andamento',
+        status: 'a caminho',
         departureDate: value.departureDate,
         distanceDestination: value.distanceDestination,
         distanceOrigem: value.distanceOrigem,
@@ -194,9 +194,12 @@ class HomeController extends GetxController {
         prices: value.prices,
       );
 
-      /* VERIFICAR */
-      /* NÃO DELETAR -> ATUALIZAR STATUS PARA VIAGEM */
-      await firebaseRepository.deleteCollectionPendingRaces(prefs.docRacePending!);
+      // await firebaseRepository.deleteCollectionPendingRaces(prefs.docRacePending!);
+      await firebaseRepository.updateCollectionPendingRaces(
+        prefs.docRacePending!,
+        prefs.docActiveRequestRace!,
+        raceModel.customer.id!,
+      );
       await firebaseRepository.acceptRace(prefs.docActiveRequestRace!, raceModel);
     }
   }

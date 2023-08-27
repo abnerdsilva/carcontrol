@@ -107,11 +107,11 @@ class FirebaseRepository {
     return await db.collection('requisicoes_ativas').get();
   }
 
-  Future<List<RaceModel>> getRacesHistory() async {
+  Future<List<RaceModel>> getRacesHistory(String driverId) async {
     final races = await db
         .collection('requisicoes')
         .where('status', isEqualTo: 'concluido')
-        .where('id_motorista', isEqualTo: '1')
+        .where('id_motorista', isEqualTo: driverId)
         .get();
 
     final List<RaceModel> items = [];
@@ -127,10 +127,7 @@ class FirebaseRepository {
   }
 
   Future<List<CarModel>> getVehiclesById(String driverId) async {
-    final vehicles = await db
-        .collection('veiculos')
-        .where('id', isEqualTo: driverId)
-        .get();
+    final vehicles = await db.collection('veiculos').where('id', isEqualTo: driverId).get();
 
     final List<CarModel> items = [];
     for (var element in vehicles.docs) {
@@ -140,13 +137,11 @@ class FirebaseRepository {
   }
 
   Future<void> deleteVehicle(String id) async {
-    final item = await db.collection('veiculos')
-        .where('id', isEqualTo: id)
-        .get();
+    final item = await db.collection('veiculos').where('id', isEqualTo: id).get();
     await db.collection('veiculos').doc(item.docs.first.id).delete();
   }
 
-  Future<DocumentReference<Map<String, dynamic>>>  saveExpense(ExpenseModel expense) async {
+  Future<DocumentReference<Map<String, dynamic>>> saveExpense(ExpenseModel expense) async {
     return await db.collection('despesas').add(expense.toMap());
   }
 }
