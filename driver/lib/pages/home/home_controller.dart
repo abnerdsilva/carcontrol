@@ -399,6 +399,8 @@ class HomeController extends GetxController {
     const idusuario = '38Rke9auqOWJG3NNmXrJc8hRXyI3';
     final idReq = Random().nextInt(100);
 
+    final prefs = await SharedPrefsRepository.instance;
+
     final raceModel = RaceModel(
       destino: RaceDestinationModel(
         neighborhood: 'Jardom Progresso',
@@ -427,8 +429,8 @@ class HomeController extends GetxController {
       // landingDate: DateTime.now().toLocal().toString(),
       // distanceDestination: 15.7,
       distanceOrigem: '',
-      driveId: '1',
-      driverUserId: '1',
+      driveId: prefs.vehicleId,
+      driverUserId: prefs.firebaseID,
       id: idReq.toString(),
       prices: RacePriceModel(
         priceCustomer: '20.0',
