@@ -7,6 +7,7 @@ import 'package:carcontrol/model/race_destination_model.dart';
 import 'package:carcontrol/model/race_model.dart';
 import 'package:carcontrol/model/race_origin_model.dart';
 import 'package:carcontrol/model/race_pending_model.dart';
+import 'package:carcontrol/model/race_price_model.dart';
 import 'package:carcontrol/pages/finance/finance_controller.dart';
 import 'package:carcontrol/pages/race/race_controller.dart';
 import 'package:carcontrol/shared/repositories/firebase_repository.dart';
@@ -132,8 +133,7 @@ class HomeController extends GetxController {
       driveId: rm.driveId,
       driverUserId: rm.driverUserId,
       id: rm.id,
-      value: rm.value,
-      valueDriver: rm.valueDriver,
+      prices: rm.prices,
     );
 
     await firebaseRepository.saveRaceConcluded(docActive!, raceModel);
@@ -168,6 +168,11 @@ class HomeController extends GetxController {
         origem: RaceOriginModel(),
         destino: RaceDestinationModel(),
         customer: RaceCustomerModel(),
+        prices: RacePriceModel(
+          priceDriver: '0.0',
+          priceCustomer: '0.0',
+          total: '0.0',
+        ),
         departureDate: '',
       );
       update();
@@ -185,8 +190,7 @@ class HomeController extends GetxController {
         driveId: '1',
         driverUserId: prefs.firebaseID,
         id: value.id,
-        value: value.value,
-        valueDriver: value.valueDriver,
+        prices: value.prices,
       );
 
       /* VERIFICAR */
@@ -270,12 +274,11 @@ class HomeController extends GetxController {
       departureDate: corridaTemp.departureDate,
       id: corridaTemp.id,
       distanceDestination: resDistanceDestiny.distance,
-      valueDriver: corridaTemp.valueDriver,
-      value: corridaTemp.value,
       landingDate: corridaTemp.landingDate,
       distanceOrigem: resDistanceOrigin.distance,
       driveId: corridaTemp.driverUserId,
       driverUserId: corridaTemp.driverUserId,
+      prices: corridaTemp.prices,
     );
 
     setRace(corrida);
