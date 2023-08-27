@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:carcontrol/config/constants.dart';
 import 'package:carcontrol/core/db/db_firestore.dart';
@@ -258,6 +259,9 @@ class HomeController extends GetxController {
 
   Future<void> getDetailsRace(RacePendingModel pendingRace, String docRequest) async {
     final detailsPendingRace = await firebaseRepository.getRace(pendingRace.idRequisition!);
+    if (detailsPendingRace.data() == null) {
+      return;
+    }
     final corridaTemp = RaceModel.fromFirestore(detailsPendingRace);
 
     final distOrigin = LatLng(corridaTemp.origem.latitude!, corridaTemp.origem.longitude!);
@@ -374,7 +378,7 @@ class HomeController extends GetxController {
   void changeTabIndex(int index) {
     tabIndex.value = index;
 
-    if (index == 1) {
+    if (index == 3) {
       final raceController = Get.find<RaceController>();
       raceController.getRaces();
     }
@@ -384,50 +388,55 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<void> deleteCollections() async {
+    await firebaseRepository.deleteCollectionRaces();
+  }
 
+  Future<void> createRace() async {
+    const idusuario = '38Rke9auqOWJG3NNmXrJc8hRXyI3';
+    final idReq = Random().nextInt(100);
 
-  // Future<void> createRace() async {
-  //   const idusuario = '38Rke9auqOWJG3NNmXrJc8hRXyI3';
-  //   final idReq = Random().nextInt(100);
-  //
-  //   final raceModel = RaceModel(
-  //     destino: RaceDestinationModel(
-  //       neighborhood: 'Jardom Progresso',
-  //       postalCode: '13190-000',
-  //       latitude: -22.9639666,
-  //       longitude: -47.3158404,
-  //       number: '50',
-  //       address: 'Rua Jamil Antônio Ticiane',
-  //     ),
-  //     origem: RaceOriginModel(
-  //       address: 'Rua Com nome um pouco maior',
-  //       number: '15',
-  //       latitude: -23.0882,
-  //       longitude: -47.2234,
-  //       postalCode: '1345-760',
-  //       neighborhood: 'Bairro Jardim Xpto',
-  //     ),
-  //     customer: RaceCustomerModel(
-  //       id: idusuario,
-  //       email: 'silvabner@gmail.com',
-  //       name: 'Abner Teste Silva - $idReq',
-  //       type: 'Passageiro',
-  //     ),
-  //     status: 'aguardando',
-  //     departureDate: DateTime.now().toLocal().toString(),
-  //     // landingDate: DateTime.now().toLocal().toString(),
-  //     // distanceDestination: 15.7,
-  //     distanceOrigem: '',
-  //     driveId: '1',
-  //     driverUserId: '1',
-  //     id: idReq.toString(),
-  //     value: 30.8,
-  //     valueDriver: 30.8 * .7,
-  //   );
-  //
-  //   final doc = await firebaseRepository.addRace(raceModel);
-  //   await firebaseRepository.addActiveRequests(doc, idusuario);
-  // }
+    final raceModel = RaceModel(
+      destino: RaceDestinationModel(
+        neighborhood: 'Jardom Progresso',
+        postalCode: '13190-000',
+        latitude: -22.9639666,
+        longitude: -47.3158404,
+        number: '50',
+        address: 'Rua Jamil Antônio Ticiane',
+      ),
+      origem: RaceOriginModel(
+        address: 'Rua Com nome um pouco maior',
+        number: '15',
+        latitude: -23.0882,
+        longitude: -47.2234,
+        postalCode: '1345-760',
+        neighborhood: 'Bairro Jardim Xpto',
+      ),
+      customer: RaceCustomerModel(
+        id: idusuario,
+        email: 'silvabner@gmail.com',
+        name: 'Abner Teste Silva - $idReq',
+        type: 'Passageiro',
+      ),
+      status: 'aguardando',
+      departureDate: DateTime.now().toLocal().toString(),
+      // landingDate: DateTime.now().toLocal().toString(),
+      // distanceDestination: 15.7,
+      distanceOrigem: '',
+      driveId: '1',
+      driverUserId: '1',
+      id: idReq.toString(),
+      prices: RacePriceModel(
+        priceCustomer: '20.0',
+        priceDriver: '30.0',
+        total: '50.0',
+      ),
+    );
+
+    final doc = await firebaseRepository.addRace(raceModel);
+    await firebaseRepository.addActiveRequests(doc, idusuario);
+  }
 
   @override
   void onClose() {

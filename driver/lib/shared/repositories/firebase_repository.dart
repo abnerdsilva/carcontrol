@@ -28,6 +28,27 @@ class FirebaseRepository {
     await db.collection('requisicoes_ativas').doc(id).delete();
   }
 
+  Future<void> deleteCollectionRaces() async {
+    await db.collection('requisicoes_ativas').get().then((value) {
+      for (final it in value.docs) {
+        it.reference.delete();
+      }
+    });
+    await db.collection('requisicoes').get().then((value) {
+      for (final it in value.docs) {
+        it.reference.delete();
+      }
+    });
+  }
+
+  Future<void> updateCollectionPendingRaces(String doc, String req, String user) async {
+    return await db.collection('requisicoes_ativas').doc(doc).set({
+      'id_requisicao': req,
+      'id_usuario': user,
+      'status': 'a caminho',
+    });
+  }
+
   Future<void> acceptRace(String docId, RaceModel race) async {
     await db.collection('requisicoes').doc(docId).set(race.toMap());
   }
