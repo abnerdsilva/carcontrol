@@ -381,7 +381,7 @@ class HomeController extends GetxController {
   void changeTabIndex(int index) {
     tabIndex.value = index;
 
-    if (index == 3) {
+    if (index == 1) {
       final raceController = Get.find<RaceController>();
       raceController.getRaces();
     }
