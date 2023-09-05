@@ -49,7 +49,7 @@ class NewCarWidget extends GetView<ConfigController> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width * .45,
-                      child:  CustomTextFormField(
+                      child: CustomTextFormField(
                         label: 'Placa',
                         textAlign: TextAlign.center,
                         controller: controller.plateEC,
@@ -74,16 +74,18 @@ class NewCarWidget extends GetView<ConfigController> {
                   label: 'Cor',
                   controller: controller.colorEC,
                 ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  child: CheckboxListTile(
-                    value: controller.isDefaultVehicle.value,
-                    title: const Text('Veículo padrão?'),
-                    onChanged: (value) {
-                      controller.isDefaultVehicle.value = value!;
-                    },
-                  ),
-                ),
+                // const SizedBox(height: 12),
+                // Obx(
+                //   () => SizedBox(
+                //     child: CheckboxListTile(
+                //       value: controller.isDefaultVehicle.value,
+                //       title: const Text('Veículo padrão?'),
+                //       onChanged: (value) {
+                //         controller.isDefaultVehicle.value = value!;
+                //       },
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(

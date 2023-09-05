@@ -7,6 +7,7 @@ import 'package:carcontrol/model/race_destination_model.dart';
 import 'package:carcontrol/model/race_model.dart';
 import 'package:carcontrol/model/race_origin_model.dart';
 import 'package:carcontrol/model/race_pending_model.dart';
+import 'package:carcontrol/pages/config/config_controller.dart';
 import 'package:carcontrol/pages/finance/finance_controller.dart';
 import 'package:carcontrol/pages/race/race_controller.dart';
 import 'package:carcontrol/shared/repositories/firebase_repository.dart';
@@ -378,6 +379,11 @@ class HomeController extends GetxController {
     if (index == 2) {
       final financeController = Get.find<FinanceController>();
       financeController.start();
+    }
+
+    if (index == 3) {
+      final configController = Get.find<ConfigController>();
+      configController.start();
     }
   }
 

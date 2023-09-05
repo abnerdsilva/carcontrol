@@ -1,3 +1,4 @@
+import 'package:carcontrol/pages/config/config_controller.dart';
 import 'package:carcontrol/pages/finance/finance_controller.dart';
 import 'package:carcontrol/pages/home/home_controller.dart';
 import 'package:carcontrol/pages/race/race_controller.dart';
@@ -10,6 +11,7 @@ class HomeBinding extends Bindings {
     Get.put(FirebaseRepository());
     Get.put(RaceController(Get.find()));
     Get.put(FinanceController(Get.find()));
+    Get.put(ConfigController(Get.find()));
     Get.put(HomeController(Get.find()));
   }
 }

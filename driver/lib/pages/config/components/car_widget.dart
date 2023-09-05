@@ -1,10 +1,19 @@
+import 'package:carcontrol/pages/config/components/menu_item.dart';
 import 'package:carcontrol/pages/config/components/new_car_widget.dart';
 import 'package:carcontrol/pages/config/config_controller.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CarWidget extends GetView<ConfigController> {
+class CarWidget extends StatefulWidget {
   const CarWidget({Key? key}) : super(key: key);
+
+  @override
+  State<CarWidget> createState() => _CarWidgetState();
+}
+
+class _CarWidgetState extends State<CarWidget> {
+  MenuItemModel? itemSelected;
 
   void newCarWidget(BuildContext ctx) {
     showModalBottomSheet(
@@ -21,6 +30,8 @@ class CarWidget extends GetView<ConfigController> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<ConfigController>();
+
     return SingleChildScrollView(
       child: Stack(
         children: [
@@ -54,6 +65,7 @@ class CarWidget extends GetView<ConfigController> {
 
                       return Card(
                         child: Container(
+                          color: vehicle.defaultCar ? Colors.green[100] : Colors.white,
                           padding: const EdgeInsets.only(
                             top: 12,
                             bottom: 12,
@@ -76,27 +88,15 @@ class CarWidget extends GetView<ConfigController> {
                                     const SizedBox(
                                       height: 6,
                                     ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          vehicle.plate,
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        Text(
-                                          vehicle.year,
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ],
+                                    Text(
+                                      vehicle.plate,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
                                     ),
                                     Text(
-                                      vehicle.color,
+                                      '${vehicle.color} / ${vehicle.year}',
                                       style: const TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey,
@@ -105,15 +105,32 @@ class CarWidget extends GetView<ConfigController> {
                                   ],
                                 ),
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.delete,
+                              SizedBox(
+                                width: 140,
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton2(
+                                    isExpanded: true,
+                                    iconStyleData: const IconStyleData(
+                                      icon: Icon(Icons.settings),
                                     ),
+                                    items: [
+                                      ...MenuItems.items.map(
+                                        (item) => DropdownMenuItem<MenuItemModel>(
+                                          value: item,
+                                          child: MenuItems.buildItem(item),
+                                        ),
+                                      ),
+                                    ],
+                                    value: itemSelected,
+                                    onChanged: (value) {
+                                      final t = value as MenuItemModel;
+                                      if (t.code == '2') {
+                                        controller.deleteVehicle(vehicle);
+                                      } else if (t.code == '1') {
+                                        controller.updateVehicleDefault(vehicle.driverId, vehicle.id);
+                                      }
+                                    },
                                   ),
-                                  onTap: () => controller.deleteVehicle(vehicle),
                                 ),
                               ),
                             ],
