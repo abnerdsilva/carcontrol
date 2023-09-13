@@ -387,7 +387,19 @@ class HomeController extends GetxController {
     }
   }
 
+  bool hasVehicle() {
+    final configController = Get.find<ConfigController>();
+    if (configController.vehicles.isEmpty) {
+      Get.snackbar(
+        'Nenhum veículo cadastrado',
+        'Cadastre um veículo para iniciar atividades.',
+        backgroundColor: Colors.grey[100],
+      );
+      return false;
+    }
 
+    return true;
+  }
 
   // Future<void> createRace() async {
   //   const idusuario = '38Rke9auqOWJG3NNmXrJc8hRXyI3';
