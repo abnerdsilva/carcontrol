@@ -8,8 +8,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RaceModel {
   final String? id;
-  final double? value;
-  final double? valueDriver;
   final String? distanceOrigem;
   final String? distanceDestination;
   final RaceDestinationModel destino;
@@ -24,8 +22,6 @@ class RaceModel {
 
   RaceModel({
     this.id,
-    this.value,
-    this.valueDriver,
     this.distanceOrigem,
     this.distanceDestination,
     required this.destino,
@@ -47,8 +43,6 @@ class RaceModel {
       'passageiro': customer.toMap(),
       'valoresDaCorrida': prices?.toMap(),
       'status': status,
-      'vr_corrida': value,
-      'comissao': valueDriver,
       'distancia_origem': distanceOrigem,
       'distancia_destino': distanceDestination,
       'id_motorista': driverUserId,
@@ -66,8 +60,6 @@ class RaceModel {
       customer: RaceCustomerModel.fromMap(map),
       prices: RacePriceModel.fromMap(map),
       status: map['status'] ?? '',
-      value: map['vr_corrida'] ?? 0.0,
-      valueDriver: map['comissao'] ?? 0.0,
       distanceOrigem: map['distancia_origem'],
       distanceDestination: map['distancia_destino'],
       departureDate: map['data_embarque'] ?? '',
@@ -90,8 +82,6 @@ class RaceModel {
       customer: RaceCustomerModel.fromFirestore(snapshot),
       prices: RacePriceModel.fromFirestore(snapshot),
       status: data['status'],
-      value: data['vr_corrida'] ?? 0.0,
-      valueDriver: data['comissao'] ?? 0.0,
       departureDate: data['data_embarque'] ?? '',
       landingDate: data['data_desembarque'],
       driverUserId: data['id_motorista'],

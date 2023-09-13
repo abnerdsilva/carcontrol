@@ -112,7 +112,7 @@ class RacePage extends GetView<RaceController> {
                                     height: 12,
                                   ),
                                   Text(
-                                    'Comissão: R\$ ${item.valueDriver!.toStringAsFixed(2)}',
+                                    'Comissão: R\$ ${item.prices!.priceDriver}',
                                     style: const TextStyle(
                                       fontSize: 14,
                                     ),

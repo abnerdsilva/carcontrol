@@ -55,7 +55,7 @@ class RaceWidget extends GetView<HomeController> {
                     style: TextStyle(color: ThemeConfig.kTextSecundaryColor),
                   ),
                   Text(
-                    'R\$ ${race.value!.toStringAsFixed(2)}',
+                    'R\$ ${double.parse(race.prices!.total!).toStringAsFixed(2)}',
                     style: const TextStyle(color: ThemeConfig.kTextSecundaryColor),
                   ),
                 ],
@@ -118,7 +118,7 @@ class RaceWidget extends GetView<HomeController> {
                     style: TextStyle(color: ThemeConfig.kTextSecundaryColor),
                   ),
                   Text(
-                    race.valueDriver != null ? 'R\$ ${race.valueDriver!.toStringAsFixed(2)}' : '',
+                    race.prices!.priceDriver != '0.0' ? 'R\$ ${race.prices!.priceDriver}' : '',
                     style: const TextStyle(color: ThemeConfig.kTextSecundaryColor),
                   ),
                 ],

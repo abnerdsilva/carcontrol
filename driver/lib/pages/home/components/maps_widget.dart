@@ -14,13 +14,20 @@ class MapsWidget extends GetView<HomeController> {
       body: SafeArea(
         child: Column(
           children: [
-            // TextButton(
-            //   onPressed: () => controller.createRace(),
-            //   child: Container(
-            //     padding: const EdgeInsets.all(10),
-            //     child: const Text('Adicionar'),
-            //   ),
-            // ),
+            TextButton(
+              onPressed: () => controller.createRace(),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                child: const Text('Adicionar'),
+              ),
+            ),
+            TextButton(
+              onPressed: () => controller.deleteCollections(),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                child: const Text('Delete Collections'),
+              ),
+            ),
             Expanded(
               child: Stack(
                 children: [

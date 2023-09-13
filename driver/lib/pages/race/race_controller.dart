@@ -1,5 +1,6 @@
 import 'package:carcontrol/model/race_model.dart';
 import 'package:carcontrol/shared/repositories/firebase_repository.dart';
+import 'package:carcontrol/shared/repositories/shared_prefs_repository.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -11,7 +12,8 @@ class RaceController extends GetxController {
   RxList<RaceModel> races = <RaceModel>[].obs;
 
   Future<void> getRaces() async {
-    final racesHistory = await firebaseRepository.getRacesHistory();
+    final prefs = await SharedPrefsRepository.instance;
+    final racesHistory = await firebaseRepository.getRacesHistory(prefs.vehicleId.toString());
     races.clear();
 
     racesHistory.sort((a, b) {
