@@ -131,7 +131,7 @@ class FirebaseRepository {
 
     final List<CarModel> items = [];
     for (var element in vehicles.docs) {
-      items.add(CarModel.fromFirestore(element));
+      items.add(CarModel.fromFirestore(element, element.id));
     }
     return items;
   }
@@ -143,5 +143,9 @@ class FirebaseRepository {
 
   Future<DocumentReference<Map<String, dynamic>>> saveExpense(ExpenseModel expense) async {
     return await db.collection('despesas').add(expense.toMap());
+  }
+
+  Future<void> updateVehicle(String doc, CarModel car) async {
+    return await db.collection('veiculos').doc(doc).set(car.toMap());
   }
 }

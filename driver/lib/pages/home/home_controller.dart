@@ -8,6 +8,7 @@ import 'package:carcontrol/model/race_destination_model.dart';
 import 'package:carcontrol/model/race_model.dart';
 import 'package:carcontrol/model/race_origin_model.dart';
 import 'package:carcontrol/model/race_pending_model.dart';
+import 'package:carcontrol/pages/config/config_controller.dart';
 import 'package:carcontrol/model/race_price_model.dart';
 import 'package:carcontrol/pages/finance/finance_controller.dart';
 import 'package:carcontrol/pages/race/race_controller.dart';
@@ -389,11 +390,30 @@ class HomeController extends GetxController {
       final financeController = Get.find<FinanceController>();
       financeController.start();
     }
+
+    if (index == 3) {
+      final configController = Get.find<ConfigController>();
+      configController.start();
+    }
   }
 
-  Future<void> deleteCollections() async {
-    await firebaseRepository.deleteCollectionRaces();
+  bool hasVehicle() {
+    final configController = Get.find<ConfigController>();
+    if (configController.vehicles.isEmpty) {
+      Get.snackbar(
+        'Nenhum veículo cadastrado',
+        'Cadastre um veículo para iniciar atividades.',
+        backgroundColor: Colors.grey[100],
+      );
+      return false;
+    }
+
+    return true;
   }
+
+//   Future<void> deleteCollections() async {
+//     await firebaseRepository.deleteCollectionRaces();
+//   }
 
   Future<void> createRace() async {
     const idusuario = '38Rke9auqOWJG3NNmXrJc8hRXyI3';

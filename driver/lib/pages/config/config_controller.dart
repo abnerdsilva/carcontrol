@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:carcontrol/model/car_model.dart';
+import 'package:carcontrol/pages/config/components/menu_item.dart';
 import 'package:carcontrol/pages/splash_screen/splash_screen_page.dart';
 import 'package:carcontrol/shared/repositories/firebase_repository.dart';
 import 'package:carcontrol/shared/repositories/shared_prefs_repository.dart';
@@ -19,7 +22,9 @@ class ConfigController extends GetxController {
   final TextEditingController colorEC = TextEditingController();
   final TextEditingController defaultEC = TextEditingController();
 
-  RxBool isDefaultVehicle = true.obs;
+  late String userId;
+
+  RxBool isDefaultVehicle = false.obs;
 
   RxList<CarModel> vehicles = <CarModel>[].obs;
 
@@ -37,6 +42,13 @@ class ConfigController extends GetxController {
     } else {
       modoPesquisa.value = true;
     }
+
+    final prefsTemp = await SharedPrefsRepository.instance;
+    userId = prefsTemp.firebaseID ?? '';
+  }
+
+  Future<void> start() async {
+    await getVehicles();
   }
 
   Future<void> setModoPesquisa(bool value) async {
@@ -53,11 +65,11 @@ class ConfigController extends GetxController {
 
   Future<void> getVehicles() async {
     final prefs = await SharedPrefsRepository.instance;
-    if (prefs.vehicleId == null) {
+    if (prefs.firebaseID == null) {
       return;
     }
 
-    await listenVehicles(prefs.vehicleId!);
+    await listenVehicles(prefs.firebaseID!);
     // vehicles.clear();
     //
     // vehiclesTemp.sort((a, b) {
@@ -89,7 +101,7 @@ class ConfigController extends GetxController {
 
     final uid = const Uuid().v1();
 
-    final vehicle = CarModel(
+    CarModel vehicle = CarModel(
       id: uid,
       driverId: prefs.firebaseID!,
       brand: brandEC.text,
@@ -97,7 +109,8 @@ class ConfigController extends GetxController {
       plate: plateEC.text,
       color: colorEC.text,
       year: yearEC.text,
-      main: isDefaultVehicle.value,
+      defaultCar: isDefaultVehicle.value,
+      doc: '',
     );
 
     final doc = await firebaseRepository.addVehicle(vehicle);
@@ -110,6 +123,19 @@ class ConfigController extends GetxController {
       return;
     }
     prefs.registerVehicleId(uid);
+
+    vehicle = CarModel(
+      id: uid,
+      driverId: prefs.firebaseID!,
+      brand: brandEC.text,
+      model: modelEC.text,
+      plate: plateEC.text,
+      color: colorEC.text,
+      year: yearEC.text,
+      defaultCar: false,
+      doc: doc,
+    );
+    await firebaseRepository.updateVehicle(doc, vehicle);
 
     vehicles.add(vehicle);
 
@@ -126,19 +152,73 @@ class ConfigController extends GetxController {
   }
 
   Future<void> listenVehicles(String driverId) async {
-    firebaseRepository.db.collection('veiculos').where('id', isEqualTo: driverId).snapshots().listen((event) {
+    firebaseRepository.db.collection('veiculos').where('id_motorista', isEqualTo: driverId).snapshots().listen((event) {
       vehicles.clear();
       final List<CarModel> items = [];
       for (var element in event.docs) {
-        items.add(CarModel.fromFirestore(element));
+        items.add(CarModel.fromFirestore(element, element.id));
       }
       vehicles.addAll(items);
     });
   }
 
   Future<void> deleteVehicle(CarModel car) async {
+    if (vehicles.length == 1) {
+      Get.showSnackbar(
+        const GetSnackBar(
+          title: 'Não foi possivel remover veículo',
+          backgroundColor: Colors.redAccent,
+          icon: Icon(Icons.add_alert),
+          message: 'É necessário no mínimo um veículo cadastrado.',
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
     await firebaseRepository.deleteVehicle(car.id);
     vehicles.remove(car);
+
+    final prefs = await SharedPrefsRepository.instance;
+    for (final car in vehicles) {
+      if (car.defaultCar) {
+        prefs.registerVehicleId(car.id);
+      }
+    }
+
+    update();
+  }
+
+  Future<void> updateVehicleDefault(String driverId, String vehicleId) async {
+    final prefs = await SharedPrefsRepository.instance;
+    final List<CarModel> vehiclesTemp = [];
+
+    for (var car in vehicles) {
+      bool isDefaultVehicle = false;
+
+      if (car.id == vehicleId) {
+        isDefaultVehicle = true;
+      }
+
+      final vehicle = CarModel(
+        id: car.id,
+        driverId: car.driverId,
+        brand: car.brand,
+        model: car.model,
+        plate: car.plate,
+        color: car.color,
+        year: car.year,
+        defaultCar: isDefaultVehicle,
+        doc: car.doc,
+      );
+
+      await firebaseRepository.updateVehicle(car.doc, vehicle);
+      prefs.registerVehicleId(vehicle.id);
+
+      vehiclesTemp.add(vehicle);
+    }
+
+    vehicles.clear();
+    vehicles.addAll(vehiclesTemp);
     update();
   }
 

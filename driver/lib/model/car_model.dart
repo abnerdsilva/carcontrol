@@ -10,7 +10,8 @@ class CarModel {
   final String plate;
   final String color;
   final String year;
-  final bool? main;
+  final bool defaultCar;
+  final String doc;
 
   CarModel({
     required this.id,
@@ -20,7 +21,8 @@ class CarModel {
     required this.plate,
     required this.color,
     required this.year,
-    this.main,
+    required this.defaultCar,
+    required this.doc,
   });
 
   Map<String, dynamic> toMap() {
@@ -32,7 +34,8 @@ class CarModel {
       'placa': plate,
       'cor': color,
       'ano': year,
-      'padrao': main ?? false,
+      'padrao': defaultCar ?? false,
+      'doc': doc,
     };
   }
 
@@ -45,7 +48,8 @@ class CarModel {
       plate: map['placa'],
       color: map['cor'],
       year: map['ano'],
-      main: map['padrao'] ?? false,
+      defaultCar: map['padrao'] ?? false,
+      doc: map['doc'] ?? '',
     );
   }
 
@@ -53,7 +57,7 @@ class CarModel {
 
   factory CarModel.fromJson(String source) => CarModel.fromMap(json.decode(source));
 
-  factory CarModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, {SnapshotOptions? options}) {
+  factory CarModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, String doc, {SnapshotOptions? options}) {
     final data = snapshot.data();
     return CarModel(
       id: data!['id'],
@@ -63,7 +67,8 @@ class CarModel {
       plate: data['placa'],
       color: data['cor'],
       year: data['ano'],
-      main: data['padrao'] ?? false,
+      defaultCar: data['padrao'] ?? false,
+      doc: doc,
     );
   }
 }

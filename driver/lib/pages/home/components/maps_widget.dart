@@ -66,6 +66,10 @@ class MapsWidget extends GetView<HomeController> {
               width: double.infinity,
               child: InkWell(
                 onTap: () {
+                  if (!controller.hasVehicle() && !controller.stausStartRaces.value){
+                    return;
+                  }
+
                   controller.setStatusStartRaces(!controller.stausStartRaces.value);
                   controller.clearPoints();
 

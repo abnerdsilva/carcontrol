@@ -3,7 +3,7 @@ import 'package:carcontrol/pages/config/config_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ConfigPage extends StatelessWidget {
+class ConfigPage extends GetView<ConfigController> {
   const ConfigPage({super.key});
 
   void showMyCars(BuildContext ctx) {
@@ -21,8 +21,6 @@ class ConfigPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ConfigController(Get.find()));
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Config'),
