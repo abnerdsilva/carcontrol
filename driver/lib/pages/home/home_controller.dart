@@ -403,7 +403,9 @@ class HomeController extends GetxController {
       Get.snackbar(
         'Nenhum veículo cadastrado',
         'Cadastre um veículo para iniciar atividades.',
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Colors.red[300],
+        icon: const Icon(Icons.add_alert),
+        snackPosition: SnackPosition.BOTTOM,
       );
       return false;
     }
@@ -411,9 +413,9 @@ class HomeController extends GetxController {
     return true;
   }
 
-//   Future<void> deleteCollections() async {
-//     await firebaseRepository.deleteCollectionRaces();
-//   }
+  Future<void> deleteCollections() async {
+    await firebaseRepository.deleteCollectionRaces();
+  }
 
   Future<void> createRace() async {
     const idusuario = '38Rke9auqOWJG3NNmXrJc8hRXyI3';

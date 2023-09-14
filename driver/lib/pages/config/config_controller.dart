@@ -137,7 +137,7 @@ class ConfigController extends GetxController {
     );
     await firebaseRepository.updateVehicle(doc, vehicle);
 
-    vehicles.add(vehicle);
+    // vehicles.add(vehicle);
 
     clearForm();
     Get.back();
