@@ -13,7 +13,7 @@ class RaceController extends GetxController {
 
   Future<void> getRaces() async {
     final prefs = await SharedPrefsRepository.instance;
-    final racesHistory = await firebaseRepository.getRacesHistory(prefs.vehicleId.toString());
+    final racesHistory = await firebaseRepository.getRacesHistory(prefs.firebaseID.toString());
     races.clear();
 
     racesHistory.sort((a, b) {
