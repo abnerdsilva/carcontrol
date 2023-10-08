@@ -9,18 +9,25 @@ class FinanceController extends GetxController {
 
   FinanceController(this.firebaseRepository);
 
-  RxList<ExpenseModel> finances = <ExpenseModel>[].obs;
+  RxList<FinanceModel> finances = <FinanceModel>[].obs;
 
   Future<void> start() async {
     final prefs = await SharedPrefsRepository.instance;
     if (prefs.firebaseID != null && prefs.firebaseID!.isNotEmpty) {
-      firebaseRepository.db.collection('despesas').snapshots().listen((event) {
+      firebaseRepository.db.collection('financeiro').snapshots().listen((event) {
         finances.clear();
         if (event.size > 0) {
-          final List<ExpenseModel> items = [];
+          final List<FinanceModel> items = [];
           for (var element in event.docs) {
-            items.add(ExpenseModel.fromFirestore(element));
+            items.add(FinanceModel.fromFirestore(element));
           }
+
+          items.sort((a, b) {
+            final dateStart = DateTime.parse(a.dataHora);
+            final dateEnd = DateTime.parse(b.dataHora);
+            return dateEnd.compareTo(dateStart);
+          });
+
           finances.addAll(items);
         }
       });
@@ -28,7 +35,7 @@ class FinanceController extends GetxController {
     update();
   }
 
-  Future<void> saveExpense(ExpenseModel expense) async {
+  Future<void> saveFinance(FinanceModel expense) async {
     firebaseRepository.saveExpense(expense).then((value) {
       Get.back();
 

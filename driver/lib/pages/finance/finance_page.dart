@@ -3,6 +3,7 @@ import 'package:carcontrol/pages/finance/components/finance_widget.dart';
 import 'package:carcontrol/pages/finance/finance_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class FinancePage extends GetView<FinanceController> {
   static const String route = '/finance';
@@ -43,9 +44,11 @@ class FinancePage extends GetView<FinanceController> {
             itemBuilder: (context, index) {
               final item = controller.finances[index];
 
-              final despesa = item.tipoDespesa == 'Abastecimento'
-                  ? '${item.tipoDespesa} - ${item.tipoCombustivel}'
-                  : item.tipoDespesa;
+              final tipo = item.tipoFinanceiro == 'entrada'
+                  ? 'Corrida por aplicativo'
+                  : item.tipoDespesa == 'Abastecimento'
+                      ? '${item.tipoDespesa} - ${item.tipoCombustivel}'
+                      : item.tipoDespesa;
 
               final imgTipoFinan = item.tipoDespesa == 'Abastecimento'
                   ? 'combustivel'
@@ -53,7 +56,9 @@ class FinancePage extends GetView<FinanceController> {
                       ? 'chave'
                       : item.tipoDespesa == 'Imposto'
                           ? 'taxa'
-                          : 'eletrica';
+                          : item.tipoDespesa == 'Elétrica'
+                              ? 'eletrica'
+                              : 'dinheiro';
 
               final fundoTipoFinan = item.tipoDespesa == 'Abastecimento'
                   ? ThemeConfig.kThirdSecondaryColor
@@ -75,7 +80,7 @@ class FinancePage extends GetView<FinanceController> {
                           Container(
                             color: ThemeConfig.kGravishBlueColor,
                             width: 8,
-                            height: 90,
+                            height: 95,
                             alignment: Alignment.center,
                           ),
                           Container(
@@ -112,7 +117,7 @@ class FinancePage extends GetView<FinanceController> {
                                     ),
                                   ),
                                   Text(
-                                    item.dataHora,
+                                    DateFormat('dd-MM-yyy HH:mm').format(DateTime.parse(item.dataHora)).toString(),
                                     style: const TextStyle(
                                       fontSize: 12,
                                       color: Colors.grey,
@@ -127,7 +132,7 @@ class FinancePage extends GetView<FinanceController> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    despesa,
+                                    tipo,
                                     style: const TextStyle(
                                       fontSize: 12,
                                       color: Colors.grey,
@@ -135,15 +140,16 @@ class FinancePage extends GetView<FinanceController> {
                                   ),
                                   Text(
                                     'R\$ ${item.valor.toStringAsFixed(2)}',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 12,
-                                      color: Colors.red,
+                                      color: item.tipoFinanceiro == 'saida' ? Colors.red : Colors.green,
                                     ),
                                   ),
                                 ],
                               ),
                               Text(item.nome),
                               Text(item.observacao),
+                              const SizedBox(height: 8),
                               const Divider(),
                             ],
                           ),

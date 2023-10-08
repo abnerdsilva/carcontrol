@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="version client">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="ajuste layout financeiro">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/.fvm/fvm_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/driver/.fvm/fvm_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/driver/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/model/expense_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/model/expense_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/pages/finance/components/finance_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/finance/components/finance_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/pages/finance/finance_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/finance/finance_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/lib/pages/finance/finance_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/finance/finance_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/shared/repositories/firebase_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/shared/repositories/firebase_repository.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +61,7 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\PROJETOS\particular\carcontrol\driver\assets\images" />
+      <recent name="E:\PROJETOS\particular\carcontrol\driver\lib\model" />
       <recent name="$PROJECT_DIR$/assets/images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -180,7 +182,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681785919651</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="ajuste layout financeiro">
+      <created>1696768061957</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1696768061957</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -207,7 +216,8 @@
     <MESSAGE value="add visualização corrida pendente e confirma" />
     <MESSAGE value="altera projeto para pasta driver" />
     <MESSAGE value="version client" />
-    <option name="LAST_COMMIT_MESSAGE" value="version client" />
+    <MESSAGE value="ajuste layout financeiro" />
+    <option name="LAST_COMMIT_MESSAGE" value="ajuste layout financeiro" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -219,48 +229,53 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>136</line>
+          <line>139</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>138</line>
+          <line>141</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>141</line>
+          <line>164</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>150</line>
+          <line>173</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>162</line>
+          <line>185</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>158</line>
+          <line>181</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>154</line>
+          <line>177</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>155</line>
+          <line>178</line>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="Dart">
           <url>file://$PROJECT_DIR$/driver/lib/main.dart</url>
           <line>5</line>
           <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
+          <line>126</line>
+          <option name="timeStamp" value="40" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
