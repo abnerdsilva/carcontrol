@@ -1,7 +1,11 @@
+import 'package:carcontrol/config/theme_config.dart';
+import 'package:carcontrol/pages/finance/components/finance_filter_widget.dart';
+import 'package:carcontrol/pages/finance/components/finance_graphs_widget.dart';
 import 'package:carcontrol/pages/finance/components/finance_widget.dart';
 import 'package:carcontrol/pages/finance/finance_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class FinancePage extends GetView<FinanceController> {
   static const String route = '/finance';
@@ -12,96 +16,231 @@ class FinancePage extends GetView<FinanceController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Meu Financeiro'),
+        title: const Text('Financeiro'),
+        actions: [
+          IconButton(
+            onPressed: () => showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) {
+                return const FractionallySizedBox(
+                  heightFactor: 0.6,
+                  child: FinanceFilterWidget(),
+                );
+              },
+            ),
+            icon: const Icon(Icons.filter_alt_rounded),
+          ),
+          const SizedBox(width: 12),
+          IconButton(
+            onPressed: () => showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) {
+                return const FractionallySizedBox(
+                  heightFactor: 0.9,
+                  child: FinanceWidget(),
+                );
+              },
+            ),
+            icon: const Icon(Icons.add),
+          ),
+          const SizedBox(width: 12),
+          IconButton(
+            onPressed: () => showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) {
+                return const FractionallySizedBox(
+                  heightFactor: 0.80,
+                  child: FinanceGraphsWidget(),
+                );
+              },
+            ),
+            icon: const Icon(Icons.auto_graph_sharp),
+          ),
+          const SizedBox(width: 12),
+        ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Obx(() {
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: controller.finances.length,
-                itemBuilder: (context, index) {
-                  final item = controller.finances[index];
-
-                  final despesa = item.tipoDespesa == 'Abastecimento'
-                      ? '${item.tipoDespesa} - ${item.tipoCombustivel}'
-                      : item.tipoDespesa;
-
-                  return Card(
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                        top: 12,
-                        bottom: 12,
-                        left: 12,
-                      ),
-                      child: Row(
+        child: Column(
+          children: [
+            Obx(
+              () => controller.isFilterSelected.value
+                  ? Container(
+                      color: Colors.grey,
+                      height: 60,
+                      child: Stack(
                         children: [
-                          Expanded(
-                            flex: 7,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.nome,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      despesa,
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Text(
-                                      item.valor.toStringAsFixed(2),
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  item.dataHora,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
+                          const Center(
+                            child: Text(
+                              'Filtro aplicado',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: InkWell(
-                              child: const Center(
-                                child: Icon(
-                                  Icons.delete,
-                                ),
-                              ),
-                              onTap: () {},
+                          Container(
+                            padding: const EdgeInsets.only(right: 20),
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: () => controller.clearFilterFinances(),
+                              child: const Text('Limpar'),
                             ),
                           ),
                         ],
                       ),
-                    ),
+                    )
+                  : Container(),
+            ),
+            Flexible(
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Obx(() {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.finances.length,
+                    padding: const EdgeInsets.only(top: 4),
+                    itemBuilder: (context, index) {
+                      final item = controller.finances[index];
+
+                      final tipo = item.tipoFinanceiro == 'entrada'
+                          ? 'Corrida por aplicativo'
+                          : item.tipoDespesa == 'Abastecimento'
+                              ? '${item.tipoDespesa} - ${item.tipoCombustivel}'
+                              : item.tipoDespesa;
+
+                      final imgTipoFinan = item.tipoDespesa == 'Abastecimento'
+                          ? 'combustivel'
+                          : item.tipoDespesa == 'Mecânica'
+                              ? 'chave'
+                              : item.tipoDespesa == 'Imposto'
+                                  ? 'taxa'
+                                  : item.tipoDespesa == 'Elétrica'
+                                      ? 'eletrica'
+                                      : 'dinheiro';
+
+                      final fundoTipoFinan = item.tipoDespesa == 'Abastecimento'
+                          ? ThemeConfig.kThirdSecondaryColor
+                          : item.tipoDespesa == 'Mecânica'
+                              ? Colors.orange[300]
+                              : item.tipoDespesa == 'Imposto'
+                                  ? Colors.red[100]
+                                  : item.tipoDespesa == 'receita'
+                                      ? Colors.green[300]
+                                      : Colors.yellow[100];
+
+                      return Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    color: ThemeConfig.kGravishBlueColor,
+                                    width: 8,
+                                    height: 95,
+                                    alignment: Alignment.center,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: fundoTipoFinan,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    padding: const EdgeInsets.all(8),
+                                    child: Image.asset(
+                                      'assets/images/$imgTipoFinan.png',
+                                      width: 30,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 4,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            item.tipoDespesa,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            DateFormat('dd-MM-yyy HH:mm')
+                                                .format(DateTime.parse(item.dataHora))
+                                                .toString(),
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 6,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            tipo,
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          Text(
+                                            'R\$ ${item.valor.toStringAsFixed(2)}',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: item.tipoFinanceiro == 'saida' ? Colors.red : Colors.green,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Text(item.nome),
+                                      Text(item.observacao),
+                                      const SizedBox(height: 8),
+                                      const Divider(),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                // Expanded(
+                                //   flex: 1,
+                                //   child: InkWell(
+                                //     child: const Center(
+                                //       child: Icon(
+                                //         Icons.delete,
+                                //       ),
+                                //     ),
+                                //     onTap: () {},
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   );
-                },
-              );
-            }),
-          ),
+                }),
+              ),
+            ),
+          ],
         ),
       ),
       // floatingActionButton: FloatingActionButton(
@@ -113,19 +252,19 @@ class FinancePage extends GetView<FinanceController> {
       //   ),
       //   child: const Icon(Icons.add),
       // ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (context) {
-            return const FractionallySizedBox(
-              heightFactor: 0.9,
-              child: FinanceWidget(),
-            );
-          },
-        ),
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () => showModalBottomSheet(
+      //     context: context,
+      //     isScrollControlled: true,
+      //     builder: (context) {
+      //       return const FractionallySizedBox(
+      //         heightFactor: 0.9,
+      //         child: FinanceWidget(),
+      //       );
+      //     },
+      //   ),
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:carcontrol/config/constants.dart';
 import 'package:carcontrol/core/db/db_firestore.dart';
+import 'package:carcontrol/model/expense_model.dart';
 import 'package:carcontrol/model/race_customer_model.dart';
 import 'package:carcontrol/model/race_destination_model.dart';
 import 'package:carcontrol/model/race_model.dart';
@@ -123,13 +124,15 @@ class HomeController extends GetxController {
     final doc = prefs.docRacePending;
     final docActive = prefs.docActiveRequestRace;
 
+    final dataHora = DateTime.now().toLocal().toString();
+
     final raceModel = RaceModel(
       destino: rm.destino,
       origem: rm.origem,
       customer: rm.customer,
       status: 'concluido',
       departureDate: rm.departureDate,
-      landingDate: DateTime.now().toLocal().toString(),
+      landingDate: dataHora,
       distanceDestination: rm.distanceDestination,
       distanceOrigem: rm.distanceOrigem,
       driveId: rm.driveId,
@@ -139,6 +142,26 @@ class HomeController extends GetxController {
     );
 
     await firebaseRepository.saveRaceConcluded(docActive!, raceModel);
+
+    // final refIdCorrida = rm.id
+
+    final finance = FinanceModel(
+      driverId: rm.id!,
+      dataHora: dataHora,
+      observacao: '',
+      nome: rm.customer.name.toString(),
+      tipoCombustivel: '',
+      tipoDespesa: 'receita',
+      valor: double.parse(rm.prices!.priceDriver),
+      valorCombustivel: 0.0,
+      quantidade: 1,
+      kilometragem: 0,
+      tipoFinanceiro: 'entrada',
+    );
+
+    final financeController = Get.find<FinanceController>();
+    await financeController.saveFinance(finance);
+
     clearPoints();
 
     await firebaseRepository.deleteCollectionPendingRaces(doc!);

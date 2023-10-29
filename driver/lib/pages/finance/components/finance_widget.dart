@@ -25,7 +25,7 @@ class FinanceWidget extends StatefulWidget {
 class _FinanceWidgetState extends State<FinanceWidget> {
   final controller = Get.put(FinanceController(Get.find()));
 
-  TextEditingController dataEC = TextEditingController(text: DateTime.now().toLocal().toString().substring(0, 10));
+  TextEditingController dataEC = TextEditingController(text: DateTime.now().toLocal().toString().substring(0, 19));
   TextEditingController totalEC = TextEditingController(text: 0.toStringAsFixed(2));
   TextEditingController observationEC = TextEditingController();
   TextEditingController kilometragemEC = TextEditingController();
@@ -67,7 +67,7 @@ class _FinanceWidgetState extends State<FinanceWidget> {
       fuelPrice = double.parse(priceEC.text);
     }
 
-    final item = ExpenseModel(
+    final item = FinanceModel(
       driverId: id,
       dataHora: dataEC.value.text,
       observacao: observationEC.value.text,
@@ -78,6 +78,7 @@ class _FinanceWidgetState extends State<FinanceWidget> {
       valorCombustivel: fuelPrice,
       quantidade: double.parse(quantityEC.value.text.isEmpty ? '0.0' : quantityEC.value.text),
       kilometragem: int.parse(kilometragemEC.value.text.isEmpty ? '0' : kilometragemEC.value.text),
+      tipoFinanceiro: 'saida',
     );
 
     if (item.dataHora.isEmpty || totalEC.value.text.isEmpty) {
@@ -85,7 +86,7 @@ class _FinanceWidgetState extends State<FinanceWidget> {
       return;
     }
 
-    await controller.saveExpense(item);
+    await controller.saveFinance(item);
   }
 
   @override

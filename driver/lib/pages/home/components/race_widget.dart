@@ -55,7 +55,7 @@ class RaceWidget extends GetView<HomeController> {
                     style: TextStyle(color: ThemeConfig.kTextSecundaryColor),
                   ),
                   Text(
-                    'R\$ ${double.parse(race.prices!.total!).toStringAsFixed(2)}',
+                    'R\$ ${double.parse(race.prices!.total.replaceAll(',', '.')).toStringAsFixed(2)}',
                     style: const TextStyle(color: ThemeConfig.kTextSecundaryColor),
                   ),
                 ],

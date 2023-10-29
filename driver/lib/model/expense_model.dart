@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ExpenseModel {
+class FinanceModel {
   final String driverId;
   final String dataHora;
   final String nome;
   final String observacao;
+  final String tipoFinanceiro;
   final String tipoDespesa;
   final String tipoCombustivel;
   final double valor;
@@ -14,11 +15,12 @@ class ExpenseModel {
   final double quantidade;
   final int kilometragem;
 
-  ExpenseModel({
+  FinanceModel({
     required this.driverId,
     required this.dataHora,
     required this.observacao,
     required this.nome,
+    required this.tipoFinanceiro,
     required this.tipoDespesa,
     required this.tipoCombustivel,
     required this.valor,
@@ -39,11 +41,12 @@ class ExpenseModel {
       'valorCombustivel': valorCombustivel,
       'quantidade': quantidade,
       'kilometragem': kilometragem,
+      'tipoFinanceiro': tipoFinanceiro,
     };
   }
 
-  factory ExpenseModel.fromMap(Map<String, dynamic> map) {
-    return ExpenseModel(
+  factory FinanceModel.fromMap(Map<String, dynamic> map) {
+    return FinanceModel(
       driverId: map['id_motorista'],
       dataHora: map['dataHora'],
       observacao: map['observacao'],
@@ -54,16 +57,17 @@ class ExpenseModel {
       valorCombustivel: map['valorCombustivel'],
       quantidade: map['quantidade'],
       kilometragem: map['kilometragem'],
+      tipoFinanceiro: map['tipoFinanceiro'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ExpenseModel.fromJson(String source) => ExpenseModel.fromMap(json.decode(source));
+  factory FinanceModel.fromJson(String source) => FinanceModel.fromMap(json.decode(source));
 
-  factory ExpenseModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, {SnapshotOptions? options}) {
+  factory FinanceModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot, {SnapshotOptions? options}) {
     final data = snapshot.data();
-    return ExpenseModel(
+    return FinanceModel(
       driverId: data!['id_motorista'],
       dataHora: data['dataHora'],
       observacao: data['observacao'],
@@ -74,6 +78,7 @@ class ExpenseModel {
       valorCombustivel: data['valorCombustivel'],
       quantidade: data['quantidade'],
       kilometragem: data['kilometragem'],
+      tipoFinanceiro: data['tipoFinanceiro'],
     );
   }
 }
