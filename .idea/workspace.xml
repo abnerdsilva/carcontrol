@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="ajuste layout financeiro">
+    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="add receita no financeiro">
+      <change beforePath="$PROJECT_DIR$/.idea/carcontrol-duas.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/carcontrol-duas.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/model/expense_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/model/expense_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/finance/components/finance_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/finance/components/finance_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/lib/pages/finance/finance_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/finance/finance_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/lib/pages/finance/finance_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/finance/finance_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/shared/repositories/firebase_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/shared/repositories/firebase_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/pages/home/components/race_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/home/components/race_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/driver/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/driver/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,16 +51,22 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "ScreenshotViewer.SavePath": "C:/Users/usuario/Desktop",
     "cidr.known.project.marker": "true",
+    "com.android.tools.idea.devicemanager.tab": "Physical",
     "dart.analysis.tool.window.visible": "false",
     "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "E:/PROJETOS/particular/carcontrol/driver/assets/images",
-    "settings.editor.selected.configurable": "preferences.sourceCode.Dart",
+    "last_opened_file_path": "E:/PROJETOS/mrstecno/mrs-cardapio-digital",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "Console",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\PROJETOS\particular\carcontrol\driver\lib\pages\finance\components" />
       <recent name="E:\PROJETOS\particular\carcontrol\driver\assets\images" />
       <recent name="E:\PROJETOS\particular\carcontrol\driver\lib\model" />
       <recent name="$PROJECT_DIR$/assets/images" />
@@ -189,7 +196,14 @@
       <option name="project" value="LOCAL" />
       <updated>1696768061957</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="add receita no financeiro">
+      <created>1696792761361</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1696792761361</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -217,7 +231,8 @@
     <MESSAGE value="altera projeto para pasta driver" />
     <MESSAGE value="version client" />
     <MESSAGE value="ajuste layout financeiro" />
-    <option name="LAST_COMMIT_MESSAGE" value="ajuste layout financeiro" />
+    <MESSAGE value="add receita no financeiro" />
+    <option name="LAST_COMMIT_MESSAGE" value="add receita no financeiro" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -227,55 +242,10 @@
           <line>74</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>139</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>141</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>164</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>173</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>185</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>181</line>
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>177</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>178</line>
-          <option name="timeStamp" value="37" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/main.dart</url>
-          <line>5</line>
-          <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>126</line>
-          <option name="timeStamp" value="40" />
+          <url>file://$PROJECT_DIR$/driver/lib/pages/finance/components/finance_filter_widget.dart</url>
+          <line>266</line>
+          <option name="timeStamp" value="41" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
