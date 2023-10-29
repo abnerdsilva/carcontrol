@@ -141,8 +141,8 @@ class FirebaseRepository {
     await db.collection('veiculos').doc(item.docs.first.id).delete();
   }
 
-  Future<DocumentReference<Map<String, dynamic>>> saveExpense(ExpenseModel expense) async {
-    return await db.collection('despesas').add(expense.toMap());
+  Future<DocumentReference<Map<String, dynamic>>> saveExpense(FinanceModel expense) async {
+    return await db.collection('financeiro').add(expense.toMap());
   }
 
   Future<void> updateVehicle(String doc, CarModel car) async {
