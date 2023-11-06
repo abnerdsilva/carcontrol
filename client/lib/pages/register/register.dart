@@ -6,7 +6,7 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 import '../../shared/components/custom_text_form_field.dart';
 import '../login/field_validator.dart';
-import '../login/usuario.dart';
+import '../../model/usuario_model.dart';
 
 class Cadastro extends StatefulWidget {
   @override

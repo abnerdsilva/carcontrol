@@ -1,4 +1,4 @@
-import 'package:carcontrol/pages/login/usuario.dart';
+import 'package:carcontrol/model/usuario_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

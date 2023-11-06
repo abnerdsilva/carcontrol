@@ -21,11 +21,10 @@ class HomePage extends StatelessWidget {
           children: [
             Stack(
               children: [
-                const DashboardPage(index: 0),
+                DashboardPage(),
               ],
             ),
             const ConfigPage(),
-
           ],
         ),
       ),

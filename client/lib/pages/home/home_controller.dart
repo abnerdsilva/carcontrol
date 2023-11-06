@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:carcontrol/pages/dashboard/race_model.dart';
+import 'package:carcontrol/model/race_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geolocator/geolocator.dart';
@@ -23,31 +23,8 @@ class HomeController extends GetxController {
   late Position posi;
 
   final markers = <Marker>{
-
     const Marker(markerId: MarkerId(AutofillHints.name)),
-
   };
-
-  void _exibirMarcador(BuildContext context, Position local) async {
-    double pixelRatio = MediaQuery.of(context).devicePixelRatio;
-
-    BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(devicePixelRatio: pixelRatio),
-      "image/passageiro.png",
-    ).then((BitmapDescriptor icone) {
-      Marker marcadorPassageiro = Marker(
-        markerId: MarkerId("marcador-passageiro"),
-        position: LatLng(local.latitude, local.longitude),
-        infoWindow: InfoWindow(
-          title: "Meu Local",
-        ),
-        icon: icone,
-      );
-
-      markers.add(marcadorPassageiro);
-      update();
-    });
-  }
 
   final RxBool _statusStartRaces = false.obs;
 
@@ -71,7 +48,6 @@ class HomeController extends GetxController {
   }
 
   Future<Position> _posicaoAtual() async {
-
     LocationPermission permission;
     bool ativado = await Geolocator.isLocationServiceEnabled();
     if (!ativado) {
@@ -211,7 +187,6 @@ class HomeController extends GetxController {
     final lng = detail.result.geometry!.location.lng;
 
     print("${p.description} - $lat/$lng");
-
 
     await _mapsController.animateCamera(
       CameraUpdate.newLatLng(LatLng(lat, lng)),

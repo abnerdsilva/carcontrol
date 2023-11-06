@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import '../../shared/components/custom_button.dart';
 import '../../shared/components/custom_text_form_field.dart';
 import 'field_validator.dart';
-import 'usuario.dart';
+import '../../model/usuario_model.dart';
 
 class LoginPage extends StatelessWidget {
   static const String route = '/login';

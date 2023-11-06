@@ -1,6 +1,6 @@
-import 'package:carcontrol/pages/login/usuario.dart';
-import 'package:carcontrol/pages/races/destino.dart';
-import 'package:carcontrol/pages/races/requisicao.dart';
+import 'package:carcontrol/model/usuario_model.dart';
+import 'package:carcontrol/model/destino_model.dart';
+import 'package:carcontrol/model/requisicao_model.dart';
 import 'package:carcontrol/util/status_requisicao.dart';
 import 'package:carcontrol/util/usuario_firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,6 +12,9 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../home/home_controller.dart';
+import 'corrida.dart';
+import '../../model/custos_da_viagem_model.dart';
+import '../../model/origem_model.dart';
 
 class ChooseDriver extends StatefulWidget {
   @override
@@ -24,7 +27,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
   String _textoBotao = "Chamar Motorista";
   Color _corBotao = Color(0x34262323);
   late Function _funcaoBotao;
-  late String _idRequisicao;
+  bool _exibirTelaBuscandoMotorista = true;
 
   TextEditingController _controllerDestino = TextEditingController();
 
@@ -41,12 +44,48 @@ class _ChooseDriverState extends State<ChooseDriver> {
 
   late HomeController controller;
 
+  Set<Marker> _markers = {};
+
+  LatLng? _currentLocation;
+
   @override
   void initState() {
     super.initState();
     controller = Get.find<HomeController>();
     _pegarPosicao();
     _adicionarListenerRequisicaoAtiva();
+    _obterEnderecoAtual();
+  }
+
+  Future<void> _obterEnderecoAtual() async {
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+
+    LatLng latlon = LatLng(position.latitude, position.longitude);
+
+    setState(() {
+      _currentLocation = latlon;
+    });
+
+    _setMarker(latlon);
+  }
+
+  Future<void> _setMarker(LatLng latlon) async {
+    BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(devicePixelRatio: 2.5),
+      'assets/images/passageiro.png',
+    );
+
+    setState(() {
+      _markers.add(
+        Marker(
+          markerId: MarkerId('marker'),
+          position: latlon,
+          icon: customIcon,
+        ),
+      );
+    });
   }
 
   @override
@@ -61,15 +100,14 @@ class _ChooseDriverState extends State<ChooseDriver> {
           builder: (value) => GoogleMap(
             mapType: MapType.normal,
             zoomControlsEnabled: true,
-            // initialCameraPosition: _kGooglePlex,
             initialCameraPosition: CameraPosition(
-              target: controller.position,
+              target: _currentLocation!,
               zoom: 13,
             ),
             onMapCreated: controller.onMapCreated,
             //myLocationEnabled: true,
             myLocationButtonEnabled: false,
-            markers: controller.markers,
+            markers: _markers,
           ),
         ),
         Visibility(
@@ -188,14 +226,59 @@ class _ChooseDriverState extends State<ChooseDriver> {
     });
   }
 
-  _statusAguardando() {
+  void _statusAguardando() {
     _exibirCaixaEnderecoDestino = false;
 
     _alterarBotaoPrincipal(
-      "Cancelar",
-      Colors.red,
-      () {
-        _cancelarMotorista();
+      "",
+      Color.fromRGBO(0, 0, 0, 0.4),
+      () {},
+    );
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Buscando Motorista", textAlign: TextAlign.center),
+          contentPadding: EdgeInsets.all(10),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(image: AssetImage("assets/images/carro-animado.gif")),
+              SizedBox(height: 20),
+              //Text("Aguarde...", textAlign: TextAlign center),
+              //SizedBox(height: 10),
+              GestureDetector(
+                onTap: () {
+                  _cancelarMotorista();
+                  setState(() {
+                    _exibirTelaBuscandoMotorista = false;
+                  });
+                  Navigator.of(context).pop();
+                },
+                child: Visibility(
+                  visible: _exibirTelaBuscandoMotorista,
+                  child: Container(
+                    color: Colors.red,
+                    child: Center(
+                      child: Text(
+                        "Cancelar Corrida",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
@@ -204,51 +287,114 @@ class _ChooseDriverState extends State<ChooseDriver> {
     User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
 
     FirebaseFirestore db = FirebaseFirestore.instance;
-    db
-        .collection("requisicoes")
-        .doc(_idRequisicao)
-        .update({"status": StatusRequisicao.CANCELADO}).then((_) {
-      db.collection("requisicoes_ativas").doc(firebaseUser?.uid).delete();
-      db.collection("requisicoes").doc(_idRequisicao).delete();
-    });
+
+    await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).delete();
   }
+
+  /*obterEnderecoAtual() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      Placemark currentAddress = placemarks.first;
+
+      Origem origem = Origem();
+      origem.rua = currentAddress.thoroughfare!;
+      origem.numero = currentAddress.subThoroughfare!;
+      origem.bairro = currentAddress.subLocality!;
+      origem.cidade = currentAddress.administrativeArea!;
+      origem.cep = currentAddress.postalCode!;
+      origem.latitude = position.latitude;
+      origem.longitude = position.longitude;
+
+      print("Endereço Atual:");
+      print("Rua: ${origem.rua}");
+      print("Número: ${origem.numero}");
+      print("Bairro: ${origem.bairro}");
+      print("Cidade: ${origem.cidade}");
+      print("CEP: ${origem.cep}");
+      print("Latitude: ${origem.latitude}");
+      print("Longitude: ${origem.longitude}");
+
+      // Agora você pode usar os dados em 'origem' conforme necessário.
+    } catch (e) {
+      print("Erro ao obter a localização atual: $e");
+    }
+  }*/
 
   _chamarMotorista() async {
     String enderecoDestino = _controllerDestino.text;
 
     if (enderecoDestino.isNotEmpty) {
-      List<Location> listaEnderecos =
-          await locationFromAddress(enderecoDestino);
+      try {
+        List<Location> listaEnderecos =
+            await locationFromAddress(enderecoDestino);
+        Location enderecoNovo = listaEnderecos[0];
 
-      Location enderecoNovo = listaEnderecos[0];
+        List<Placemark> novo = await placemarkFromCoordinates(
+            enderecoNovo.latitude, enderecoNovo.longitude);
 
-      List<Placemark> novo = await placemarkFromCoordinates(
-          enderecoNovo.latitude, enderecoNovo.longitude);
+        Placemark destinoPlacemark = novo[0];
 
-      Placemark teste = novo[0];
+        print("\n\n\n\n Endereco Destino \n\n\n\n" +
+            destinoPlacemark.toString() +
+            "\n\n\n\n");
 
-      print(
-          "\n\n\n\n Endereco Destino \n\n\n\n" + teste.toString() + "\n\n\n\n");
+        // Crie um objeto Destino para armazenar os detalhes do destino
+        Destino destino = Destino();
+        destino.cidade = destinoPlacemark.administrativeArea!;
+        destino.cep = destinoPlacemark.postalCode!;
+        destino.bairro = destinoPlacemark.subLocality!;
+        destino.rua = destinoPlacemark.thoroughfare!;
+        destino.numero = destinoPlacemark.subThoroughfare!;
+        destino.latitude = enderecoNovo.latitude;
+        destino.longitude = enderecoNovo.longitude;
+        destino.horario = enderecoNovo.timestamp;
 
-      Destino destino = Destino();
+        // Obtenha a localização atual
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
 
-      destino.cidade = teste.administrativeArea!;
-      destino.cep = teste.postalCode!;
-      destino.bairro = teste.subLocality!;
-      destino.rua = teste.thoroughfare!;
-      destino.numero = teste.subThoroughfare!;
+        // Obtenha os detalhes do endereço atual
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+            position.latitude, position.longitude);
 
-      destino.latitude = enderecoNovo.latitude;
-      destino.longitude = enderecoNovo.longitude;
-      destino.horario = enderecoNovo.timestamp;
+        Placemark origemPlacemark = placemarks.first;
 
-      String enderecoConfirmacao;
+        Origem origem = Origem();
+        origem.rua = origemPlacemark.thoroughfare!;
+        origem.numero = origemPlacemark.subThoroughfare!;
+        origem.bairro = origemPlacemark.subLocality!;
+        origem.cidade = origemPlacemark.administrativeArea!;
+        origem.cep = origemPlacemark.postalCode!;
+        origem.latitude = position.latitude;
+        origem.longitude = position.longitude;
 
-      enderecoConfirmacao =
-          "\n Cidade: ${destino.cidade}\n Rua: ${destino.rua},${destino.numero}"
-          "\n Bairro: ${destino.bairro}\n Cep: ${destino.cep}";
+        /*print("Endereço Atual:");
+        print("Rua: ${origem.rua}");
+        print("Número: ${origem.numero}");
+        print("Bairro: ${origem.bairro}");
+        print("Cidade: ${origem.cidade}");
+        print("CEP: ${origem.cep}");
+        print("Latitude: ${origem.latitude}");
+        print("Longitude: ${origem.longitude}");*/
 
-      showDialog(
+        Custos custos = Custos();
+        custos.valor_total_corrida = 10.0;
+        custos.valor_do_passageiro = 2.0;
+        custos.valor_do_motorista = 7.0;
+
+        String enderecoConfirmacao =
+            "\n Cidade: ${destino.cidade}\n Rua: ${destino.rua}, ${destino.numero}"
+            "\n Bairro: ${destino.bairro}\n CEP: ${destino.cep}";
+
+        showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
@@ -272,14 +418,18 @@ class _ChooseDriverState extends State<ChooseDriver> {
                   ),
                   onPressed: () {
                     // Chamada do motorista
-                    _salvarRequisicao(destino);
+                    _salvarRequisicao(destino, origem, custos);
 
                     Navigator.pop(context);
                   },
                 ),
               ],
             );
-          });
+          },
+        );
+      } catch (e) {
+        print("Erro ao obter endereços: $e");
+      }
     } else {
       _showAlertDialog("Ops!", "Endereço de Destino Vazio.");
     }
@@ -347,13 +497,16 @@ class _ChooseDriverState extends State<ChooseDriver> {
     }
   }
 
-  _salvarRequisicao(Destino destino) async {
+  Future<void> _salvarRequisicao(
+      Destino destino, Origem origem, Custos custos) async {
     Usuario passageiro = await UsuarioFirebase.getDadosUsuarioLogado();
 
     Requisicao requisicao = Requisicao();
 
     requisicao.destino = destino;
+    requisicao.origem = origem; // Defina a origem com base no objeto Origem
     requisicao.passageiro = passageiro;
+    requisicao.custos = custos;
     requisicao.status = StatusRequisicao.AGUARDANDO;
 
     FirebaseFirestore db = FirebaseFirestore.instance;
@@ -397,17 +550,13 @@ class _ChooseDriverState extends State<ChooseDriver> {
 
         if (dados != null) {
           String status = dados["status"];
-          _idRequisicao = dados["id_requisicao"];
 
           switch (status) {
             case StatusRequisicao.AGUARDANDO:
               _statusAguardando();
               break;
-            case StatusRequisicao.A_CAMINHO:
-              // Restante do código
-              break;
             case StatusRequisicao.VIAGEM:
-              // Restante do código
+              Get.offAll(Corrida());
               break;
             case StatusRequisicao.FINALIZADA:
               // Restante do código
@@ -415,7 +564,6 @@ class _ChooseDriverState extends State<ChooseDriver> {
           }
         }
       } else {
-        print("Pssei aqui 4");
         _statusMotoristaNaoChamado();
       }
     });
