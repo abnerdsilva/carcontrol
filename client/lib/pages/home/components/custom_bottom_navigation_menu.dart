@@ -48,17 +48,6 @@ class CustomBottonNavigationMenu extends GetView<HomeController> {
               icon: Container(
                 margin: const EdgeInsets.only(bottom: 7),
                 child: const Icon(
-                  Icons.history_sharp,
-                  size: 20.0,
-                ),
-              ),
-              label: 'Histórico',
-              backgroundColor: ThemeConfig.kPrimaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                margin: const EdgeInsets.only(bottom: 7),
-                child: const Icon(
                   Icons.location_history,
                   size: 20.0,
                 ),
