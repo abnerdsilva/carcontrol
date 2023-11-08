@@ -4,10 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../model/usuario_model.dart';
 import '../../shared/components/custom_button.dart';
 import '../../shared/components/custom_text_form_field.dart';
 import 'field_validator.dart';
-import '../../model/usuario_model.dart';
 
 class LoginPage extends StatelessWidget {
   static const String route = '/login';

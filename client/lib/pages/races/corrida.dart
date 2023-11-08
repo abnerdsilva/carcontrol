@@ -10,7 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../util/status_requisicao.dart';
 import '../../util/usuario_firebase.dart';
-import '../finish_race/finish_race.dart';
+import '../dashboard/dashboard_page.dart';
 import 'location_service.dart';
 
 class Corrida extends StatefulWidget {
@@ -303,7 +303,6 @@ class CorridaState extends State<Corrida> {
 
   void _verificarSeCorridaEstaAtiva() async {
     User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
-
     FirebaseFirestore db = FirebaseFirestore.instance;
 
     await db
@@ -338,14 +337,51 @@ class CorridaState extends State<Corrida> {
                   .collection("requisicoes_ativas")
                   .doc(firebaseUser?.uid)
                   .delete();
-
-              Get.offAll(FinishRace());
+              _mostrarDialogCorridaFinalizada(context);
               break;
           }
         }
       } else {}
     });
   }
+}
+
+_mostrarDialogCorridaFinalizada(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(
+          'Corrida Finalizada !',
+          textAlign: TextAlign.center, // Alinhe o texto ao centro
+          style: TextStyle(
+            fontSize: 16, // Tamanho da fonte opcional
+            fontWeight: FontWeight.bold, // Peso da fonte opcional
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 100,
+              height: 100,
+              child: Image.asset("assets/images/check.png"),
+            ),
+            SizedBox(height: 16),
+            TextButton(
+                child: Text(
+                  "Confirmar",
+                  style: TextStyle(color: Color(0xff1564B3)),
+                ),
+                onPressed: () {
+                  Get.offAll(DashboardPage());
+                }),
+          ],
+        ),
+      );
+    },
+  );
 }
 
 Future<void> informacoesMotorista(BuildContext context) async {

@@ -21,130 +21,154 @@ class CadastroMotorista extends StatefulWidget {
 
 class _CadastroState extends State<CadastroMotorista> {
   final TextEditingController _controllerNome = TextEditingController();
-  final TextEditingController _controllerCpf = MaskedTextController(mask: '000.000.000-00');
-  final TextEditingController _controllerDataNascimento = MaskedTextController(mask: '00/00/0000');
+  final TextEditingController _controllerCpf =
+      MaskedTextController(mask: '000.000.000-00');
+  final TextEditingController _controllerDataNascimento =
+      MaskedTextController(mask: '00/00/0000');
   final TextEditingController _controllerEndereco = TextEditingController();
-  final TextEditingController _controllerTelefone = MaskedTextController(mask: '(00) 00000-0000');
-  final TextEditingController _controllerCnh = MaskedTextController(mask: "0000000000");
+  final TextEditingController _controllerTelefone =
+      MaskedTextController(mask: '(00) 00000-0000');
+  final TextEditingController _controllerCnh =
+      MaskedTextController(mask: "0000000000");
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerSenha = TextEditingController();
 
   _validarCampos() async {
-    if (_controllerNome.text.isNotEmpty &&
-        ValidationUtils.isValidName(_controllerNome.text) &&
-        _controllerNome.text.length < 100) {
-      if (_controllerCpf.text.isNotEmpty && ValidationUtils.isValidCPF(_controllerCpf.text)) {
-        if (_controllerDataNascimento.text.isNotEmpty &&
-            ValidationUtils.isValidDateOfBirth(_controllerDataNascimento.text)) {
-          if (_controllerEndereco.text.isNotEmpty && _controllerEndereco.text.length < 150) {
-            if (_controllerCnh.text.isNotEmpty && _controllerCnh.text.length < 12) {
-              if (_controllerTelefone.text.isNotEmpty && ValidationUtils.isValidNumber(_controllerTelefone.text)) {
-                if (_controllerEmail.text.isNotEmpty &&
-                    ValidationUtils.isValidEmail(_controllerEmail.text) &&
-                    _controllerEmail.text.length < 100) {
-                  if (_controllerSenha.text.isNotEmpty &&
-                      _controllerSenha.text.length > 6 &&
-                      _controllerSenha.text.length < 20) {
-                    Driver driver = Driver();
+    try {
+      if (_controllerNome.text.isNotEmpty &&
+          ValidationUtils.isValidName(_controllerNome.text) &&
+          _controllerNome.text.length < 100) {
+        if (_controllerCpf.text.isNotEmpty &&
+            ValidationUtils.isValidCPF(_controllerCpf.text)) {
+          if (_controllerDataNascimento.text.isNotEmpty &&
+              ValidationUtils.isValidDateOfBirth(
+                  _controllerDataNascimento.text)) {
+            if (_controllerEndereco.text.isNotEmpty &&
+                _controllerEndereco.text.length < 150) {
+              if (_controllerCnh.text.isNotEmpty &&
+                  _controllerCnh.text.length < 12) {
+                if (_controllerTelefone.text.isNotEmpty &&
+                    ValidationUtils.isValidNumber(_controllerTelefone.text)) {
+                  if (_controllerEmail.text.isNotEmpty &&
+                      ValidationUtils.isValidEmail(_controllerEmail.text) &&
+                      _controllerEmail.text.length < 100) {
+                    if (_controllerSenha.text.isNotEmpty &&
+                        _controllerSenha.text.length > 6 &&
+                        _controllerSenha.text.length < 20) {
+                      Driver driver = Driver();
 
-                    String enderecoDestino = _controllerEndereco.text;
+                      String enderecoDestino = _controllerEndereco.text;
 
-                    if (enderecoDestino.isNotEmpty) {
-                      List<Location> enderecoDigitado = await locationFromAddress(enderecoDestino);
+                      if (enderecoDestino.isNotEmpty) {
+                        List<Location> enderecoDigitado =
+                            await locationFromAddress(enderecoDestino);
 
-                      Location pegarLatitudeLongitude = enderecoDigitado[0];
+                        Location pegarLatitudeLongitude = enderecoDigitado[0];
 
-                      List<Placemark> enderecoLocalizado = await placemarkFromCoordinates(
-                        pegarLatitudeLongitude.latitude,
-                        pegarLatitudeLongitude.longitude,
-                      );
+                        List<Placemark> enderecoLocalizado =
+                            await placemarkFromCoordinates(
+                          pegarLatitudeLongitude.latitude,
+                          pegarLatitudeLongitude.longitude,
+                        );
 
-                      Placemark endereco = enderecoLocalizado[0];
+                        Placemark endereco = enderecoLocalizado[0];
 
-                      log("\n\n\n\n Endereco do Motorista \n\n\n\n $endereco\n\n\n\n");
+                        log("\n\n\n\n Endereco do Motorista \n\n\n\n $endereco\n\n\n\n");
 
-                      driver.cidade = endereco.administrativeArea!;
-                      driver.bairro = endereco.subLocality!;
-                      driver.rua = endereco.thoroughfare!;
-                      driver.numero = endereco.subThoroughfare!;
-                      driver.cep = endereco.postalCode!;
+                        driver.cidade = endereco.administrativeArea!;
+                        driver.bairro = endereco.subLocality!;
+                        driver.rua = endereco.thoroughfare!;
+                        driver.numero = endereco.subThoroughfare!;
+                        driver.cep = endereco.postalCode!;
 
-                      String enderecoConfirmacao;
+                        String enderecoConfirmacao;
 
-                      enderecoConfirmacao = "\n Cidade: ${driver.cidade}\n Rua: ${driver.rua}, ${driver.numero}"
-                          "\n Bairro: ${driver.bairro}\n Cep: ${driver.cep}";
+                        enderecoConfirmacao =
+                            "\n Cidade: ${driver.cidade}\n Rua: ${driver.rua}, ${driver.numero}"
+                            "\n Bairro: ${driver.bairro}\n Cep: ${driver.cep}";
 
-                      Get.dialog(
-                        AlertDialog(
-                          title: const Text('Confirmação de Endereço'),
-                          content: Text(enderecoConfirmacao),
-                          contentPadding: const EdgeInsets.all(16),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text(
-                                "Cancelar",
-                                style: TextStyle(color: Colors.red),
+                        Get.dialog(
+                          AlertDialog(
+                            title: const Text('Confirmação de Endereço'),
+                            content: Text(enderecoConfirmacao),
+                            contentPadding: const EdgeInsets.all(16),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text(
+                                  "Cancelar",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
                               ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            TextButton(
-                              child: const Text(
-                                "Confirmar",
-                                style: TextStyle(color: Colors.green),
+                              TextButton(
+                                child: const Text(
+                                  "Confirmar",
+                                  style: TextStyle(color: Colors.green),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  _cadastrarInformacoes(driver);
+                                },
                               ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                                _cadastrarInformacoes(driver);
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                            ],
+                          ),
+                        );
+                      } else {
+                        _showAlertDialog("Ops!", "Endereço de Destino Vazio.");
+                      }
                     } else {
-                      _showAlertDialog("Ops!", "Endereço de Destino Vazio.");
+                      setState(() {
+                        _showAlertDialog('Ops!',
+                            'Preencha uma Senha de no mínimo 6 e máximo 20 caracteres. \n\nNão use: !,""');
+                      });
                     }
                   } else {
                     setState(() {
-                      _showAlertDialog(
-                          'Ops!', 'Preencha uma Senha de no mínimo 6 e máximo 20 caracteres. \n\nNão use: !,""');
+                      _showAlertDialog('Ops!',
+                          'Preencha um E-mail de no máximo 100 caracteres. \n\nNão use: !,""');
                     });
                   }
                 } else {
                   setState(() {
-                    _showAlertDialog('Ops!', 'Preencha um E-mail de no máximo 100 caracteres. \n\nNão use: !,""');
+                    _showAlertDialog('Ops!',
+                        'Preencha um Telefone Válido. \n\nNão use: !,""');
                   });
                 }
               } else {
                 setState(() {
-                  _showAlertDialog('Ops!', 'Preencha um Telefone Válido. \n\nNão use: !,""');
+                  _showAlertDialog('Ops!',
+                      'Preencha um Número de CNH de no máximo de 11 caracteres. \n\nNão use: !,""');
                 });
               }
             } else {
               setState(() {
-                _showAlertDialog('Ops!', 'Preencha um Número de CNH de no máximo de 11 caracteres. \n\nNão use: !,""');
+                _showAlertDialog(
+                    'Ops!', 'Preencha um Cidade Válida. \n\nNão use: !,""');
               });
             }
           } else {
             setState(() {
-              _showAlertDialog('Ops!', 'Preencha um Cidade Válida. \n\nNão use: !,""');
+              _showAlertDialog('Ops!',
+                  'Preencha uma Data de Nascimento Válida. \n\nNão use: !,""');
             });
           }
         } else {
           setState(() {
-            _showAlertDialog('Ops!', 'Preencha uma Data de Nascimento Válida. \n\nNão use: !,""');
+            _showAlertDialog(
+                'Ops!', 'Preencha um Número de CPF Válido. \n\nNão use: !,""');
           });
         }
       } else {
         setState(() {
-          _showAlertDialog('Ops!', 'Preencha um Número de CPF Válido. \n\nNão use: !,""');
+          _showAlertDialog('Ops!',
+              'Preencha um Nome de no máximo 100 caracteres. \n\nNão use: !,""');
         });
       }
-    } else {
-      setState(() {
-        _showAlertDialog('Ops!', 'Preencha um Nome de no máximo 100 caracteres. \n\nNão use: !,""');
-      });
+    } catch (e) {
+      _showAlertDialog("Ops!",
+          "Verifique seu Endereço de Destino. \n\nUse como base Rua,número,Cidade.");
     }
   }
 
@@ -156,7 +180,8 @@ class _CadastroState extends State<CadastroMotorista> {
 
     auth.fetchSignInMethodsForEmail(email).then((signInMethods) async {
       try {
-        UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+        UserCredential userCredential =
+            await auth.createUserWithEmailAndPassword(
           email: email,
           password: senha,
         );
@@ -175,7 +200,11 @@ class _CadastroState extends State<CadastroMotorista> {
           driver.email = _controllerEmail.text;
           driver.senha = _controllerSenha.text;
 
-          db.collection("motoristas").doc(firebase.uid).set(driver.toMap()).then((_) {
+          db
+              .collection("motoristas")
+              .doc(firebase.uid)
+              .set(driver.toMap())
+              .then((_) {
             showDialog(
               context: context,
               builder: (context) {
@@ -206,7 +235,7 @@ class _CadastroState extends State<CadastroMotorista> {
         setState(() {
           _showAlertDialog(
             "Ops!",
-            "Não foi possível criar o usuário. Verifique os dados e tente novamente.",
+            "Não foi possível criar o usuário. Verifique seus dados e tente novamente.",
           );
         });
       }
