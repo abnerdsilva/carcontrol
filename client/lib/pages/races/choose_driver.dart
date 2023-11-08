@@ -1,6 +1,6 @@
-import 'package:carcontrol/model/usuario_model.dart';
 import 'package:carcontrol/model/destino_model.dart';
 import 'package:carcontrol/model/requisicao_model.dart';
+import 'package:carcontrol/model/usuario_model.dart';
 import 'package:carcontrol/util/status_requisicao.dart';
 import 'package:carcontrol/util/usuario_firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,10 +11,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../home/home_controller.dart';
-import 'corrida.dart';
 import '../../model/custos_da_viagem_model.dart';
 import '../../model/origem_model.dart';
+import '../home/home_controller.dart';
+import 'corrida.dart';
 
 class ChooseDriver extends StatefulWidget {
   @override
@@ -22,27 +22,18 @@ class ChooseDriver extends StatefulWidget {
 }
 
 class _ChooseDriverState extends State<ChooseDriver> {
-  Set<Marker> _marcadores = {};
   bool _exibirCaixaEnderecoDestino = true;
-  String _textoBotao = "Chamar Motorista";
+  String _textoBotao = " ";
   Color _corBotao = Color(0x34262323);
   late Function _funcaoBotao;
   bool _exibirTelaBuscandoMotorista = true;
 
   TextEditingController _controllerDestino = TextEditingController();
 
-  TextEditingController _controllerLocal =
+  TextEditingController _controllerOrigem =
       TextEditingController(text: "Meu Local");
 
-  double? latitude;
-
-  double? longitude;
-
-  late String endereco;
-
-  late String teste;
-
-  late HomeController controller;
+  HomeController controller = Get.find<HomeController>();
 
   Set<Marker> _markers = {};
 
@@ -51,8 +42,6 @@ class _ChooseDriverState extends State<ChooseDriver> {
   @override
   void initState() {
     super.initState();
-    controller = Get.find<HomeController>();
-    _pegarPosicao();
     _adicionarListenerRequisicaoAtiva();
     _obterEnderecoAtual();
   }
@@ -105,7 +94,6 @@ class _ChooseDriverState extends State<ChooseDriver> {
               zoom: 13,
             ),
             onMapCreated: controller.onMapCreated,
-            //myLocationEnabled: true,
             myLocationButtonEnabled: false,
             markers: _markers,
           ),
@@ -128,7 +116,6 @@ class _ChooseDriverState extends State<ChooseDriver> {
                         borderRadius: BorderRadius.circular(3),
                         color: Colors.white),
                     child: TextField(
-                      //controller: _controllerLocal,
                       readOnly: true,
                       decoration: InputDecoration(
                           icon: Container(
@@ -139,7 +126,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
                                 Icons.location_on,
                                 color: Colors.green,
                               )),
-                          hintText: "Meu Local",
+                          hintText: _controllerOrigem.text,
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.only(left: 14, top: 6)),
                     ),
@@ -200,8 +187,6 @@ class _ChooseDriverState extends State<ChooseDriver> {
                     _textoBotao,
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
-                  //color: Color(0xff1ebbd8),
-                  //padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
                   onPressed: () {
                     _funcaoBotao();
                   }),
@@ -221,7 +206,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
   _statusMotoristaNaoChamado() {
     _exibirCaixaEnderecoDestino = true;
 
-    _alterarBotaoPrincipal("Confirmar Corrida", Color(0xff192d34), () {
+    _alterarBotaoPrincipal("Confirmar Endereço", Color(0xff192d34), () {
       _chamarMotorista();
     });
   }
@@ -248,8 +233,6 @@ class _ChooseDriverState extends State<ChooseDriver> {
             children: [
               Image(image: AssetImage("assets/images/carro-animado.gif")),
               SizedBox(height: 20),
-              //Text("Aguarde...", textAlign: TextAlign center),
-              //SizedBox(height: 10),
               GestureDetector(
                 onTap: () {
                   _cancelarMotorista();
@@ -291,147 +274,114 @@ class _ChooseDriverState extends State<ChooseDriver> {
     await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).delete();
   }
 
-  /*obterEnderecoAtual() async {
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
-
-      Placemark currentAddress = placemarks.first;
-
-      Origem origem = Origem();
-      origem.rua = currentAddress.thoroughfare!;
-      origem.numero = currentAddress.subThoroughfare!;
-      origem.bairro = currentAddress.subLocality!;
-      origem.cidade = currentAddress.administrativeArea!;
-      origem.cep = currentAddress.postalCode!;
-      origem.latitude = position.latitude;
-      origem.longitude = position.longitude;
-
-      print("Endereço Atual:");
-      print("Rua: ${origem.rua}");
-      print("Número: ${origem.numero}");
-      print("Bairro: ${origem.bairro}");
-      print("Cidade: ${origem.cidade}");
-      print("CEP: ${origem.cep}");
-      print("Latitude: ${origem.latitude}");
-      print("Longitude: ${origem.longitude}");
-
-      // Agora você pode usar os dados em 'origem' conforme necessário.
-    } catch (e) {
-      print("Erro ao obter a localização atual: $e");
-    }
-  }*/
-
   _chamarMotorista() async {
     String enderecoDestino = _controllerDestino.text;
 
-    if (enderecoDestino.isNotEmpty) {
-      try {
+    try {
+      if (enderecoDestino.isNotEmpty) {
+        //endereço Destino Passageiro
         List<Location> listaEnderecos =
             await locationFromAddress(enderecoDestino);
-        Location enderecoNovo = listaEnderecos[0];
+
+        Location informacoesDestino = listaEnderecos[0];
 
         List<Placemark> novo = await placemarkFromCoordinates(
-            enderecoNovo.latitude, enderecoNovo.longitude);
+            informacoesDestino.latitude, informacoesDestino.longitude);
 
-        Placemark destinoPlacemark = novo[0];
+        Placemark destinoPassageiro = novo[0];
 
-        print("\n\n\n\n Endereco Destino \n\n\n\n" +
-            destinoPlacemark.toString() +
-            "\n\n\n\n");
+        if (destinoPassageiro != null) {
+          Destino destino = Destino();
+          destino.cidade = destinoPassageiro.administrativeArea!;
+          destino.cep = destinoPassageiro.postalCode!;
+          destino.bairro = destinoPassageiro.subLocality!;
+          destino.rua = destinoPassageiro.thoroughfare!;
+          destino.numero = destinoPassageiro.subThoroughfare!;
+          destino.latitude = informacoesDestino.latitude;
+          destino.longitude = informacoesDestino.longitude;
+          destino.horario = informacoesDestino.timestamp;
 
-        // Crie um objeto Destino para armazenar os detalhes do destino
-        Destino destino = Destino();
-        destino.cidade = destinoPlacemark.administrativeArea!;
-        destino.cep = destinoPlacemark.postalCode!;
-        destino.bairro = destinoPlacemark.subLocality!;
-        destino.rua = destinoPlacemark.thoroughfare!;
-        destino.numero = destinoPlacemark.subThoroughfare!;
-        destino.latitude = enderecoNovo.latitude;
-        destino.longitude = enderecoNovo.longitude;
-        destino.horario = enderecoNovo.timestamp;
+          // Obtenha a localização atual - Origem do passageiro
+          Position position = await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.high);
 
-        // Obtenha a localização atual
-        Position position = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high);
+          // Obtenha os detalhes do endereço atual
+          List<Placemark> placemarks = await placemarkFromCoordinates(
+              position.latitude, position.longitude);
 
-        // Obtenha os detalhes do endereço atual
-        List<Placemark> placemarks = await placemarkFromCoordinates(
-            position.latitude, position.longitude);
+          Placemark origemPlacemark = placemarks.first;
 
-        Placemark origemPlacemark = placemarks.first;
+          if (origemPlacemark != null) {
+            Origem origem = Origem();
+            origem.rua = origemPlacemark.thoroughfare!;
+            origem.numero = origemPlacemark.subThoroughfare!;
+            origem.bairro = origemPlacemark.subLocality!;
+            origem.cidade = origemPlacemark.administrativeArea!;
+            origem.cep = origemPlacemark.postalCode!;
+            origem.latitude = position.latitude;
+            origem.longitude = position.longitude;
 
-        Origem origem = Origem();
-        origem.rua = origemPlacemark.thoroughfare!;
-        origem.numero = origemPlacemark.subThoroughfare!;
-        origem.bairro = origemPlacemark.subLocality!;
-        origem.cidade = origemPlacemark.administrativeArea!;
-        origem.cep = origemPlacemark.postalCode!;
-        origem.latitude = position.latitude;
-        origem.longitude = position.longitude;
+            //Custos da Corrida
+            Custos custos = Custos();
+            custos.valor_total_corrida = 10.0;
+            custos.valor_do_passageiro = 2.0;
+            custos.valor_do_motorista = 7.0;
 
-        /*print("Endereço Atual:");
-        print("Rua: ${origem.rua}");
-        print("Número: ${origem.numero}");
-        print("Bairro: ${origem.bairro}");
-        print("Cidade: ${origem.cidade}");
-        print("CEP: ${origem.cep}");
-        print("Latitude: ${origem.latitude}");
-        print("Longitude: ${origem.longitude}");*/
+            String enderecoConfirmacao =
+                "\n Cidade: ${destino.cidade}\n\n Rua: ${destino.rua}, ${destino.numero}"
+                "\n\n Bairro: ${destino.bairro}\n\n CEP: ${destino.cep}";
 
-        Custos custos = Custos();
-        custos.valor_total_corrida = 10.0;
-        custos.valor_do_passageiro = 2.0;
-        custos.valor_do_motorista = 7.0;
-
-        String enderecoConfirmacao =
-            "\n Cidade: ${destino.cidade}\n Rua: ${destino.rua}, ${destino.numero}"
-            "\n Bairro: ${destino.bairro}\n CEP: ${destino.cep}";
-
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Confirmação de Endereço'),
-              content: Text(enderecoConfirmacao),
-              contentPadding: EdgeInsets.all(16),
-              actions: <Widget>[
-                TextButton(
-                  child: Text(
-                    "Cancelar",
-                    style: TextStyle(color: Colors.red),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: Text(
-                    "Confirmar",
-                    style: TextStyle(color: Colors.green),
-                  ),
-                  onPressed: () {
-                    // Chamada do motorista
-                    _salvarRequisicao(destino, origem, custos);
-
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('Confirmação de Endereço'),
+                  content: Text(enderecoConfirmacao),
+                  contentPadding: EdgeInsets.all(16),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text(
+                        "Cancelar",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: Text(
+                        "Confirmar",
+                        style: TextStyle(color: Colors.green),
+                      ),
+                      onPressed: () {
+                        _salvarRequisicao(destino, origem, custos);
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                );
+              },
             );
-          },
-        );
-      } catch (e) {
-        print("Erro ao obter endereços: $e");
+          } else {
+            print(
+                "Endereço de Origem do do Passageiro é nulo! Verificar Conversão do Endereço. ");
+
+            _showAlertDialog(
+                "Ops!", "Algo deu errado, verifique seu endereço !");
+          }
+        } else {
+          print(
+              "Endereço de Destino do Passageiro é nulo! Verificar Conversão do Endereço. ");
+
+          _showAlertDialog("Ops!", "Algo deu errado, verifique seu endereço !");
+        }
+      } else {
+        print("Campo de Destino da Corrida é nulo! ");
+        _showAlertDialog("Ops!", "Endereço de Destino Vazio.");
       }
-    } else {
-      _showAlertDialog("Ops!", "Endereço de Destino Vazio.");
+    } catch (e) {
+      _showAlertDialog("Ops!",
+          "Verifique seu Endereço de Destino. \n\nUse como base Rua,número,Cidade.");
     }
   }
 
@@ -453,48 +403,6 @@ class _ChooseDriverState extends State<ChooseDriver> {
         );
       },
     );
-  }
-
-  _pegarPosicao() async {
-    Position posicao = controller.posi;
-
-    List<Placemark> locais =
-        await placemarkFromCoordinates(posicao.latitude, posicao.longitude);
-
-    if (locais != null) {
-      setState(() {
-        Placemark local = locais[0];
-
-        Destino destino = Destino();
-
-        destino.cidade = local.subAdministrativeArea!;
-        destino.cep = local.postalCode!;
-        destino.bairro = local.subLocality!;
-        destino.rua = local.thoroughfare!;
-        destino.numero = local.subThoroughfare!;
-
-        destino.latitude = posicao.latitude;
-        destino.longitude = posicao.longitude;
-
-        print("\n\n\n\n Endereco Local \n\n\n\n" +
-            " Cidade = " +
-            local.administrativeArea! +
-            " \n" +
-            " Cep = " +
-            local.postalCode! +
-            " \n" +
-            " Bairro = " +
-            local.subLocality! +
-            " \n" +
-            " Rua = " +
-            local.thoroughfare! +
-            " \n" +
-            " Numero = " +
-            local.subThoroughfare! +
-            " \n" +
-            "\n\n\n\n");
-      });
-    }
   }
 
   Future<void> _salvarRequisicao(
@@ -527,7 +435,6 @@ class _ChooseDriverState extends State<ChooseDriver> {
   }
 
   _adicionarListenerRequisicaoAtiva() async {
-    print("Cheguei na função");
     User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
 
     FirebaseFirestore db = FirebaseFirestore.instance;
@@ -557,9 +464,6 @@ class _ChooseDriverState extends State<ChooseDriver> {
               break;
             case StatusRequisicao.VIAGEM:
               Get.offAll(Corrida());
-              break;
-            case StatusRequisicao.FINALIZADA:
-              // Restante do código
               break;
           }
         }
