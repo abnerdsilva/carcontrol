@@ -373,11 +373,35 @@ Future<void> informacoesMotorista(BuildContext context) async {
     DocumentSnapshot requisicaoSnapshot = await db.collection("requisicoes").doc(idRequisicao).get();
 
     if (requisicaoSnapshot.exists) {
-      Map<String, dynamic> dados2 = requisicaoSnapshot.data() as Map<String, dynamic>;
+      Map<String, dynamic> motorista = <String, dynamic>{};
+      final driverId = requisicaoSnapshot.get('id_motorista');
+      final carId = requisicaoSnapshot.get('id_carro');
 
-      String informacoesMotorista = "\n Nome: Teste \n Número da CNH: Teste"
-          "\n Telefone: Teste \n Cep: Teste \n\nInformações do Carro\n"
-          "Modelo: Teste \nPlaca: Teste \nCor: Cor";
+      final driver = await db.collection("motoristas").where('motorista.id', isEqualTo: driverId).get();
+      for (var it in driver.docs) {
+        motorista = it.data();
+        break;
+      }
+
+      Map<String, dynamic> veiculo = <String, dynamic>{};
+      final veiculos = await db.collection("veiculos").where('id', isEqualTo: carId).get();
+      for (var it in veiculos.docs) {
+        veiculo = it.data();
+        break;
+      }
+
+      final motoristaTemp = {
+        'nome': motorista['motorista']['nome'],
+        'telefone': motorista['motorista']['telefone'],
+        'cnh': motorista['motorista']['cnh'],
+        'modelo': veiculo['modelo'],
+        'placa': veiculo['placa'],
+        'cor': veiculo['cor'],
+      };
+
+      String informacoesMotorista = "\n Nome: ${motoristaTemp['nome']} \n Número da CNH: ${motoristaTemp['cnh']}"
+          "\n Telefone: ${motoristaTemp['telefone']} \n\nInformações do Carro\n"
+          "Modelo: ${motoristaTemp['modelo']} \nPlaca: ${motoristaTemp['placa']} \nCor: ${motoristaTemp['cor']}";
 
       showDialog(
         context: context,
@@ -439,9 +463,9 @@ Future<void> valoresCorrida(BuildContext context) async {
     if (requisicaoSnapshot.exists) {
       Map<String, dynamic> dados2 = requisicaoSnapshot.data() as Map<String, dynamic>;
 
-      double valorCorrida = dados2["valoresDaCorrida"]["valor_total_corrida"];
-      double valorPassageiro = dados2["valoresDaCorrida"]["valor_do_passageiro"];
-      double valorMotorista = dados2["valoresDaCorrida"]["valor_do_motorista"];
+      double valorCorrida = double.parse(dados2["valoresDaCorrida"]["valor_total_corrida"]);
+      double valorPassageiro = double.parse(dados2["valoresDaCorrida"]["valor_do_passageiro"]);
+      double valorMotorista = double.parse(dados2["valoresDaCorrida"]["valor_do_motorista"]);
 
       String valores = "\nTotal da Corrida: ${valorCorrida} \nValor do Motorista: ${valorMotorista}"
           "\nValor do Passageiro: ${valorPassageiro}\n";

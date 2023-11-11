@@ -4,21 +4,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="define nome app com informação de Driver">
+    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="filtra lista financeiros pelo id motorista">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/lib/pages/login/login_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/pages/login/login_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/lib/pages/races/choose_driver.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/pages/races/choose_driver.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/lib/pages/races/corrida.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/pages/races/corrida.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/lib/util/usuario_firebase.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/util/usuario_firebase.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/lib/model/expense_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/model/expense_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/model/race_pending_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/model/race_pending_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/lib/model/race_price_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/model/race_price_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/finance/finance_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/finance/finance_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/lib/pages/home/components/maps_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/home/components/maps_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/lib/pages/home/components/race_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/home/components/race_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/home/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/home/home_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/driver/lib/shared/repositories/firebase_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/shared/repositories/firebase_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/shared/repositories/shared_prefs_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/shared/repositories/shared_prefs_repository.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +81,7 @@
       <recent name="$PROJECT_DIR$/driver" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.driver">
+  <component name="RunManager" selected="Flutter.client">
     <configuration name="client" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true">
       <option name="filePath" value="$PROJECT_DIR$/client/lib/main.dart" />
       <method v="2" />
@@ -247,7 +242,42 @@
       <option name="project" value="LOCAL" />
       <updated>1699725458942</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="add campo id_motorista requisicao ativa">
+      <created>1699733987145</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1699733987145</updated>
+    </task>
+    <task id="LOCAL-00021" summary="ajuste warnings">
+      <created>1699734040616</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1699734040616</updated>
+    </task>
+    <task id="LOCAL-00022" summary="corrige consulta dados usuario logado">
+      <created>1699737154223</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1699737154223</updated>
+    </task>
+    <task id="LOCAL-00023" summary="fecha tela aprovação corrida qndo a mesma é aceita por outro motorista">
+      <created>1699737466926</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1699737466926</updated>
+    </task>
+    <task id="LOCAL-00024" summary="filtra lista financeiros pelo id motorista">
+      <created>1699737537552</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1699737537552</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -278,10 +308,14 @@
     <MESSAGE value="add receita no financeiro" />
     <MESSAGE value="verifica permissão uso localização" />
     <MESSAGE value="ajuste dados solicitação corrida" />
-    <MESSAGE value="ajuste warnings" />
     <MESSAGE value="configurações .idea" />
     <MESSAGE value="define nome app com informação de Driver" />
-    <option name="LAST_COMMIT_MESSAGE" value="define nome app com informação de Driver" />
+    <MESSAGE value="add campo id_motorista requisicao ativa" />
+    <MESSAGE value="ajuste warnings" />
+    <MESSAGE value="corrige consulta dados usuario logado" />
+    <MESSAGE value="fecha tela aprovação corrida qndo a mesma é aceita por outro motorista" />
+    <MESSAGE value="filtra lista financeiros pelo id motorista" />
+    <option name="LAST_COMMIT_MESSAGE" value="filtra lista financeiros pelo id motorista" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -298,43 +332,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="Dart">
           <url>file://$PROJECT_DIR$/client/lib/pages/login/login_page.dart</url>
-          <line>48</line>
-          <option name="timeStamp" value="99" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/client/lib/pages/login/login_page.dart</url>
           <line>50</line>
           <option name="timeStamp" value="100" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/client/lib/pages/races/choose_driver.dart</url>
-          <line>204</line>
-          <option name="timeStamp" value="106" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/client/lib/pages/races/choose_driver.dart</url>
-          <line>212</line>
-          <option name="timeStamp" value="109" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>300</line>
-          <option name="timeStamp" value="115" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_page.dart</url>
-          <line>27</line>
-          <option name="timeStamp" value="116" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>98</line>
-          <option name="timeStamp" value="117" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>180</line>
-          <option name="timeStamp" value="118" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="Dart">
           <url>file://$PROJECT_DIR$/client/lib/pages/home/home_controller.dart</url>
@@ -342,14 +341,59 @@
           <option name="timeStamp" value="120" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>307</line>
-          <option name="timeStamp" value="123" />
+          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
+          <line>401</line>
+          <option name="timeStamp" value="128" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
+          <line>124</line>
+          <option name="timeStamp" value="129" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
+          <line>183</line>
+          <option name="timeStamp" value="130" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
+          <line>191</line>
+          <option name="timeStamp" value="131" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
+          <line>214</line>
+          <option name="timeStamp" value="132" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
+          <line>213</line>
+          <option name="timeStamp" value="134" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/home/components/maps_widget.dart</url>
+          <line>68</line>
+          <option name="timeStamp" value="135" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
+          <line>379</line>
+          <option name="timeStamp" value="139" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
+          <line>376</line>
+          <option name="timeStamp" value="141" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="Dart">
           <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
-          <line>310</line>
-          <option name="timeStamp" value="125" />
+          <line>230</line>
+          <option name="timeStamp" value="142" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/config/components/car_widget.dart</url>
+          <line>129</line>
+          <option name="timeStamp" value="143" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
