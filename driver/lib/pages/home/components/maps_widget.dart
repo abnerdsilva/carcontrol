@@ -65,8 +65,9 @@ class MapsWidget extends GetView<HomeController> {
               color: ThemeConfig.kPrimaryColor,
               width: double.infinity,
               child: InkWell(
-                onTap: () {
-                  if (!controller.hasVehicle() && !controller.stausStartRaces.value){
+                onTap: () async {
+                  final hasVehicle = await controller.hasVehicle();
+                  if (!hasVehicle && !controller.stausStartRaces.value){
                     return;
                   }
 

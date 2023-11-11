@@ -118,7 +118,7 @@ class FirebaseRepository {
   Future<List<RaceModel>> getRacesHistory(String driverId) async {
     final races = await db
         .collection('requisicoes')
-        .where('status', isEqualTo: 'concluido')
+        .where('status', isEqualTo: 'finalizada')
         .where('id_motorista', isEqualTo: driverId)
         .get();
 

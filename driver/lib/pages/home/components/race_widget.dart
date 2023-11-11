@@ -13,8 +13,8 @@ class RaceWidget extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Positioned(
       bottom: 0,
-      left: 20,
-      right: 20,
+      left: 0,
+      right: 0,
       child: Container(
         // height: 400,
         padding: const EdgeInsets.only(bottom: 12),

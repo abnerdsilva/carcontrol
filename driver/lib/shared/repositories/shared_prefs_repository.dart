@@ -18,7 +18,7 @@ class SharedPrefsRepository {
   static const _userEMAIL = FlavorSharedPrefs.userEMAIL;
   static const _docRacePending = FlavorSharedPrefs.docRacePending;
   static const _docActiveRequestRace = FlavorSharedPrefs.docActiveRequestRace;
-  static const _vehicleId = FlavorSharedPrefs.docActiveRequestRace;
+  static const _vehicleId = FlavorSharedPrefs.vehicleId;
 
   static SharedPreferences? prefs;
   static SharedPrefsRepository? _instanceRepository;
