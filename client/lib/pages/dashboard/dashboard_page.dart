@@ -24,6 +24,32 @@ class _DashboardPage extends State<DashboardPage> {
   }
 
   Future<void> _obterEnderecoAtual() async {
+    var permission = await Geolocator.checkPermission();
+    if (LocationPermission.deniedForever == permission || LocationPermission.denied == permission) {
+      permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        Get.snackbar(
+          'Permition denied',
+          'Location permissions are denied',
+          colorText: Colors.white,
+          backgroundColor: Colors.lightBlue,
+          icon: const Icon(Icons.add_alert),
+        );
+        return;
+      }
+      if (permission == LocationPermission.deniedForever) {
+        Get.snackbar(
+          'Permition denied',
+          'Location permissions are permanently denied, we cannot request permissions.',
+          colorText: Colors.white,
+          backgroundColor: Colors.red[300],
+          icon: const Icon(Icons.add_alert),
+        );
+        return;
+      }
+    }
+
     Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
