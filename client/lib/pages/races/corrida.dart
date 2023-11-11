@@ -19,8 +19,7 @@ class Corrida extends StatefulWidget {
 }
 
 class CorridaState extends State<Corrida> {
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
 
   late String _originController = " ";
   late String _destinationController = " ";
@@ -44,13 +43,10 @@ class CorridaState extends State<Corrida> {
   }
 
   _loadMarkerIcons() async {
-    final ByteData passageiroData =
-        await rootBundle.load("assets/images/motorista.png");
-    final ByteData destinoData =
-        await rootBundle.load("assets/images/passageiro.png");
+    final ByteData passageiroData = await rootBundle.load("assets/images/motorista.png");
+    final ByteData destinoData = await rootBundle.load("assets/images/passageiro.png");
 
-    _passageiroIcon =
-        BitmapDescriptor.fromBytes(passageiroData.buffer.asUint8List());
+    _passageiroIcon = BitmapDescriptor.fromBytes(passageiroData.buffer.asUint8List());
     _destinoIcon = BitmapDescriptor.fromBytes(destinoData.buffer.asUint8List());
   }
 
@@ -105,22 +101,18 @@ class CorridaState extends State<Corrida> {
     FirebaseFirestore data = FirebaseFirestore.instance;
     User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
 
-    final snapshot =
-        await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
+    final snapshot = await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
     if (snapshot.data() != null) {
       Map<String, dynamic>? dados = snapshot.data() as Map<String, dynamic>?;
       if (dados != null) {
         String idRequisicao = dados["id_requisicao"];
         String idUsuario = dados["id_usuario"];
         String status = dados["status"];
-        print(
-            "\n\n Dados Coletados \n\n idRequisicao: $idRequisicao idUsuario: $idUsuario Status: $status");
+        print("\n\n Dados Coletados \n\n idRequisicao: $idRequisicao idUsuario: $idUsuario Status: $status");
 
-        final snapshotRequisicao =
-            await data.collection("requisicoes").doc(idRequisicao).get();
+        final snapshotRequisicao = await data.collection("requisicoes").doc(idRequisicao).get();
         if (snapshotRequisicao.data() != null) {
-          Map<String, dynamic>? dadosEndereco =
-              snapshotRequisicao.data() as Map<String, dynamic>?;
+          Map<String, dynamic>? dadosEndereco = snapshotRequisicao.data() as Map<String, dynamic>?;
           print("Achei os dados da requisicoes: " + dadosEndereco.toString());
           if (dadosEndereco != null) {
             String bairroLocal = dadosEndereco['origem']["bairro"];
@@ -133,20 +125,8 @@ class CorridaState extends State<Corrida> {
             String numeroDestino = dadosEndereco['destino']["numero"];
             String ruaDestino = dadosEndereco['destino']["rua"];
 
-            final originController = (ruaLocal +
-                " " +
-                numeroLocal +
-                " " +
-                bairroLocal +
-                " " +
-                cepLocal);
-            final destinationController = ruaDestino +
-                " " +
-                numeroDestino +
-                " " +
-                bairroDestino +
-                " " +
-                cepDestino;
+            final originController = (ruaLocal + " " + numeroLocal + " " + bairroLocal + " " + cepLocal);
+            final destinationController = ruaDestino + " " + numeroDestino + " " + bairroDestino + " " + cepDestino;
 
             // Chame setState fora das funções assíncronas
             setState(() {
@@ -170,14 +150,12 @@ class CorridaState extends State<Corrida> {
 
             // marcador do ponto de origem (passageiro)
             _setMarker(
-              LatLng(directions['start_location']["lat"],
-                  directions["start_location"]["lng"]),
+              LatLng(directions['start_location']["lat"], directions["start_location"]["lng"]),
             );
 
             // marcador do ponto de destino
             _setMarker(
-              LatLng(directions["end_location"]["lat"],
-                  directions["end_location"]["lng"]),
+              LatLng(directions["end_location"]["lat"], directions["end_location"]["lng"]),
               isPassageiro: false, // Usar o ícone de destino
             );
 
@@ -194,13 +172,13 @@ class CorridaState extends State<Corrida> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Viagem finalizada!'),
+            title: const Text('Viagem finalizada!'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Ok'),
+                child: const Text('Ok'),
               ),
             ],
           );
@@ -227,7 +205,7 @@ class CorridaState extends State<Corrida> {
                   markers: _markers,
                   polygons: _polygons,
                   polylines: _polylines,
-                  initialCameraPosition: CameraPosition(
+                  initialCameraPosition: const CameraPosition(
                     target: LatLng(0, 0),
                     zoom: 13,
                   ),
@@ -256,16 +234,16 @@ class CorridaState extends State<Corrida> {
               informacoesMotorista(context);
             },
             tooltip: 'Carro',
-            child: Icon(Icons.directions_car),
+            child: const Icon(Icons.directions_car),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           FloatingActionButton(
             heroTag: 'moneyHero',
             onPressed: () {
               valoresCorrida(context);
             },
             tooltip: 'Dinheiro',
-            child: Icon(Icons.monetization_on),
+            child: const Icon(Icons.monetization_on),
           ),
         ],
       ),
@@ -305,11 +283,7 @@ class CorridaState extends State<Corrida> {
     User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
     FirebaseFirestore db = FirebaseFirestore.instance;
 
-    await db
-        .collection("requisicoes_ativas")
-        .doc(firebaseUser?.uid)
-        .snapshots()
-        .listen((snapshot) {
+    db.collection("requisicoes_ativas").doc(firebaseUser?.uid).snapshots().listen((snapshot) {
       //print("dados recuperados: " + snapshot.data.toString());
 
       /*
@@ -333,10 +307,7 @@ class CorridaState extends State<Corrida> {
               gerarPontosNoMapa();
               break;
             case StatusRequisicao.FINALIZADA:
-              db
-                  .collection("requisicoes_ativas")
-                  .doc(firebaseUser?.uid)
-                  .delete();
+              db.collection("requisicoes_ativas").doc(firebaseUser?.uid).delete();
               _mostrarDialogCorridaFinalizada(context);
               break;
           }
@@ -352,7 +323,7 @@ _mostrarDialogCorridaFinalizada(BuildContext context) {
     barrierDismissible: false,
     builder: (context) {
       return AlertDialog(
-        title: Text(
+        title: const Text(
           'Corrida Finalizada !',
           textAlign: TextAlign.center, // Alinhe o texto ao centro
           style: TextStyle(
@@ -368,9 +339,9 @@ _mostrarDialogCorridaFinalizada(BuildContext context) {
               height: 100,
               child: Image.asset("assets/images/check.png"),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextButton(
-                child: Text(
+                child: const Text(
                   "Confirmar",
                   style: TextStyle(color: Color(0xff1564B3)),
                 ),
@@ -389,8 +360,7 @@ Future<void> informacoesMotorista(BuildContext context) async {
 
   User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
 
-  DocumentSnapshot snapshot =
-      await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
+  DocumentSnapshot snapshot = await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
 
   if (snapshot.exists) {
     Map<String, dynamic> dados = snapshot.data() as Map<String, dynamic>;
@@ -398,12 +368,10 @@ Future<void> informacoesMotorista(BuildContext context) async {
     String idRequisicao = dados["id_requisicao"];
     print("\n\n Dados Coletados \n\n idRequisicao: $idRequisicao");
 
-    DocumentSnapshot requisicaoSnapshot =
-        await db.collection("requisicoes").doc(idRequisicao).get();
+    DocumentSnapshot requisicaoSnapshot = await db.collection("requisicoes").doc(idRequisicao).get();
 
     if (requisicaoSnapshot.exists) {
-      Map<String, dynamic> dados2 =
-          requisicaoSnapshot.data() as Map<String, dynamic>;
+      Map<String, dynamic> dados2 = requisicaoSnapshot.data() as Map<String, dynamic>;
 
       String informacoesMotorista = "\n Nome: Teste \n Número da CNH: Teste"
           "\n Telefone: Teste \n Cep: Teste \n\nInformações do Carro\n"
@@ -413,19 +381,19 @@ Future<void> informacoesMotorista(BuildContext context) async {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Informações da Corrida", textAlign: TextAlign.center),
+            title: const Text("Informações da Corrida", textAlign: TextAlign.center),
             content: Text(informacoesMotorista),
-            contentPadding: EdgeInsets.all(30),
+            contentPadding: const EdgeInsets.all(30),
             actions: <Widget>[
               Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   GestureDetector(
                     child: Container(
-                      color: Color(0xFF1A2E35),
-                      child: Center(
+                      color: const Color(0xFF1A2E35),
+                      child: const Center(
                         child: Text(
                           "OK",
                           textAlign: TextAlign.center,
@@ -456,8 +424,7 @@ Future<void> valoresCorrida(BuildContext context) async {
 
   User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
 
-  DocumentSnapshot snapshot =
-      await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
+  DocumentSnapshot snapshot = await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
 
   if (snapshot.exists) {
     Map<String, dynamic> dados = snapshot.data() as Map<String, dynamic>;
@@ -465,38 +432,35 @@ Future<void> valoresCorrida(BuildContext context) async {
     String idRequisicao = dados["id_requisicao"];
     print("\n\n Dados Coletados \n\n idRequisicao: $idRequisicao");
 
-    DocumentSnapshot requisicaoSnapshot =
-        await db.collection("requisicoes").doc(idRequisicao).get();
+    DocumentSnapshot requisicaoSnapshot = await db.collection("requisicoes").doc(idRequisicao).get();
 
     if (requisicaoSnapshot.exists) {
-      Map<String, dynamic> dados2 =
-          requisicaoSnapshot.data() as Map<String, dynamic>;
+      Map<String, dynamic> dados2 = requisicaoSnapshot.data() as Map<String, dynamic>;
 
       double valorCorrida = dados2["valoresDaCorrida"]["valor_total_corrida"];
       double valorPassageiro = dados2["valoresDaCorrida"]["valor_do_passageiro"];
       double valorMotorista = dados2["valoresDaCorrida"]["valor_do_motorista"];
 
-      String valores =
-          "\nTotal da Corrida: ${valorCorrida} \nValor do Motorista: ${valorMotorista}"
+      String valores = "\nTotal da Corrida: ${valorCorrida} \nValor do Motorista: ${valorMotorista}"
           "\nValor do Passageiro: ${valorPassageiro}\n";
 
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Valores da Corrida", textAlign: TextAlign.center),
+            title: const Text("Valores da Corrida", textAlign: TextAlign.center),
             content: Text(valores),
-            contentPadding: EdgeInsets.all(30),
+            contentPadding: const EdgeInsets.all(30),
             actions: <Widget>[
               Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   GestureDetector(
                     child: Container(
-                      color: Color(0xFF1A2E35),
-                      child: Center(
+                      color: const Color(0xFF1A2E35),
+                      child: const Center(
                         child: Text(
                           "OK",
                           textAlign: TextAlign.center,
