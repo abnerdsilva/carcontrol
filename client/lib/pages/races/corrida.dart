@@ -24,9 +24,9 @@ class CorridaState extends State<Corrida> {
   late String _originController = " ";
   late String _destinationController = " ";
 
-  Set<Marker> _markers = Set<Marker>();
-  Set<Polygon> _polygons = Set<Polygon>();
-  Set<Polyline> _polylines = Set<Polyline>();
+  final Set<Marker> _markers = <Marker>{};
+  final Set<Polygon> _polygons = <Polygon>{};
+  final Set<Polyline> _polylines = <Polyline>{};
   List<LatLng> polygonLatLngs = <LatLng>[];
 
   int _polygonIdCounter = 1;
@@ -103,7 +103,7 @@ class CorridaState extends State<Corrida> {
 
     final snapshot = await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
     if (snapshot.data() != null) {
-      Map<String, dynamic>? dados = snapshot.data() as Map<String, dynamic>?;
+      Map<String, dynamic>? dados = snapshot.data();
       if (dados != null) {
         String idRequisicao = dados["id_requisicao"];
         String idUsuario = dados["id_usuario"];
@@ -112,7 +112,7 @@ class CorridaState extends State<Corrida> {
 
         final snapshotRequisicao = await data.collection("requisicoes").doc(idRequisicao).get();
         if (snapshotRequisicao.data() != null) {
-          Map<String, dynamic>? dadosEndereco = snapshotRequisicao.data() as Map<String, dynamic>?;
+          Map<String, dynamic>? dadosEndereco = snapshotRequisicao.data();
           print("Achei os dados da requisicoes: " + dadosEndereco.toString());
           if (dadosEndereco != null) {
             String bairroLocal = dadosEndereco['origem']["bairro"];
@@ -190,7 +190,9 @@ class CorridaState extends State<Corrida> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Acompanhe a viagem'),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -293,7 +295,7 @@ class CorridaState extends State<Corrida> {
       -> Exibe interface padrão para chamar uber
   */
       if (snapshot.data() != null) {
-        Map<String, dynamic>? dados = snapshot.data() as Map<String, dynamic>?;
+        Map<String, dynamic>? dados = snapshot.data();
 
         if (dados != null) {
           String status = dados["status"];
