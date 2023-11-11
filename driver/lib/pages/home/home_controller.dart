@@ -172,7 +172,9 @@ class HomeController extends GetxController {
     final event = await firebaseRepository.getRaces();
     if (event.docs.isNotEmpty && _raceAcceted.value.id == '0') {
       final pendingRace = RacePendingModel.fromFirestore(event.docs.first);
-      await getDetailsRace(pendingRace, event.docs.first.id);
+      if (pendingRace.status != 'finalizada') {
+        await getDetailsRace(pendingRace, event.docs.first.id);
+      }
     }
   }
 
@@ -278,8 +280,25 @@ class HomeController extends GetxController {
   void getFirstPendingRaces() {
     dbFirestore.collection('requisicoes_ativas').snapshots().listen((event) async {
       if (event.docs.isNotEmpty && _raceAcceted.value.id == '0') {
-        final pendingRace = RacePendingModel.fromFirestore(event.docs.first);
-        await getDetailsRace(pendingRace, event.docs.first.id);
+        final prefs = await SharedPrefsRepository.instance;
+
+        final events = event.docs
+            .where((el) => el.data()['status'] != 'aguardando' && el.data()['id_motorista'] == prefs.firebaseID)
+            .toList();
+        final eventsPending =
+            event.docs.where((el) => el.data()['status'] == 'aguardando' && el.data()['id_motorista'] == null).toList();
+
+        if (eventsPending.isNotEmpty) {
+          final pendingRace = RacePendingModel.fromFirestore(eventsPending.first);
+          await getDetailsRace(pendingRace, event.docs.first.id);
+        } else if (events.isNotEmpty) {
+          final pendingRace = RacePendingModel.fromFirestore(events.first);
+          if (prefs.firebaseID != pendingRace.driverId) {
+            clearPoints();
+          }
+        } else {
+          clearPoints();
+        }
       }
     });
   }
