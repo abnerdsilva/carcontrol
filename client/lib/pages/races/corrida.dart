@@ -123,15 +123,15 @@ class CorridaState extends State<Corrida> {
               snapshotRequisicao.data() as Map<String, dynamic>?;
           print("Achei os dados da requisicoes: " + dadosEndereco.toString());
           if (dadosEndereco != null) {
-            String bairroLocal = dadosEndereco['origemPassageiro']["bairro"];
-            String cepLocal = dadosEndereco['origemPassageiro']["cep"];
-            String numeroLocal = dadosEndereco['origemPassageiro']["numero"];
-            String ruaLocal = dadosEndereco['origemPassageiro']["rua"];
+            String bairroLocal = dadosEndereco['origem']["bairro"];
+            String cepLocal = dadosEndereco['origem']["cep"];
+            String numeroLocal = dadosEndereco['origem']["numero"];
+            String ruaLocal = dadosEndereco['origem']["rua"];
 
-            String bairroDestino = dadosEndereco['destinoPassageiro']["bairro"];
-            String cepDestino = dadosEndereco['destinoPassageiro']["cep"];
-            String numeroDestino = dadosEndereco['destinoPassageiro']["numero"];
-            String ruaDestino = dadosEndereco['destinoPassageiro']["rua"];
+            String bairroDestino = dadosEndereco['destino']["bairro"];
+            String cepDestino = dadosEndereco['destino']["cep"];
+            String numeroDestino = dadosEndereco['destino']["numero"];
+            String ruaDestino = dadosEndereco['destino']["rua"];
 
             final originController = (ruaLocal +
                 " " +
@@ -472,9 +472,9 @@ Future<void> valoresCorrida(BuildContext context) async {
       Map<String, dynamic> dados2 =
           requisicaoSnapshot.data() as Map<String, dynamic>;
 
-      double valorCorrida = dados2["custosCorrida"]["valor-total-da-corrida"];
-      double valorPassageiro = dados2["custosCorrida"]["valor-do-passageiro"];
-      double valorMotorista = dados2["custosCorrida"]["valor-do-motorista"];
+      double valorCorrida = dados2["valoresDaCorrida"]["valor_total_corrida"];
+      double valorPassageiro = dados2["valoresDaCorrida"]["valor_do_passageiro"];
+      double valorMotorista = dados2["valoresDaCorrida"]["valor_do_motorista"];
 
       String valores =
           "\nTotal da Corrida: ${valorCorrida} \nValor do Motorista: ${valorMotorista}"
