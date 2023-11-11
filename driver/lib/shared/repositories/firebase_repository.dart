@@ -41,11 +41,18 @@ class FirebaseRepository {
     });
   }
 
-  Future<void> updateCollectionPendingRaces(String doc, String req, String user) async {
+  Future<void> updateCollectionPendingRaces(
+    String doc,
+    String req,
+    String user,
+    String driverId, {
+    String status = 'viagem',
+  }) async {
     return await db.collection('requisicoes_ativas').doc(doc).set({
       'id_requisicao': req,
       'id_usuario': user,
-      'status': 'a caminho',
+      'id_motorista': driverId,
+      'status': status,
     });
   }
 
@@ -62,6 +69,7 @@ class FirebaseRepository {
     await db.collection('requisicoes_ativas').add({
       'id_requisicao': doc,
       'id_usuario': id,
+      'id_motorista': null,
       'status': 'aguardando',
     });
   }

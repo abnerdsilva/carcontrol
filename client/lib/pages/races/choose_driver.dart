@@ -416,6 +416,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
     Map<String, dynamic> dadosRequisicaoAtiva = {};
     dadosRequisicaoAtiva["id_requisicao"] = requisicao.id;
     dadosRequisicaoAtiva["id_usuario"] = passageiro.id;
+    dadosRequisicaoAtiva["id_motorista"] = null;
     dadosRequisicaoAtiva["status"] = StatusRequisicao.AGUARDANDO;
 
     print("\n\n Salvamento Concluido com Sucesso! \n\n");
