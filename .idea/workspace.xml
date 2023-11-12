@@ -4,16 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="exibe dados motorista no acompanhamento viagem">
+    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="verifica permissão acesso app motorista">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/config/config_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/config/config_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/login/login_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/login/login_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/login/login_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/login/login_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/shared/repositories/firebase_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/shared/repositories/firebase_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/shared/repositories/shared_prefs_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/shared/repositories/shared_prefs_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/driver/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/driver/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/pages/home/components/maps_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/home/components/maps_widget.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -291,7 +284,21 @@
       <option name="project" value="LOCAL" />
       <updated>1699741506710</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="exibe dados perfil usuário na tela configuração">
+      <created>1699748745984</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1699748745984</updated>
+    </task>
+    <task id="LOCAL-00028" summary="verifica permissão acesso app motorista">
+      <created>1699748817973</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1699748817973</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -306,8 +313,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="remove erro layout custom_bottom_navigation_menu.dart" />
-    <MESSAGE value="comenta botões botton nav" />
     <MESSAGE value="add geolocalização e maps" />
     <MESSAGE value="add tela de configuração" />
     <MESSAGE value="troca versão jdk para 11" />
@@ -331,7 +336,9 @@
     <MESSAGE value="filtra lista financeiros pelo id motorista" />
     <MESSAGE value="ajuste info veiculo requisicao e add id corrida em financeiro" />
     <MESSAGE value="exibe dados motorista no acompanhamento viagem" />
-    <option name="LAST_COMMIT_MESSAGE" value="exibe dados motorista no acompanhamento viagem" />
+    <MESSAGE value="exibe dados perfil usuário na tela configuração" />
+    <MESSAGE value="verifica permissão acesso app motorista" />
+    <option name="LAST_COMMIT_MESSAGE" value="verifica permissão acesso app motorista" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
