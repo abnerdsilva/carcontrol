@@ -22,6 +22,8 @@ class CorridaState extends State<Corrida> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
+  bool mostrarInformacoesViagem = true;
+
   late String _originController = " ";
   late String _destinationController = " ";
 
@@ -35,12 +37,16 @@ class CorridaState extends State<Corrida> {
   late BitmapDescriptor _passageiroIcon;
   late BitmapDescriptor _destinoIcon;
 
+  late String partida = " ";
+  late String destino = " ";
+
   @override
   void initState() {
     super.initState();
     _loadMarkerIcons();
     gerarPontosNoMapa();
     _verificarSeCorridaEstaAtiva();
+    pegarDadosPartida();
   }
 
   _loadMarkerIcons() async {
@@ -87,8 +93,8 @@ class CorridaState extends State<Corrida> {
     _polylines.add(
       Polyline(
         polylineId: PolylineId(polylineIdVal),
-        width: 2,
-        color: Colors.blue,
+        width: 1,
+        color: Color(0xFF1A2E35),
         points: points
             .map(
               (point) => LatLng(point.latitude, point.longitude),
@@ -209,10 +215,46 @@ class CorridaState extends State<Corrida> {
     }
   }
 
+  pegarDadosPartida() async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+
+    User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
+
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
+
+    Map<String, dynamic>? dados = snapshot.data();
+
+    if (dados != null) {
+      String idRequisicao = dados["id_requisicao"] ?? "";
+
+      DocumentSnapshot<Map<String, dynamic>> requisicaoSnapshot =
+          await db.collection("requisicoes").doc(idRequisicao).get();
+
+      Map<String, dynamic>? dados2 = requisicaoSnapshot.data();
+
+      String rua = dados2?["origemPassageiro"]["rua"];
+      String numero = dados2?["origemPassageiro"]["numero"];
+      String bairro = dados2?["origemPassageiro"]["bairro"];
+      String cidade = dados2?["origemPassageiro"]["cidade"];
+      String cep = dados2?["origemPassageiro"]["cep"];
+
+      partida = "${rua}, ${numero} - ${bairro},${cidade} - ${cep}";
+
+      rua = dados2?["destinoPassageiro"]["rua"];
+      numero = dados2?["destinoPassageiro"]["numero"];
+      bairro = dados2?["destinoPassageiro"]["bairro"];
+      // cidade = dados2?["destinoPassageiro"]["cidade"];
+      cep = dados2?["destinoPassageiro"]["cep"];
+
+      destino = "${rua}, ${numero} - ${bairro}, - ${cep}";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      //appBar: AppBar(),
       body: Column(
         children: [
           Expanded(
@@ -229,7 +271,7 @@ class CorridaState extends State<Corrida> {
                   polylines: _polylines,
                   initialCameraPosition: CameraPosition(
                     target: LatLng(0, 0),
-                    zoom: 13,
+                    zoom: -1,
                   ),
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
@@ -241,32 +283,127 @@ class CorridaState extends State<Corrida> {
                     });
                   },
                 ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Visibility(
+                    visible: mostrarInformacoesViagem,
+                    // Use uma variável para controlar a visibilidade
+                    child: Container(
+                      height: 240,
+                      color: Color(0xFF1A2E35),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 20,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 16),
+                            child: Text(
+                              'Espere no Local de Partida : ',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Container(
+                            margin: EdgeInsets.only(left: 16),
+                            child: Text(
+                              '${partida}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: GestureDetector(
+                                onTap: () {
+                                  informacoesMotorista(context);
+                                },
+                                child: Container(
+                                  width: 300,
+                                  padding: EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    'Informações da Viagem',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xff1564B3),
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          Container(
+                            margin: EdgeInsets.only(left: 16),
+                            child: Text(
+                              'Destino Esperado: ',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Container(
+                            margin: EdgeInsets.only(left: 16),
+                            child: Text(
+                              '${destino}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
+          //Container(color: Color()),
         ],
       ),
       floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FloatingActionButton(
+          SizedBox(height: 70),
+          /*FloatingActionButton(
             heroTag: 'carHero',
             onPressed: () {
               informacoesMotorista(context);
             },
             tooltip: 'Carro',
             child: Icon(Icons.directions_car),
-          ),
-          SizedBox(height: 16),
+          ),*/
+          //SizedBox(height: 16),
           FloatingActionButton(
-            heroTag: 'moneyHero',
-            onPressed: () {
-              valoresCorrida(context);
-            },
-            tooltip: 'Dinheiro',
-            child: Icon(Icons.monetization_on),
-          ),
+              heroTag: 'moneyHero',
+              onPressed: () {
+                valoresCorrida(context);
+              },
+              tooltip: 'Dinheiro',
+              child: Icon(Icons.attach_money_outlined)),
         ],
       ),
     );
@@ -301,7 +438,7 @@ class CorridaState extends State<Corrida> {
     );
   }
 
-  void _verificarSeCorridaEstaAtiva() async {
+  _verificarSeCorridaEstaAtiva() async {
     User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
     FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -344,180 +481,195 @@ class CorridaState extends State<Corrida> {
       } else {}
     });
   }
-}
 
-_mostrarDialogCorridaFinalizada(BuildContext context) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (context) {
-      return AlertDialog(
-        title: Text(
-          'Corrida Finalizada !',
-          textAlign: TextAlign.center, // Alinhe o texto ao centro
-          style: TextStyle(
-            fontSize: 16, // Tamanho da fonte opcional
-            fontWeight: FontWeight.bold, // Peso da fonte opcional
-          ),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 100,
-              height: 100,
-              child: Image.asset("assets/images/check.png"),
+  _mostrarDialogCorridaFinalizada(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Corrida Finalizada !',
+            textAlign: TextAlign.center, // Alinhe o texto ao centro
+            style: TextStyle(
+              fontSize: 16, // Tamanho da fonte opcional
+              fontWeight: FontWeight.bold, // Peso da fonte opcional
             ),
-            SizedBox(height: 16),
-            TextButton(
-                child: Text(
-                  "Confirmar",
-                  style: TextStyle(color: Color(0xff1564B3)),
-                ),
-                onPressed: () {
-                  Get.offAll(DashboardPage());
-                }),
-          ],
-        ),
-      );
-    },
-  );
-}
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 100,
+                height: 100,
+                child: Image.asset("assets/images/check.png"),
+              ),
+              SizedBox(height: 16),
+              TextButton(
+                  child: Text(
+                    "Confirmar",
+                    style: TextStyle(color: Color(0xff1564B3)),
+                  ),
+                  onPressed: () {
+                    Get.offAll(DashboardPage());
+                  }),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
-Future<void> informacoesMotorista(BuildContext context) async {
-  FirebaseFirestore db = FirebaseFirestore.instance;
+  Future<void> informacoesMotorista(BuildContext context) async {
+    setState(() {
+      mostrarInformacoesViagem = false;
+    });
 
-  User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
+    FirebaseFirestore db = FirebaseFirestore.instance;
 
-  DocumentSnapshot snapshot =
-      await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
+    User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
 
-  if (snapshot.exists) {
-    Map<String, dynamic> dados = snapshot.data() as Map<String, dynamic>;
+    DocumentSnapshot snapshot =
+        await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
 
-    String idRequisicao = dados["id_requisicao"];
-    print("\n\n Dados Coletados \n\n idRequisicao: $idRequisicao");
+    if (snapshot.exists) {
+      Map<String, dynamic> dados = snapshot.data() as Map<String, dynamic>;
 
-    DocumentSnapshot requisicaoSnapshot =
-        await db.collection("requisicoes").doc(idRequisicao).get();
+      String idRequisicao = dados["id_requisicao"];
+      print("\n\n Dados Coletados \n\n idRequisicao: $idRequisicao");
 
-    if (requisicaoSnapshot.exists) {
-      Map<String, dynamic> dados2 =
-          requisicaoSnapshot.data() as Map<String, dynamic>;
+      DocumentSnapshot requisicaoSnapshot =
+          await db.collection("requisicoes").doc(idRequisicao).get();
 
-      String informacoesMotorista = "\n Nome: Teste \n Número da CNH: Teste"
-          "\n Telefone: Teste \n Cep: Teste \n\nInformações do Carro\n"
-          "Modelo: Teste \nPlaca: Teste \nCor: Cor";
+      if (requisicaoSnapshot.exists) {
+        Map<String, dynamic> dados2 =
+            requisicaoSnapshot.data() as Map<String, dynamic>;
 
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Informações da Corrida", textAlign: TextAlign.center),
-            content: Text(informacoesMotorista),
-            contentPadding: EdgeInsets.all(30),
-            actions: <Widget>[
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 10),
-                  GestureDetector(
-                    child: Container(
-                      color: Color(0xFF1A2E35),
-                      child: Center(
-                        child: Text(
-                          "OK",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
+        String informacoesMotorista = "\n Nome: Teste \n Número da CNH: Teste"
+            "\n Telefone: Teste \n Cep: Teste \n\nInformações do Carro\n"
+            "Modelo: Teste \nPlaca: Teste \nCor: Cor";
+
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title:
+                  Text("Informações da Corrida", textAlign: TextAlign.center),
+              content: Text(informacoesMotorista),
+              contentPadding: EdgeInsets.all(30),
+              actions: <Widget>[
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 10),
+                    GestureDetector(
+                      child: Container(
+                        color: Color(0xFF1A2E35),
+                        child: Center(
+                          child: Text(
+                            "OK",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
                         ),
                       ),
+                      onTap: () {
+                        setState(() {
+                          mostrarInformacoesViagem = true;
+                        });
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ],
-          );
-        },
-      );
+                  ],
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
   }
-}
 
-Future<void> valoresCorrida(BuildContext context) async {
-  FirebaseFirestore db = FirebaseFirestore.instance;
+  Future<void> valoresCorrida(BuildContext context) async {
+    setState(() {
+      mostrarInformacoesViagem = false;
+    });
 
-  User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
+    FirebaseFirestore db = FirebaseFirestore.instance;
 
-  DocumentSnapshot snapshot =
-      await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
+    User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
 
-  if (snapshot.exists) {
-    Map<String, dynamic> dados = snapshot.data() as Map<String, dynamic>;
+    DocumentSnapshot snapshot =
+        await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
 
-    String idRequisicao = dados["id_requisicao"];
-    print("\n\n Dados Coletados \n\n idRequisicao: $idRequisicao");
+    if (snapshot.exists) {
+      Map<String, dynamic> dados = snapshot.data() as Map<String, dynamic>;
 
-    DocumentSnapshot requisicaoSnapshot =
-        await db.collection("requisicoes").doc(idRequisicao).get();
+      String idRequisicao = dados["id_requisicao"];
+      print("\n\n Dados Coletados \n\n idRequisicao: $idRequisicao");
 
-    if (requisicaoSnapshot.exists) {
-      Map<String, dynamic> dados2 =
-          requisicaoSnapshot.data() as Map<String, dynamic>;
+      DocumentSnapshot requisicaoSnapshot =
+          await db.collection("requisicoes").doc(idRequisicao).get();
 
-      double valorCorrida = dados2["custosCorrida"]["valor-total-da-corrida"];
-      double valorPassageiro = dados2["custosCorrida"]["valor-do-passageiro"];
-      double valorMotorista = dados2["custosCorrida"]["valor-do-motorista"];
+      if (requisicaoSnapshot.exists) {
+        Map<String, dynamic> dados2 =
+            requisicaoSnapshot.data() as Map<String, dynamic>;
 
-      String valores =
-          "\nTotal da Corrida: ${valorCorrida} \nValor do Motorista: ${valorMotorista}"
-          "\nValor do Passageiro: ${valorPassageiro}\n";
+        double valorCorrida = dados2["custosCorrida"]["valor-total-da-corrida"];
+        double valorPassageiro = dados2["custosCorrida"]["valor-do-passageiro"];
+        double valorMotorista = dados2["custosCorrida"]["valor-do-motorista"];
 
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Valores da Corrida", textAlign: TextAlign.center),
-            content: Text(valores),
-            contentPadding: EdgeInsets.all(30),
-            actions: <Widget>[
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 10),
-                  GestureDetector(
-                    child: Container(
-                      color: Color(0xFF1A2E35),
-                      child: Center(
-                        child: Text(
-                          "OK",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
+        String valores =
+            "\nTotal da Corrida: ${valorCorrida} \nValor do Motorista: ${valorMotorista}"
+            "\nValor do Passageiro: ${valorPassageiro}\n";
+
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Valores da Corrida", textAlign: TextAlign.center),
+              content: Text(valores),
+              contentPadding: EdgeInsets.all(30),
+              actions: <Widget>[
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 10),
+                    GestureDetector(
+                      child: Container(
+                        color: Color(0xFF1A2E35),
+                        child: Center(
+                          child: Text(
+                            "OK",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
                         ),
                       ),
+                      onTap: () {
+                        setState(() {
+                          mostrarInformacoesViagem = true;
+                        });
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ],
-          );
-        },
-      );
+                  ],
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
   }
 }

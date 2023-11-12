@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:carcontrol/pages/home/home_page.dart';
 import 'package:carcontrol/pages/register/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 import '../../model/usuario_model.dart';
 import '../../shared/components/custom_button.dart';
@@ -14,8 +17,10 @@ class LoginPage extends StatelessWidget {
 
   late BuildContext context;
 
-  TextEditingController _controllerEmail = TextEditingController();
-  TextEditingController _controllerSenha = TextEditingController();
+  TextEditingController _controllerEmail =
+      TextEditingController(text: "schali629@gmail.com");
+  TextEditingController _controllerSenha =
+      TextEditingController(text: "190Dinheiro.");
 
   final formKey = GlobalKey<FormState>();
 
@@ -43,17 +48,26 @@ class LoginPage extends StatelessWidget {
     }
   }
 
-  _logarUsuario(Usuario usuario) {
+  _logarUsuario(Usuario usuario) async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
-    auth
-        .signInWithEmailAndPassword(
-            email: usuario.email, password: usuario.senha)
-        .then((firebaseUser) {
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+        email: usuario.email,
+        password: usuario.senha,
+      );
+
       Get.offAll(HomePage());
-    }).catchError((error) {
-      _showAlertDialog('Tente Novamente', 'Verifique o E-mail e Senha!');
-    });
+    } catch (error) {
+      print("Erro durante o login: $error");
+
+      if (error is TimeoutException) {
+        //print("Erro de rede: $error");
+        _showAlertDialog('Tente Novamente', 'Tempo de Conexão Expirada');
+      } else {
+        _showAlertDialog('Tente Novamente', 'Verifique o E-mail e Senha!');
+      }
+    }
   }
 
   _showAlertDialog(String title, String message) {
@@ -92,6 +106,7 @@ class LoginPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: 20),
                     Center(
                       child: Image.asset('assets/images/carro.png'),
                     ),

@@ -323,9 +323,16 @@ class _ChooseDriverState extends State<ChooseDriver> {
 
             //Custos da Corrida
             Custos custos = Custos();
-            custos.valor_total_corrida = 10.0;
-            custos.valor_do_passageiro = 2.0;
-            custos.valor_do_motorista = 7.0;
+
+            double valorDaCorrida = await gerarValorDaCorrida(
+                origem.latitude,
+                origem.longitude,
+                informacoesDestino.latitude,
+                informacoesDestino.longitude);
+
+            custos.valor_total_corrida = valorDaCorrida;
+            custos.valor_do_motorista = valorDaCorrida * 0.8;
+            custos.valor_do_passageiro = valorDaCorrida * 0.2;
 
             String enderecoConfirmacao =
                 "\n Cidade: ${destino.cidade}\n\n Rua: ${destino.rua}, ${destino.numero}"
@@ -471,5 +478,54 @@ class _ChooseDriverState extends State<ChooseDriver> {
         _statusMotoristaNaoChamado();
       }
     });
+  }
+
+  gerarValorDaCorrida(double latOrigem, double lngOrigem, double latDestino,
+      double lngDestino) async {
+    DateTime now = DateTime.now();
+    int horaAtual = now.hour;
+
+    String periodo;
+
+    if (horaAtual >= 6 && horaAtual < 18) {
+      //Bandeira 1 - Manhã e tarde
+      //Bandeira 2 = Noite
+      periodo = "Bandeira 1";
+    } else {
+      periodo = "Bandeira 2";
+    }
+    double qntKMs = 0;
+    double valorBase = 4.50;
+
+    switch (periodo) {
+      case "Bandeira 1":
+        valorBase;
+        break;
+      case "Bandeira 2":
+        //30% do valor de 4.50, porque é bandeira dois.
+
+        valorBase = valorBase + (valorBase * 0.30);
+        break;
+      default:
+        valorBase = 4.50;
+        break;
+    }
+
+    //double valorCorrida = valorBase * qntKMs;
+
+    final distanciaEmMetros = await Geolocator.distanceBetween(
+      latOrigem,
+      lngOrigem,
+      latDestino,
+      lngDestino,
+    );
+
+    final distanciaEmKm = distanciaEmMetros / 1000;
+
+    print('A distância entre os pontos A e B é de $distanciaEmKm km.');
+
+    final resultadoFinal = distanciaEmKm * valorBase;
+
+    return resultadoFinal;
   }
 }
