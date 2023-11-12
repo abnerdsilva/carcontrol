@@ -1,12 +1,10 @@
-import 'dart:developer';
-
 import 'package:carcontrol/model/car_model.dart';
-import 'package:carcontrol/pages/config/components/menu_item.dart';
 import 'package:carcontrol/pages/splash_screen/splash_screen_page.dart';
 import 'package:carcontrol/shared/repositories/firebase_repository.dart';
 import 'package:carcontrol/shared/repositories/shared_prefs_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -23,12 +21,16 @@ class ConfigController extends GetxController {
   final TextEditingController defaultEC = TextEditingController();
 
   late String userId;
+  RxString userName = ''.obs;
+  RxString userEmail = ''.obs;
 
   RxBool isDefaultVehicle = false.obs;
 
   RxList<CarModel> vehicles = <CarModel>[].obs;
 
   RxBool modoPesquisa = false.obs;
+
+  String appVersion = '1.0.0';
 
   @override
   Future<void> onInit() async {
@@ -45,6 +47,11 @@ class ConfigController extends GetxController {
 
     final prefsTemp = await SharedPrefsRepository.instance;
     userId = prefsTemp.firebaseID ?? '';
+    userEmail.value = prefsTemp.userEmail ?? '';
+    userName.value = prefsTemp.userName ?? '';
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    appVersion = packageInfo.version;
   }
 
   Future<void> start() async {

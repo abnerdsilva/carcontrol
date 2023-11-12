@@ -24,14 +24,13 @@ class ChooseDriver extends StatefulWidget {
 class _ChooseDriverState extends State<ChooseDriver> {
   bool _exibirCaixaEnderecoDestino = true;
   String _textoBotao = " ";
-  Color _corBotao = Color(0x34262323);
+  Color _corBotao = const Color(0x34262323);
   late Function _funcaoBotao;
   bool _exibirTelaBuscandoMotorista = true;
 
-  TextEditingController _controllerDestino = TextEditingController();
+  final TextEditingController _controllerDestino = TextEditingController();
 
-  TextEditingController _controllerOrigem =
-      TextEditingController(text: "Meu Local");
+  final TextEditingController _controllerOrigem = TextEditingController(text: "Meu Local");
 
   HomeController controller = Get.find<HomeController>();
 
@@ -62,14 +61,14 @@ class _ChooseDriverState extends State<ChooseDriver> {
 
   Future<void> _setMarker(LatLng latlon) async {
     BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(devicePixelRatio: 2.5),
+      const ImageConfiguration(devicePixelRatio: 2.5),
       'assets/images/passageiro.png',
     );
 
     setState(() {
       _markers.add(
         Marker(
-          markerId: MarkerId('marker'),
+          markerId: const MarkerId('marker'),
           position: latlon,
           icon: customIcon,
         ),
@@ -107,7 +106,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
                 left: 0,
                 right: 0,
                 child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: Container(
                     height: 50,
                     width: double.infinity,
@@ -119,16 +118,16 @@ class _ChooseDriverState extends State<ChooseDriver> {
                       readOnly: true,
                       decoration: InputDecoration(
                           icon: Container(
-                              margin: EdgeInsets.only(left: 20),
+                              margin: const EdgeInsets.only(left: 20),
                               width: 10,
                               height: 20,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.location_on,
                                 color: Colors.green,
                               )),
                           hintText: _controllerOrigem.text,
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.only(left: 14, top: 6)),
+                          contentPadding: const EdgeInsets.only(left: 14, top: 6)),
                     ),
                   ),
                 ),
@@ -139,7 +138,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
                 right: 0,
                 child: GestureDetector(
                   child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Container(
                       height: 50,
                       width: double.infinity,
@@ -151,16 +150,16 @@ class _ChooseDriverState extends State<ChooseDriver> {
                         controller: _controllerDestino,
                         decoration: InputDecoration(
                             icon: Container(
-                                margin: EdgeInsets.only(left: 20),
+                                margin: const EdgeInsets.only(left: 20),
                                 width: 10,
                                 height: 20,
-                                child: Icon(
+                                child: const Icon(
                                   Icons.local_taxi,
                                   color: Colors.black,
                                 )),
                             hintText: "Para onde vamos hoje ?",
                             border: InputBorder.none,
-                            contentPadding: EdgeInsets.only(left: 14, top: 6)),
+                            contentPadding: const EdgeInsets.only(left: 14, top: 6)),
                       ),
                     ),
                   ),
@@ -177,15 +176,14 @@ class _ChooseDriverState extends State<ChooseDriver> {
             left: 0,
             bottom: 20,
             child: Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(_corBotao),
+                    backgroundColor: MaterialStateProperty.all<Color>(_corBotao),
                   ),
                   child: Text(
                     _textoBotao,
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
                   ),
                   onPressed: () {
                     _funcaoBotao();
@@ -206,7 +204,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
   _statusMotoristaNaoChamado() {
     _exibirCaixaEnderecoDestino = true;
 
-    _alterarBotaoPrincipal("Confirmar Endereço", Color(0xff192d34), () {
+    _alterarBotaoPrincipal("Confirmar Endereço", const Color(0xff192d34), () {
       _chamarMotorista();
     });
   }
@@ -216,7 +214,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
 
     _alterarBotaoPrincipal(
       "",
-      Color.fromRGBO(0, 0, 0, 0.4),
+      const Color.fromRGBO(0, 0, 0, 0.4),
       () {},
     );
 
@@ -225,14 +223,14 @@ class _ChooseDriverState extends State<ChooseDriver> {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: Text("Buscando Motorista", textAlign: TextAlign.center),
-          contentPadding: EdgeInsets.all(10),
+          title: const Text("Buscando Motorista", textAlign: TextAlign.center),
+          contentPadding: const EdgeInsets.all(10),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image(image: AssetImage("assets/images/carro-animado.gif")),
-              SizedBox(height: 20),
+              const Image(image: AssetImage("assets/images/carro-animado.gif")),
+              const SizedBox(height: 20),
               GestureDetector(
                 onTap: () {
                   _cancelarMotorista();
@@ -245,7 +243,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
                   visible: _exibirTelaBuscandoMotorista,
                   child: Container(
                     color: Colors.red,
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "Cancelar Corrida",
                         textAlign: TextAlign.center,
@@ -280,19 +278,20 @@ class _ChooseDriverState extends State<ChooseDriver> {
     try {
       if (enderecoDestino.isNotEmpty) {
         //endereço Destino Passageiro
-        List<Location> listaEnderecos =
-            await locationFromAddress(enderecoDestino);
+        List<Location> listaEnderecos = await locationFromAddress(enderecoDestino);
 
         Location informacoesDestino = listaEnderecos[0];
 
         List<Placemark> novo = await placemarkFromCoordinates(
-            informacoesDestino.latitude, informacoesDestino.longitude);
+          informacoesDestino.latitude,
+          informacoesDestino.longitude,
+        );
 
         Placemark destinoPassageiro = novo[0];
 
         if (destinoPassageiro != null) {
           Destino destino = Destino();
-          destino.cidade = destinoPassageiro.administrativeArea!;
+          destino.cidade = destinoPassageiro.subAdministrativeArea!;
           destino.cep = destinoPassageiro.postalCode!;
           destino.bairro = destinoPassageiro.subLocality!;
           destino.rua = destinoPassageiro.thoroughfare!;
@@ -302,12 +301,10 @@ class _ChooseDriverState extends State<ChooseDriver> {
           destino.horario = informacoesDestino.timestamp;
 
           // Obtenha a localização atual - Origem do passageiro
-          Position position = await Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.high);
+          Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
           // Obtenha os detalhes do endereço atual
-          List<Placemark> placemarks = await placemarkFromCoordinates(
-              position.latitude, position.longitude);
+          List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
 
           Placemark origemPlacemark = placemarks.first;
 
@@ -334,20 +331,19 @@ class _ChooseDriverState extends State<ChooseDriver> {
             custos.valor_do_motorista = valorDaCorrida * 0.8;
             custos.valor_do_passageiro = valorDaCorrida * 0.2;
 
-            String enderecoConfirmacao =
-                "\n Cidade: ${destino.cidade}\n\n Rua: ${destino.rua}, ${destino.numero}"
+            String enderecoConfirmacao = "\n Cidade: ${destino.cidade}\n\n Rua: ${destino.rua}, ${destino.numero}"
                 "\n\n Bairro: ${destino.bairro}\n\n CEP: ${destino.cep}";
 
             showDialog(
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  title: Text('Confirmação de Endereço'),
+                  title: const Text('Confirmação de Endereço'),
                   content: Text(enderecoConfirmacao),
-                  contentPadding: EdgeInsets.all(16),
+                  contentPadding: const EdgeInsets.all(16),
                   actions: <Widget>[
                     TextButton(
-                      child: Text(
+                      child: const Text(
                         "Cancelar",
                         style: TextStyle(color: Colors.red),
                       ),
@@ -356,7 +352,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
                       },
                     ),
                     TextButton(
-                      child: Text(
+                      child: const Text(
                         "Confirmar",
                         style: TextStyle(color: Colors.green),
                       ),
@@ -370,15 +366,12 @@ class _ChooseDriverState extends State<ChooseDriver> {
               },
             );
           } else {
-            print(
-                "Endereço de Origem do do Passageiro é nulo! Verificar Conversão do Endereço. ");
+            print("Endereço de Origem do do Passageiro é nulo! Verificar Conversão do Endereço. ");
 
-            _showAlertDialog(
-                "Ops!", "Algo deu errado, verifique seu endereço !");
+            _showAlertDialog("Ops!", "Algo deu errado, verifique seu endereço !");
           }
         } else {
-          print(
-              "Endereço de Destino do Passageiro é nulo! Verificar Conversão do Endereço. ");
+          print("Endereço de Destino do Passageiro é nulo! Verificar Conversão do Endereço. ");
 
           _showAlertDialog("Ops!", "Algo deu errado, verifique seu endereço !");
         }
@@ -387,8 +380,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
         _showAlertDialog("Ops!", "Endereço de Destino Vazio.");
       }
     } catch (e) {
-      _showAlertDialog("Ops!",
-          "Verifique seu Endereço de Destino. \n\nUse como base Rua,número,Cidade.");
+      _showAlertDialog("Ops!", "Verifique seu Endereço de Destino. \n\nUse como base Rua,número,Cidade.");
     }
   }
 
@@ -401,7 +393,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
           content: Text(message),
           actions: [
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -412,8 +404,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
     );
   }
 
-  Future<void> _salvarRequisicao(
-      Destino destino, Origem origem, Custos custos) async {
+  Future<void> _salvarRequisicao(Destino destino, Origem origem, Custos custos) async {
     Usuario passageiro = await UsuarioFirebase.getDadosUsuarioLogado();
 
     Requisicao requisicao = Requisicao();
@@ -423,6 +414,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
     requisicao.passageiro = passageiro;
     requisicao.custos = custos;
     requisicao.status = StatusRequisicao.AGUARDANDO;
+    requisicao.dataHora = DateTime.now().toLocal().toString();
 
     FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -431,14 +423,12 @@ class _ChooseDriverState extends State<ChooseDriver> {
     Map<String, dynamic> dadosRequisicaoAtiva = {};
     dadosRequisicaoAtiva["id_requisicao"] = requisicao.id;
     dadosRequisicaoAtiva["id_usuario"] = passageiro.id;
+    dadosRequisicaoAtiva["id_motorista"] = null;
     dadosRequisicaoAtiva["status"] = StatusRequisicao.AGUARDANDO;
 
     print("\n\n Salvamento Concluido com Sucesso! \n\n");
 
-    db
-        .collection("requisicoes_ativas")
-        .doc(passageiro.id)
-        .set(dadosRequisicaoAtiva);
+    db.collection("requisicoes_ativas").doc(passageiro.id).set(dadosRequisicaoAtiva);
   }
 
   _adicionarListenerRequisicaoAtiva() async {
@@ -446,11 +436,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
 
     FirebaseFirestore db = FirebaseFirestore.instance;
 
-    await db
-        .collection("requisicoes_ativas")
-        .doc(firebaseUser?.uid)
-        .snapshots()
-        .listen((snapshot) {
+    await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).snapshots().listen((snapshot) {
       //print("dados recuperados: " + snapshot.data.toString());
 
       /*

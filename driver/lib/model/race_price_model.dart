@@ -43,9 +43,9 @@ class RacePriceModel {
       );
     }
     return RacePriceModel(
-      priceDriver: data['valoresDaCorrida']['valor_do_motorista'],
-      priceCustomer: data['valoresDaCorrida']['valor_do_passageiro'],
-      total: data['valoresDaCorrida']['valor_total_corrida'],
+      priceDriver: data['valoresDaCorrida']['valor_do_motorista'].toString(),
+      priceCustomer: data['valoresDaCorrida']['valor_do_passageiro'].toString(),
+      total: data['valoresDaCorrida']['valor_total_corrida'].toString(),
     );
   }
 }

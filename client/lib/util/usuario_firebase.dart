@@ -12,33 +12,33 @@ class UsuarioFirebase {
     User? firebaseUser = await getUsuarioAtual();
 
     FirebaseFirestore db = FirebaseFirestore.instance;
-    DocumentSnapshot snapshot =
-        await db.collection("usuarios").doc(firebaseUser!.uid).get();
+    final snapshot = await db.collection('usuarios').where('id', isEqualTo: firebaseUser!.uid).get();
 
-    if (snapshot.exists) {
-      Map<String, dynamic>? dados = snapshot.data() as Map<String, dynamic>?;
-      if (dados != null) {
-        String id = dados["id"];
-        String cpf = dados["cpf"];
-        String email = dados["email"];
-        String nome = dados["nome"];
-        String telefone = dados["telefone"];
-        String tipoUsuario = dados["tipoUsuario"];
+    Map<String, dynamic>? dados;
+    for (var element in snapshot.docs) {
+      dados = element.data();
+      break;
+    }
 
-        Usuario usuario = Usuario();
-        usuario.id = id;
-        usuario.cpf = cpf;
-        usuario.email = email;
-        usuario.nome = nome;
-        usuario.telefone = telefone;
-        usuario.tipoUsuario = tipoUsuario;
+    if (dados != null) {
+      String id = dados["id"];
+      String cpf = dados["cpf"];
+      String email = dados["email"];
+      String nome = dados["nome"];
+      String telefone = dados["telefone"];
+      String tipoUsuario = dados["tipoUsuario"];
 
-        return usuario;
-      } else {
-        throw Exception("Dados do usuário não encontrados");
-      }
+      Usuario usuario = Usuario();
+      usuario.id = id;
+      usuario.cpf = cpf;
+      usuario.email = email;
+      usuario.nome = nome;
+      usuario.telefone = telefone;
+      usuario.tipoUsuario = tipoUsuario;
+
+      return usuario;
     } else {
-      throw Exception("Usuário não encontrado");
+      throw Exception("Dados do usuário não encontrados");
     }
   }
 }

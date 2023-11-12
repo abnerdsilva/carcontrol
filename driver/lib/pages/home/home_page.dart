@@ -25,6 +25,10 @@ class HomePage extends GetView<HomeController> {
                 const MapsWidget(),
                 Obx(() {
                   if (controller.race.value.id == '0' || !controller.stausStartRaces.value) return Container();
+                  if (controller.race.value.status == 'finalizada' || controller.race.value.status == 'viagem') {
+                    return Container();
+                  }
+
                   return RaceWidget(race: controller.race.value);
                 }),
               ],

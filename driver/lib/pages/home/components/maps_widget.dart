@@ -14,20 +14,20 @@ class MapsWidget extends GetView<HomeController> {
       body: SafeArea(
         child: Column(
           children: [
-            TextButton(
-              onPressed: () => controller.createRace(),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                child: const Text('Adicionar'),
-              ),
-            ),
-            TextButton(
-              onPressed: () => controller.deleteCollections(),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                child: const Text('Delete Collections'),
-              ),
-            ),
+            // TextButton(
+            //   onPressed: () => controller.createRace(),
+            //   child: Container(
+            //     padding: const EdgeInsets.all(10),
+            //     child: const Text('Adicionar'),
+            //   ),
+            // ),
+            // TextButton(
+            //   onPressed: () => controller.deleteCollections(),
+            //   child: Container(
+            //     padding: const EdgeInsets.all(10),
+            //     child: const Text('Delete Collections'),
+            //   ),
+            // ),
             Expanded(
               child: Stack(
                 children: [
@@ -65,8 +65,9 @@ class MapsWidget extends GetView<HomeController> {
               color: ThemeConfig.kPrimaryColor,
               width: double.infinity,
               child: InkWell(
-                onTap: () {
-                  if (!controller.hasVehicle() && !controller.stausStartRaces.value){
+                onTap: () async {
+                  final hasVehicle = await controller.hasVehicle();
+                  if (!hasVehicle && !controller.stausStartRaces.value){
                     return;
                   }
 

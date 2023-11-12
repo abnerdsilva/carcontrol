@@ -13,6 +13,7 @@ class Requisicao {
   late Destino _destino;
   late Origem _origem;
   late Custos custos;
+  late String _dataHora;
 
   Requisicao() {
     FirebaseFirestore db = FirebaseFirestore.instance;
@@ -27,6 +28,12 @@ class Requisicao {
   Origem get origem => _origem;
 
   String get id => _id;
+
+  String get dataHora => _dataHora;
+
+  set dataHora(String value) {
+    _dataHora = value;
+  }
 
   set id(String value) {
     _id = value;
@@ -82,18 +89,19 @@ class Requisicao {
     };
 
     Map<String, dynamic> custos_Corrida = {
-      "valor-do-motorista": this.custos.valor_do_motorista,
-      "valor-do-passageiro": this.custos.valor_do_passageiro,
-      "valor-total-da-corrida": this.custos.valor_total_corrida,
+      "valor_do_motorista": this.custos.valor_do_motorista,
+      "valor_do_passageiro": this.custos.valor_do_passageiro,
+      "valor_total_corrida": this.custos.valor_total_corrida,
     };
 
     Map<String, dynamic> dadosRequisicao = {
       "id": this.id,
       "status": this.status,
-      "origemPassageiro": origem_Passageiro,
-      "destinoPassageiro": destino_Passageiro,
+      "data_embarque": _dataHora,
+      "origem": origem_Passageiro,
+      "destino": destino_Passageiro,
       "passageiro": dadosPassageiro,
-      "custosCorrida": custos_Corrida,
+      "valoresDaCorrida": custos_Corrida,
     };
 
     return dadosRequisicao;

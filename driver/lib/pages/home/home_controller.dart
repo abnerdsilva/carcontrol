@@ -130,13 +130,13 @@ class HomeController extends GetxController {
       destino: rm.destino,
       origem: rm.origem,
       customer: rm.customer,
-      status: 'concluido',
+      status: 'finalizada',
       departureDate: rm.departureDate,
       landingDate: dataHora,
       distanceDestination: rm.distanceDestination,
       distanceOrigem: rm.distanceOrigem,
-      driveId: rm.driveId,
-      driverUserId: rm.driverUserId,
+      driveId: prefs.vehicleId,
+      driverUserId: prefs.firebaseID,
       id: rm.id,
       prices: rm.prices,
     );
@@ -146,7 +146,7 @@ class HomeController extends GetxController {
     // final refIdCorrida = rm.id
 
     final finance = FinanceModel(
-      driverId: rm.id!,
+      driverId: prefs.firebaseID!,
       dataHora: dataHora,
       observacao: '',
       nome: rm.customer.name.toString(),
@@ -157,6 +157,7 @@ class HomeController extends GetxController {
       quantidade: 1,
       kilometragem: 0,
       tipoFinanceiro: 'entrada',
+      raceId: rm.id,
     );
 
     final financeController = Get.find<FinanceController>();
@@ -164,7 +165,14 @@ class HomeController extends GetxController {
 
     clearPoints();
 
-    await firebaseRepository.deleteCollectionPendingRaces(doc!);
+    // await firebaseRepository.deleteCollectionPendingRaces(doc!);
+    await firebaseRepository.updateCollectionPendingRaces(
+      prefs.docRacePending!,
+      prefs.docActiveRequestRace!,
+      raceModel.customer.id!,
+      raceModel.driverUserId!,
+      status: 'finalizada',
+    );
 
     prefs.registerDocActiveRequestRace('');
     prefs.registerDocRacePending('');
@@ -172,7 +180,9 @@ class HomeController extends GetxController {
     final event = await firebaseRepository.getRaces();
     if (event.docs.isNotEmpty && _raceAcceted.value.id == '0') {
       final pendingRace = RacePendingModel.fromFirestore(event.docs.first);
-      await getDetailsRace(pendingRace, event.docs.first.id);
+      if (pendingRace.status != 'finalizada') {
+        await getDetailsRace(pendingRace, event.docs.first.id);
+      }
     }
   }
 
@@ -208,23 +218,25 @@ class HomeController extends GetxController {
         destino: value.destino,
         origem: value.origem,
         customer: value.customer,
-        status: 'a caminho',
+        status: 'viagem',
         departureDate: value.departureDate,
         distanceDestination: value.distanceDestination,
         distanceOrigem: value.distanceOrigem,
-        driveId: '1',
+        driveId: prefs.vehicleId,
         driverUserId: prefs.firebaseID,
         id: value.id,
         prices: value.prices,
       );
+
+      await firebaseRepository.acceptRace(prefs.docActiveRequestRace!, raceModel);
 
       // await firebaseRepository.deleteCollectionPendingRaces(prefs.docRacePending!);
       await firebaseRepository.updateCollectionPendingRaces(
         prefs.docRacePending!,
         prefs.docActiveRequestRace!,
         raceModel.customer.id!,
+        raceModel.driverUserId!,
       );
-      await firebaseRepository.acceptRace(prefs.docActiveRequestRace!, raceModel);
     }
   }
 
@@ -278,8 +290,25 @@ class HomeController extends GetxController {
   void getFirstPendingRaces() {
     dbFirestore.collection('requisicoes_ativas').snapshots().listen((event) async {
       if (event.docs.isNotEmpty && _raceAcceted.value.id == '0') {
-        final pendingRace = RacePendingModel.fromFirestore(event.docs.first);
-        await getDetailsRace(pendingRace, event.docs.first.id);
+        final prefs = await SharedPrefsRepository.instance;
+
+        final events = event.docs
+            .where((el) => el.data()['status'] != 'aguardando' && el.data()['id_motorista'] == prefs.firebaseID)
+            .toList();
+        final eventsPending =
+            event.docs.where((el) => el.data()['status'] == 'aguardando' && el.data()['id_motorista'] == null).toList();
+
+        if (eventsPending.isNotEmpty) {
+          final pendingRace = RacePendingModel.fromFirestore(eventsPending.first);
+          await getDetailsRace(pendingRace, event.docs.first.id);
+        } else if (events.isNotEmpty) {
+          final pendingRace = RacePendingModel.fromFirestore(events.first);
+          if (prefs.firebaseID != pendingRace.driverId) {
+            clearPoints();
+          }
+        } else {
+          clearPoints();
+        }
       }
     });
   }
@@ -420,9 +449,11 @@ class HomeController extends GetxController {
     }
   }
 
-  bool hasVehicle() {
+  Future<bool> hasVehicle() async {
+    final prefs = await SharedPrefsRepository.instance;
+
     final configController = Get.find<ConfigController>();
-    if (configController.vehicles.isEmpty) {
+    if (configController.vehicles.isEmpty && prefs.vehicleId == null) {
       Get.snackbar(
         'Nenhum veículo cadastrado',
         'Cadastre um veículo para iniciar atividades.',

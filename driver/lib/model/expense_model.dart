@@ -14,6 +14,7 @@ class FinanceModel {
   final double valorCombustivel;
   final double quantidade;
   final int kilometragem;
+  final String? raceId;
 
   FinanceModel({
     required this.driverId,
@@ -27,6 +28,7 @@ class FinanceModel {
     required this.valorCombustivel,
     required this.quantidade,
     required this.kilometragem,
+    this.raceId,
   });
 
   Map<String, dynamic> toMap() {
@@ -42,6 +44,7 @@ class FinanceModel {
       'quantidade': quantidade,
       'kilometragem': kilometragem,
       'tipoFinanceiro': tipoFinanceiro,
+      'id_corrida': raceId,
     };
   }
 
@@ -58,6 +61,7 @@ class FinanceModel {
       quantidade: map['quantidade'],
       kilometragem: map['kilometragem'],
       tipoFinanceiro: map['tipoFinanceiro'],
+      raceId: map['id_corrida'],
     );
   }
 
@@ -79,6 +83,7 @@ class FinanceModel {
       quantidade: data['quantidade'],
       kilometragem: data['kilometragem'],
       tipoFinanceiro: data['tipoFinanceiro'],
+      raceId: data['id_corrida'],
     );
   }
 }

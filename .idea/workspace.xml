@@ -4,13 +4,20 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="add receita no financeiro">
+    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="verifica permissão acesso app motorista">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/pages/home/components/maps_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/home/components/maps_widget.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="module" />
+      <option value="directory" />
+    </option>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -38,23 +45,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Git.Branch.Popup.ShowAllRemotes&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.devicemanager.tab&quot;: &quot;Physical&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Console&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Git.Branch.Popup.ShowAllRemotes": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "io.flutter.reload.alreadyRun": "true",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "device.mirroring",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\PROJETOS\particular\carcontrol\driver\lib\pages\finance\components" />
@@ -194,7 +200,105 @@
       <option name="project" value="LOCAL" />
       <updated>1696792761361</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="verifica permissão uso localização">
+      <created>1699724332403</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1699724332403</updated>
+    </task>
+    <task id="LOCAL-00016" summary="ajuste dados solicitação corrida">
+      <created>1699724669356</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1699724669356</updated>
+    </task>
+    <task id="LOCAL-00017" summary="ajuste warnings">
+      <created>1699724698912</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1699724698912</updated>
+    </task>
+    <task id="LOCAL-00018" summary="configurações .idea">
+      <created>1699725424526</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1699725424526</updated>
+    </task>
+    <task id="LOCAL-00019" summary="define nome app com informação de Driver">
+      <created>1699725458942</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1699725458942</updated>
+    </task>
+    <task id="LOCAL-00020" summary="add campo id_motorista requisicao ativa">
+      <created>1699733987145</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1699733987145</updated>
+    </task>
+    <task id="LOCAL-00021" summary="ajuste warnings">
+      <created>1699734040616</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1699734040616</updated>
+    </task>
+    <task id="LOCAL-00022" summary="corrige consulta dados usuario logado">
+      <created>1699737154223</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1699737154223</updated>
+    </task>
+    <task id="LOCAL-00023" summary="fecha tela aprovação corrida qndo a mesma é aceita por outro motorista">
+      <created>1699737466926</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1699737466926</updated>
+    </task>
+    <task id="LOCAL-00024" summary="filtra lista financeiros pelo id motorista">
+      <created>1699737537552</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1699737537552</updated>
+    </task>
+    <task id="LOCAL-00025" summary="ajuste info veiculo requisicao e add id corrida em financeiro">
+      <created>1699741472442</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1699741472442</updated>
+    </task>
+    <task id="LOCAL-00026" summary="exibe dados motorista no acompanhamento viagem">
+      <created>1699741506710</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1699741506710</updated>
+    </task>
+    <task id="LOCAL-00027" summary="exibe dados perfil usuário na tela configuração">
+      <created>1699748745984</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1699748745984</updated>
+    </task>
+    <task id="LOCAL-00028" summary="verifica permissão acesso app motorista">
+      <created>1699748817973</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1699748817973</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -209,8 +313,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="remove erro layout custom_bottom_navigation_menu.dart" />
-    <MESSAGE value="comenta botões botton nav" />
     <MESSAGE value="add geolocalização e maps" />
     <MESSAGE value="add tela de configuração" />
     <MESSAGE value="troca versão jdk para 11" />
@@ -223,7 +325,20 @@
     <MESSAGE value="version client" />
     <MESSAGE value="ajuste layout financeiro" />
     <MESSAGE value="add receita no financeiro" />
-    <option name="LAST_COMMIT_MESSAGE" value="add receita no financeiro" />
+    <MESSAGE value="verifica permissão uso localização" />
+    <MESSAGE value="ajuste dados solicitação corrida" />
+    <MESSAGE value="configurações .idea" />
+    <MESSAGE value="define nome app com informação de Driver" />
+    <MESSAGE value="add campo id_motorista requisicao ativa" />
+    <MESSAGE value="ajuste warnings" />
+    <MESSAGE value="corrige consulta dados usuario logado" />
+    <MESSAGE value="fecha tela aprovação corrida qndo a mesma é aceita por outro motorista" />
+    <MESSAGE value="filtra lista financeiros pelo id motorista" />
+    <MESSAGE value="ajuste info veiculo requisicao e add id corrida em financeiro" />
+    <MESSAGE value="exibe dados motorista no acompanhamento viagem" />
+    <MESSAGE value="exibe dados perfil usuário na tela configuração" />
+    <MESSAGE value="verifica permissão acesso app motorista" />
+    <option name="LAST_COMMIT_MESSAGE" value="verifica permissão acesso app motorista" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -237,6 +352,86 @@
           <url>file://$PROJECT_DIR$/driver/lib/pages/finance/components/finance_filter_widget.dart</url>
           <line>266</line>
           <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/client/lib/pages/login/login_page.dart</url>
+          <line>50</line>
+          <option name="timeStamp" value="100" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/client/lib/pages/home/home_controller.dart</url>
+          <line>45</line>
+          <option name="timeStamp" value="120" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
+          <line>401</line>
+          <option name="timeStamp" value="128" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
+          <line>131</line>
+          <option name="timeStamp" value="129" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
+          <line>190</line>
+          <option name="timeStamp" value="130" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
+          <line>221</line>
+          <option name="timeStamp" value="132" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
+          <line>220</line>
+          <option name="timeStamp" value="134" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
+          <line>379</line>
+          <option name="timeStamp" value="139" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
+          <line>376</line>
+          <option name="timeStamp" value="141" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
+          <line>230</line>
+          <option name="timeStamp" value="142" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/config/components/car_widget.dart</url>
+          <line>129</line>
+          <option name="timeStamp" value="143" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/login/login_controller.dart</url>
+          <line>34</line>
+          <option name="timeStamp" value="146" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/login/login_controller.dart</url>
+          <line>47</line>
+          <option name="timeStamp" value="147" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/shared/repositories/firebase_repository.dart</url>
+          <line>24</line>
+          <option name="timeStamp" value="155" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/shared/repositories/shared_prefs_repository.dart</url>
+          <line>37</line>
+          <option name="timeStamp" value="156" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
+          <line>47</line>
+          <option name="timeStamp" value="157" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
