@@ -29,9 +29,14 @@ class FinanceController extends GetxController {
   Future<void> start() async {
     final prefs = await SharedPrefsRepository.instance;
     if (prefs.firebaseID != null && prefs.firebaseID!.isNotEmpty) {
-      firebaseRepository.db.collection('financeiro').snapshots().listen((event) {
+      firebaseRepository.db
+          .collection('financeiro')
+          .where('id_motorista', isEqualTo: prefs.firebaseID)
+          .snapshots()
+          .listen((event) {
         finances.clear();
         financesTemp.clear();
+
         if (event.size > 0) {
           final List<FinanceModel> items = [];
           for (var element in event.docs) {

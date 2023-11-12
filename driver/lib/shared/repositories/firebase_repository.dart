@@ -20,6 +20,11 @@ class FirebaseRepository {
     dbClient = Dio();
   }
 
+  Future<bool> hasDriverLoginPermition(String id) async {
+    final motoristas = await db.collection('motoristas').where('motorista.id', isEqualTo: id).get();
+    return motoristas.size > 0;
+  }
+
   Future<void> saveRaceConcluded(String docId, RaceModel race) async {
     await db.collection('requisicoes').doc(docId).set(race.toMap());
   }
@@ -41,11 +46,18 @@ class FirebaseRepository {
     });
   }
 
-  Future<void> updateCollectionPendingRaces(String doc, String req, String user) async {
+  Future<void> updateCollectionPendingRaces(
+    String doc,
+    String req,
+    String user,
+    String driverId, {
+    String status = 'viagem',
+  }) async {
     return await db.collection('requisicoes_ativas').doc(doc).set({
       'id_requisicao': req,
       'id_usuario': user,
-      'status': 'a caminho',
+      'id_motorista': driverId,
+      'status': status,
     });
   }
 
@@ -62,6 +74,7 @@ class FirebaseRepository {
     await db.collection('requisicoes_ativas').add({
       'id_requisicao': doc,
       'id_usuario': id,
+      'id_motorista': null,
       'status': 'aguardando',
     });
   }
@@ -110,7 +123,7 @@ class FirebaseRepository {
   Future<List<RaceModel>> getRacesHistory(String driverId) async {
     final races = await db
         .collection('requisicoes')
-        .where('status', isEqualTo: 'concluido')
+        .where('status', isEqualTo: 'finalizada')
         .where('id_motorista', isEqualTo: driverId)
         .get();
 
