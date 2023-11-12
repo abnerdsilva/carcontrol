@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:carcontrol/pages/home/home_page.dart';
 import 'package:carcontrol/pages/register/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 import '../../model/usuario_model.dart';
 import '../../shared/components/custom_button.dart';
@@ -42,10 +45,10 @@ class LoginPage extends StatelessWidget {
     }
   }
 
-  _logarUsuario(Usuario usuario) {
+  _logarUsuario(Usuario usuario) async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
-    auth.signInWithEmailAndPassword(email: usuario.email, password: usuario.senha).then((firebaseUser) {
+    await auth.signInWithEmailAndPassword(email: usuario.email, password: usuario.senha).then((firebaseUser) {
       Get.offAll(const HomePage());
     }).catchError((error) {
       _showAlertDialog('Tente Novamente', 'Verifique o E-mail e Senha!');
@@ -88,6 +91,7 @@ class LoginPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: 20),
                     Center(
                       child: Image.asset('assets/images/carro.png'),
                     ),
