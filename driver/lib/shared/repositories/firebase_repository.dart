@@ -20,6 +20,11 @@ class FirebaseRepository {
     dbClient = Dio();
   }
 
+  Future<bool> hasDriverLoginPermition(String id) async {
+    final motoristas = await db.collection('motoristas').where('motorista.id', isEqualTo: id).get();
+    return motoristas.size > 0;
+  }
+
   Future<void> saveRaceConcluded(String docId, RaceModel race) async {
     await db.collection('requisicoes').doc(docId).set(race.toMap());
   }

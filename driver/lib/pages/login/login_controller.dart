@@ -2,12 +2,14 @@ import 'dart:developer';
 
 import 'package:carcontrol/pages/home/home_page.dart';
 import 'package:carcontrol/pages/login/firebase_service.dart';
+import 'package:carcontrol/shared/repositories/firebase_repository.dart';
 import 'package:carcontrol/shared/repositories/shared_prefs_repository.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
   late final FirebaseService _fbService;
   late final SharedPrefsRepository _spRepository;
+  final firebaseRepository = FirebaseRepository();
 
   LoginController(this._fbService);
 
@@ -31,6 +33,8 @@ class LoginController extends GetxController {
     }
 
     await _spRepository.registerFirebaseId(userCredential.user!.uid);
+    await _spRepository.registerUserName(userCredential.user!.displayName ?? '');
+    await _spRepository.registerUserEmail(userCredential.user!.email ?? '');
 
     Get.offAllNamed(HomePage.route);
   }
@@ -42,8 +46,14 @@ class LoginController extends GetxController {
       log(userCredential.user.toString());
 
       await _spRepository.registerFirebaseId(userCredential.user!.uid);
+      await _spRepository.registerUserName(userCredential.user!.displayName ?? '');
+      await _spRepository.registerUserEmail(userCredential.user!.email ?? '');
 
       Get.offAllNamed(HomePage.route);
     }
+  }
+
+  Future<bool> hasUserPermitionLogin(String id) async {
+    return await firebaseRepository.hasDriverLoginPermition(id);
   }
 }

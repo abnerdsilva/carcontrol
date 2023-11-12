@@ -1,4 +1,5 @@
 import 'package:carcontrol/pages/home/home_page.dart';
+import 'package:carcontrol/pages/login/login_controller.dart';
 import 'package:carcontrol/pages/login/register.dart';
 import 'package:carcontrol/pages/login/user_driver.dart';
 import 'package:carcontrol/shared/repositories/shared_prefs_repository.dart';
@@ -10,7 +11,7 @@ import '../../shared/components/custom_button.dart';
 import '../../shared/components/custom_text_form_field.dart';
 import 'field_validator.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends GetView<LoginController> {
   static const String route = '/login';
 
   late BuildContext context;
@@ -47,10 +48,17 @@ class LoginPage extends StatelessWidget {
     FirebaseAuth auth = FirebaseAuth.instance;
 
     auth.signInWithEmailAndPassword(email: driver.email, password: driver.senha).then((firebaseUser) async {
-      final prefs = await SharedPrefsRepository.instance;
-      prefs.registerFirebaseId(firebaseUser.user!.uid);
+      final status = await controller.hasUserPermitionLogin(firebaseUser.user!.uid);
+      if (status) {
+        final prefs = await SharedPrefsRepository.instance;
+        await prefs.registerFirebaseId(firebaseUser.user!.uid);
+        await prefs.registerUserName(firebaseUser.user!.displayName ?? '');
+        await prefs.registerUserEmail(firebaseUser.user!.email ?? '');
 
-      Get.offAllNamed(HomePage.route);
+        Get.offAllNamed(HomePage.route);
+      } else {
+        Get.snackbar('Não foi possível entrar', 'Verifique usuário e/ou senha e tente novamente');
+      }
     }).catchError((error) {
       _showAlertDialog('Tente Novamente', 'Verifique o E-mail e Senha!');
     });
