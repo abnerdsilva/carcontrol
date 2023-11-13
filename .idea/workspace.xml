@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d921d39c-820e-410a-8d76-24d2c4304e0f" name="Changes" comment="verifica permissão acesso app motorista">
+    <list default="true" id="de352b1e-9b89-4097-a6af-97b931caaf45" name="Changes" comment="ajuste informações da corrida">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/home/components/maps_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/home/components/maps_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/lib/pages/races/choose_driver.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/pages/races/choose_driver.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/lib/pages/races/corrida.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/pages/races/corrida.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/pages/finance/components/finance_graphs_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/finance/components/finance_graphs_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/pages/home/components/race_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/home/components/race_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/lib/pages/race/race_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/race/race_page.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +19,8 @@
   </component>
   <component name="ChangesViewManager">
     <option name="groupingKeys">
-      <option value="module" />
       <option value="directory" />
+      <option value="module" />
     </option>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -57,7 +61,7 @@
     "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "device.mirroring",
+    "settings.editor.selected.configurable": "emulator",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
@@ -313,7 +317,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add geolocalização e maps" />
     <MESSAGE value="add tela de configuração" />
     <MESSAGE value="troca versão jdk para 11" />
     <MESSAGE value="add bottomSheet para lançar gasto/rendimento" />
@@ -338,7 +341,8 @@
     <MESSAGE value="exibe dados motorista no acompanhamento viagem" />
     <MESSAGE value="exibe dados perfil usuário na tela configuração" />
     <MESSAGE value="verifica permissão acesso app motorista" />
-    <option name="LAST_COMMIT_MESSAGE" value="verifica permissão acesso app motorista" />
+    <MESSAGE value="ajuste informações da corrida" />
+    <option name="LAST_COMMIT_MESSAGE" value="ajuste informações da corrida" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -354,19 +358,9 @@
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/client/lib/pages/login/login_page.dart</url>
-          <line>50</line>
-          <option name="timeStamp" value="100" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
           <url>file://$PROJECT_DIR$/client/lib/pages/home/home_controller.dart</url>
           <line>45</line>
           <option name="timeStamp" value="120" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
-          <line>401</line>
-          <option name="timeStamp" value="128" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="Dart">
           <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
@@ -387,16 +381,6 @@
           <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
           <line>220</line>
           <option name="timeStamp" value="134" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
-          <line>379</line>
-          <option name="timeStamp" value="139" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
-          <line>376</line>
-          <option name="timeStamp" value="141" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="Dart">
           <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
@@ -429,9 +413,39 @@
           <option name="timeStamp" value="156" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/driver/lib/pages/config/config_controller.dart</url>
-          <line>47</line>
-          <option name="timeStamp" value="157" />
+          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
+          <line>189</line>
+          <option name="timeStamp" value="158" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
+          <line>359</line>
+          <option name="timeStamp" value="160" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/driver/lib/pages/home/home_controller.dart</url>
+          <line>316</line>
+          <option name="timeStamp" value="161" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
+          <line>198</line>
+          <option name="timeStamp" value="165" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
+          <line>205</line>
+          <option name="timeStamp" value="166" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
+          <line>222</line>
+          <option name="timeStamp" value="173" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/client/lib/pages/races/corrida.dart</url>
+          <line>216</line>
+          <option name="timeStamp" value="174" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
