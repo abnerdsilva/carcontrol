@@ -36,8 +36,8 @@ class CorridaState extends State<Corrida> {
   late BitmapDescriptor _passageiroIcon;
   late BitmapDescriptor _destinoIcon;
 
-  late String partida = " ";
-  late String destino = " ";
+  String partida = " ";
+  String destino = " ";
 
   @override
   void initState() {
@@ -90,7 +90,7 @@ class CorridaState extends State<Corrida> {
       Polyline(
         polylineId: PolylineId(polylineIdVal),
         width: 1,
-        color: Color(0xFF1A2E35),
+        color: const Color(0xFF1A2E35),
         points: points
             .map(
               (point) => LatLng(point.latitude, point.longitude),
@@ -209,21 +209,24 @@ class CorridaState extends State<Corrida> {
       DocumentSnapshot<Map<String, dynamic>> requisicaoSnapshot =
           await db.collection("requisicoes").doc(idRequisicao).get();
 
-      Map<String, dynamic>? dados2 = requisicaoSnapshot.data();
+      if (requisicaoSnapshot.data() == null) {
+        Get.snackbar('Ops', 'Não foi possivel carregar os dados, tente novamente');
+        return;
+      }
 
-      String rua = dados2?["origemPassageiro"]["rua"];
-      String numero = dados2?["origemPassageiro"]["numero"];
-      String bairro = dados2?["origemPassageiro"]["bairro"];
-      String cidade = dados2?["origemPassageiro"]["cidade"];
-      String cep = dados2?["origemPassageiro"]["cep"];
+      String rua = requisicaoSnapshot.data()!["origem"]["rua"];
+      String numero = requisicaoSnapshot.data()!["origem"]["numero"];
+      String bairro = requisicaoSnapshot.data()!["origem"]["bairro"];
+      String cidade = requisicaoSnapshot.data()!["origem"]["cidade"] ?? '';
+      String cep = requisicaoSnapshot.data()!["origem"]["cep"];
 
       partida = "${rua}, ${numero} - ${bairro},${cidade} - ${cep}";
 
-      rua = dados2?["destinoPassageiro"]["rua"];
-      numero = dados2?["destinoPassageiro"]["numero"];
-      bairro = dados2?["destinoPassageiro"]["bairro"];
-      // cidade = dados2?["destinoPassageiro"]["cidade"];
-      cep = dados2?["destinoPassageiro"]["cep"];
+      rua = requisicaoSnapshot.data()!["destino"]["rua"];
+      numero = requisicaoSnapshot.data()!["destino"]["numero"];
+      bairro = requisicaoSnapshot.data()!["destino"]["bairro"];
+      // cidade = requisicaoSnapshot.data()!["destino"]["cidade"];
+      cep = requisicaoSnapshot.data()!["destino"]["cep"];
 
       destino = "${rua}, ${numero} - ${bairro}, - ${cep}";
     }
@@ -235,7 +238,7 @@ class CorridaState extends State<Corrida> {
 //      appBar: AppBar(
 //         title: const Text('Acompanhe a viagem'),
 //       ),
-     body: Column(
+      body: Column(
         children: [
           Expanded(
             child: Stack(
@@ -272,7 +275,7 @@ class CorridaState extends State<Corrida> {
                     // Use uma variável para controlar a visibilidade
                     child: Container(
                       height: 240,
-                      color: Color(0xFF1A2E35),
+                      color: const Color(0xFF1A2E35),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -280,8 +283,8 @@ class CorridaState extends State<Corrida> {
                             height: 20,
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 16),
-                            child: Text(
+                            margin: const EdgeInsets.only(left: 16),
+                            child: const Text(
                               'Espere no Local de Partida : ',
                               style: TextStyle(
                                 color: Colors.white,
@@ -289,35 +292,34 @@ class CorridaState extends State<Corrida> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Container(
-                            margin: EdgeInsets.only(left: 16),
+                            margin: const EdgeInsets.only(left: 16),
                             child: Text(
-                              '${partida}',
-                              style: TextStyle(
+                              partida,
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           Center(
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               child: GestureDetector(
                                 onTap: () {
                                   informacoesMotorista(context);
                                 },
                                 child: Container(
                                   width: 300,
-                                  padding: EdgeInsets.all(15),
+                                  padding: const EdgeInsets.all(15),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  child: Text(
+                                  child: const Text(
                                     'Informações da Viagem',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -329,10 +331,10 @@ class CorridaState extends State<Corrida> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           Container(
-                            margin: EdgeInsets.only(left: 16),
-                            child: Text(
+                            margin: const EdgeInsets.only(left: 16),
+                            child: const Text(
                               'Destino Esperado: ',
                               style: TextStyle(
                                 color: Colors.white,
@@ -340,12 +342,12 @@ class CorridaState extends State<Corrida> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Container(
-                            margin: EdgeInsets.only(left: 16),
+                            margin: const EdgeInsets.only(left: 16),
                             child: Text(
                               '${destino}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -367,15 +369,15 @@ class CorridaState extends State<Corrida> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 70),
+          const SizedBox(height: 70),
           FloatingActionButton(
-              heroTag: 'moneyHero',
-              onPressed: () {
-                valoresCorrida(context);
-              },
-              tooltip: 'Dinheiro',
-              child: Icon(Icons.attach_money_outlined)),
-         ),
+            heroTag: 'moneyHero',
+            onPressed: () {
+              valoresCorrida(context);
+            },
+            tooltip: 'Dinheiro',
+            child: const Icon(Icons.attach_money_outlined),
+          ),
 //           const SizedBox(height: 16),
 //           FloatingActionButton(
 //             heroTag: 'moneyHero',
@@ -462,7 +464,7 @@ class CorridaState extends State<Corrida> {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: Text(
+          title: const Text(
             'Corrida Finalizada !',
             textAlign: TextAlign.center, // Alinhe o texto ao centro
             style: TextStyle(
@@ -478,9 +480,9 @@ class CorridaState extends State<Corrida> {
                 height: 100,
                 child: Image.asset("assets/images/check.png"),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextButton(
-                  child: Text(
+                  child: const Text(
                     "Confirmar",
                     style: TextStyle(color: Color(0xff1564B3)),
                   ),
@@ -511,63 +513,64 @@ class CorridaState extends State<Corrida> {
       String idRequisicao = dados["id_requisicao"];
       print("\n\n Dados Coletados \n\n idRequisicao: $idRequisicao");
 
-    DocumentSnapshot requisicaoSnapshot = await db.collection("requisicoes").doc(idRequisicao).get();
+      DocumentSnapshot requisicaoSnapshot = await db.collection("requisicoes").doc(idRequisicao).get();
 
-    if (requisicaoSnapshot.exists) {
-      Map<String, dynamic> motorista = <String, dynamic>{};
-      final driverId = requisicaoSnapshot.get('id_motorista');
-      final carId = requisicaoSnapshot.get('id_carro');
+      if (requisicaoSnapshot.exists) {
+        Map<String, dynamic> motorista = <String, dynamic>{};
+        final driverId = requisicaoSnapshot.get('id_motorista');
+        final carId = requisicaoSnapshot.get('id_carro');
 
-      final driver = await db.collection("motoristas").where('motorista.id', isEqualTo: driverId).get();
-      for (var it in driver.docs) {
-        motorista = it.data();
-        break;
-      }
+        final driver = await db.collection("motoristas").where('motorista.id', isEqualTo: driverId).get();
+        for (var it in driver.docs) {
+          motorista = it.data();
+          break;
+        }
 
-      Map<String, dynamic> veiculo = <String, dynamic>{};
-      final veiculos = await db.collection("veiculos").where('id', isEqualTo: carId).get();
-      for (var it in veiculos.docs) {
-        veiculo = it.data();
-        break;
-      }
+        Map<String, dynamic> veiculo = <String, dynamic>{};
+        final veiculos = await db.collection("veiculos").where('id', isEqualTo: carId).get();
+        for (var it in veiculos.docs) {
+          veiculo = it.data();
+          break;
+        }
 
-      final motoristaTemp = {
-        'nome': motorista['motorista']['nome'],
-        'telefone': motorista['motorista']['telefone'],
-        'cnh': motorista['motorista']['cnh'],
-        'modelo': veiculo['modelo'],
-        'placa': veiculo['placa'],
-        'cor': veiculo['cor'],
-      };
+        final motoristaTemp = {
+          'nome': motorista['motorista']['nome'],
+          'telefone': motorista['motorista']['telefone'],
+          'cnh': motorista['motorista']['cnh'],
+          'modelo': veiculo['modelo'],
+          'placa': veiculo['placa'],
+          'cor': veiculo['cor'],
+        };
 
-      String informacoesMotorista = "\n Nome: ${motoristaTemp['nome']} \n Número da CNH: ${motoristaTemp['cnh']}"
-          "\n Telefone: ${motoristaTemp['telefone']} \n\nInformações do Carro\n"
-          "Modelo: ${motoristaTemp['modelo']} \nPlaca: ${motoristaTemp['placa']} \nCor: ${motoristaTemp['cor']}";
+        String informacoesMotorista = "\n Nome: ${motoristaTemp['nome']} \n Número da CNH: ${motoristaTemp['cnh']}"
+            "\n Telefone: ${motoristaTemp['telefone']} \n\nInformações do Carro\n"
+            "Modelo: ${motoristaTemp['modelo']} \nPlaca: ${motoristaTemp['placa']} \nCor: ${motoristaTemp['cor']}";
 
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Informações da Corrida", textAlign: TextAlign.center),
-            content: Text(informacoesMotorista),
-            contentPadding: const EdgeInsets.all(30),
-            actions: <Widget>[
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 10),
-                  GestureDetector(
-                    child: Container(
-                      color: const Color(0xFF1A2E35),
-                      child: const Center(
-                        child: Text(
-                          "OK",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.normal,
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Informações da Corrida", textAlign: TextAlign.center),
+              content: Text(informacoesMotorista),
+              contentPadding: const EdgeInsets.all(30),
+              actions: <Widget>[
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 10),
+                    GestureDetector(
+                      child: Container(
+                        color: const Color(0xFF1A2E35),
+                        child: const Center(
+                          child: Text(
+                            "OK",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
                         ),
                       ),
@@ -579,7 +582,7 @@ class CorridaState extends State<Corrida> {
                       },
                     ),
                   ],
-                ),
+                )
               ],
             );
           },
@@ -597,8 +600,7 @@ class CorridaState extends State<Corrida> {
 
     User? firebaseUser = await UsuarioFirebase.getUsuarioAtual();
 
-    DocumentSnapshot snapshot =
-        await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
+    DocumentSnapshot snapshot = await db.collection("requisicoes_ativas").doc(firebaseUser?.uid).get();
 
     if (snapshot.exists) {
       Map<String, dynamic> dados = snapshot.data() as Map<String, dynamic>;
@@ -606,38 +608,36 @@ class CorridaState extends State<Corrida> {
       String idRequisicao = dados["id_requisicao"];
       print("\n\n Dados Coletados \n\n idRequisicao: $idRequisicao");
 
-      DocumentSnapshot requisicaoSnapshot =
-          await db.collection("requisicoes").doc(idRequisicao).get();
+      DocumentSnapshot requisicaoSnapshot = await db.collection("requisicoes").doc(idRequisicao).get();
 
       if (requisicaoSnapshot.exists) {
-        Map<String, dynamic> dados2 =
-            requisicaoSnapshot.data() as Map<String, dynamic>;
+        Map<String, dynamic> dados2 = requisicaoSnapshot.data() as Map<String, dynamic>;
 
-        double valorCorrida = dados2["custosCorrida"]["valor-total-da-corrida"];
-        double valorPassageiro = dados2["custosCorrida"]["valor-do-passageiro"];
-        double valorMotorista = dados2["custosCorrida"]["valor-do-motorista"];
+        double valorCorrida = double.parse(dados2["valoresDaCorrida"]["valor_total_corrida"]);
+        double valorPassageiro = double.parse(dados2["valoresDaCorrida"]["valor_do_passageiro"]);
+        double valorMotorista = double.parse(dados2["valoresDaCorrida"]["valor_do_motorista"]);
 
-        String valores =
-            "\nTotal da Corrida: ${valorCorrida} \nValor do Motorista: ${valorMotorista}"
-            "\nValor do Passageiro: ${valorPassageiro}\n";
+        String valores = "\nTotal da Corrida: R\$ ${valorCorrida.toStringAsFixed(2)}"
+            "\nValor para Motorista: R\$ ${valorMotorista.toStringAsFixed(2)}"
+            "\nValor para aplicação: R\$ ${valorPassageiro.toStringAsFixed(2)}\n";
 
         showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text("Valores da Corrida", textAlign: TextAlign.center),
+              title: const Text("Valores da Corrida", textAlign: TextAlign.center),
               content: Text(valores),
-              contentPadding: EdgeInsets.all(30),
+              contentPadding: const EdgeInsets.all(30),
               actions: <Widget>[
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     GestureDetector(
                       child: Container(
-                        color: Color(0xFF1A2E35),
-                        child: Center(
+                        color: const Color(0xFF1A2E35),
+                        child: const Center(
                           child: Text(
                             "OK",
                             textAlign: TextAlign.center,
@@ -645,7 +645,7 @@ class CorridaState extends State<Corrida> {
                               color: Colors.white,
                               fontSize: 15,
                               fontWeight: FontWeight.normal,
-                            ),  
+                            ),
                           ),
                         ),
                       ),

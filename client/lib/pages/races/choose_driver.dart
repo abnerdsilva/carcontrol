@@ -294,8 +294,10 @@ class _ChooseDriverState extends State<ChooseDriver> {
           destino.cidade = destinoPassageiro.subAdministrativeArea!;
           destino.cep = destinoPassageiro.postalCode!;
           destino.bairro = destinoPassageiro.subLocality!;
-          destino.rua = destinoPassageiro.thoroughfare!;
-          destino.numero = destinoPassageiro.subThoroughfare!;
+          destino.rua =
+              destinoPassageiro.thoroughfare! != '' ? destinoPassageiro.thoroughfare! : destinoPassageiro.street!;
+          destino.numero =
+              destinoPassageiro.subThoroughfare! != '' ? destinoPassageiro.subThoroughfare! : destinoPassageiro.name!;
           destino.latitude = informacoesDestino.latitude;
           destino.longitude = informacoesDestino.longitude;
           destino.horario = informacoesDestino.timestamp;
@@ -310,7 +312,10 @@ class _ChooseDriverState extends State<ChooseDriver> {
 
           if (origemPlacemark != null) {
             Origem origem = Origem();
-            origem.rua = origemPlacemark.thoroughfare!;
+            origem.rua = origemPlacemark.thoroughfare! != '' ? origemPlacemark.thoroughfare! : origemPlacemark.street!;
+            origem.numero =
+                origemPlacemark.subThoroughfare! != '' ? origemPlacemark.subThoroughfare! : origemPlacemark.name!;
+            origem.rua = origemPlacemark.name!;
             origem.numero = origemPlacemark.subThoroughfare!;
             origem.bairro = origemPlacemark.subLocality!;
             origem.cidade = origemPlacemark.administrativeArea!;
@@ -322,10 +327,11 @@ class _ChooseDriverState extends State<ChooseDriver> {
             Custos custos = Custos();
 
             double valorDaCorrida = await gerarValorDaCorrida(
-                origem.latitude,
-                origem.longitude,
-                informacoesDestino.latitude,
-                informacoesDestino.longitude);
+              origem.latitude,
+              origem.longitude,
+              informacoesDestino.latitude,
+              informacoesDestino.longitude,
+            );
 
             custos.valor_total_corrida = valorDaCorrida;
             custos.valor_do_motorista = valorDaCorrida * 0.8;
@@ -466,8 +472,7 @@ class _ChooseDriverState extends State<ChooseDriver> {
     });
   }
 
-  gerarValorDaCorrida(double latOrigem, double lngOrigem, double latDestino,
-      double lngDestino) async {
+  gerarValorDaCorrida(double latOrigem, double lngOrigem, double latDestino, double lngDestino) async {
     DateTime now = DateTime.now();
     int horaAtual = now.hour;
 
