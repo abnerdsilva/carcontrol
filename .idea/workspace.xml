@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de352b1e-9b89-4097-a6af-97b931caaf45" name="Changes" comment="ajuste informações da corrida">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/lib/pages/races/choose_driver.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/pages/races/choose_driver.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/lib/pages/races/corrida.dart" beforeDir="false" afterPath="$PROJECT_DIR$/client/lib/pages/races/corrida.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/finance/components/finance_graphs_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/finance/components/finance_graphs_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/home/components/race_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/home/components/race_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/driver/lib/pages/race/race_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/driver/lib/pages/race/race_page.dart" afterDir="false" />
-    </list>
+    <list default="true" id="de352b1e-9b89-4097-a6af-97b931caaf45" name="Changes" comment="info ide" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -302,7 +295,28 @@
       <option name="project" value="LOCAL" />
       <updated>1699748817973</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="ajuste informações da corrida">
+      <created>1699840457177</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1699840457177</updated>
+    </task>
+    <task id="LOCAL-00030" summary="ajuste arredondamento valores">
+      <created>1699840700753</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1699840700753</updated>
+    </task>
+    <task id="LOCAL-00031" summary="info ide">
+      <created>1699840732642</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1699840732642</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -317,8 +331,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add tela de configuração" />
-    <MESSAGE value="troca versão jdk para 11" />
     <MESSAGE value="add bottomSheet para lançar gasto/rendimento" />
     <MESSAGE value="add tela abastecimento" />
     <MESSAGE value="add tela manutenção" />
@@ -342,7 +354,9 @@
     <MESSAGE value="exibe dados perfil usuário na tela configuração" />
     <MESSAGE value="verifica permissão acesso app motorista" />
     <MESSAGE value="ajuste informações da corrida" />
-    <option name="LAST_COMMIT_MESSAGE" value="ajuste informações da corrida" />
+    <MESSAGE value="ajuste arredondamento valores" />
+    <MESSAGE value="info ide" />
+    <option name="LAST_COMMIT_MESSAGE" value="info ide" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
