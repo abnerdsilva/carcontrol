@@ -118,7 +118,9 @@ class RaceWidget extends GetView<HomeController> {
                     style: TextStyle(color: ThemeConfig.kTextSecundaryColor),
                   ),
                   Text(
-                    race.prices!.priceDriver != '0.0' ? 'R\$ ${race.prices!.priceDriver}' : '',
+                    race.prices!.priceDriver != '0.0'
+                        ? 'R\$ ${double.parse(race.prices!.priceDriver).toStringAsFixed(2)}'
+                        : '',
                     style: const TextStyle(color: ThemeConfig.kTextSecundaryColor),
                   ),
                 ],
